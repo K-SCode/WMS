@@ -7,10 +7,10 @@ namespace WMS.Core.Entities
     public class Stock
     {
         public int Id { get; set; }
-        public int LocalizationId { get; set; }
-        public Localization Localization { get; set; } = null!;
+        public int LocationId { get; set; }
+        public Location Localization { get; set; } = null!;
         public int ProductId { get; set; }
         public Product Product { get; set; } = null!;
-        public int Count { get; set; }
+        public int Quantity { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WMS.Core.Entities
 {
-    public class Localization
+    public class Location
     {
         public int Id { get; set; }
         public char Sector { get; set; }
