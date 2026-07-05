@@ -6,7 +6,9 @@ using WMS.Core.Entities;
 
 namespace WMS.Infrastructure.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext(
+        DbContextOptions<ApplicationDbContext> options)
+        : DbContext(options)
     {
         public DbSet<Product> Products {  get; set; }
         public DbSet<Location> Locations { get; set; }
