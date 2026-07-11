@@ -9,15 +9,20 @@ namespace WMS.Infrastructure.Repositories
 {
     public class UnitOfWorks(ApplicationDbContext context) : IUnitOfWorks
     {
-        public IRepository<Location> Location => throw new NotImplementedException();
+        private IRepository<Location>? _location;
+        private IRepository<Product>? _product;
+        private IRepository<Stock>? _stock;
 
-        public IRepository<Product> Product => throw new NotImplementedException();
 
-        public IRepository<Stock> Stock => throw new NotImplementedException();
+        public IRepository<Location> Location =>
+            _location ??= new Repository<Location>(context);
+        public IRepository<Product> Product =>
+            _product ??= new Repository<Product>(context);
+        public IRepository<Stock> Stock =>
+            _stock ??= new Repository<Stock>(context);
 
-        public Task SaveChangesAsync()
-        {
-            throw new NotImplementedException();
-        }
+
+        public async Task SaveChangesAsync() =>
+            await context.SaveChangesAsync();
     }
 }
