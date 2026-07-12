@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WMS.Core.Interfaces
+namespace WMS.Application.Interfaces
 {
     public interface IRepository<T> where T : class
     {

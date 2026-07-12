@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using WMS.Application.Interfaces;
 using WMS.Infrastructure.Data;
+using WMS.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,9 @@ builder.Services.AddControllers();
 var connectionString = builder.Configuration.GetConnectionString("Default");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
-options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString));
+builder.Services.AddScoped<IUnitOfWorks, UnitOfWorks>();
+
 
 var app = builder.Build();
 

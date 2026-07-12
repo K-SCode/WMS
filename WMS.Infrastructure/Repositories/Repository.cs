@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WMS.Core.Interfaces;
+using WMS.Application.Interfaces;
 using WMS.Infrastructure.Data;
 
 namespace WMS.Infrastructure.Repositories

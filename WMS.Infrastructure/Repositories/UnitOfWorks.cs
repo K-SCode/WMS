@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WMS.Application.Interfaces;
 using WMS.Core.Entities;
-using WMS.Core.Interfaces;
 using WMS.Infrastructure.Data;
 
 namespace WMS.Infrastructure.Repositories
