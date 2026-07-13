@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using WMS.Application.Interfaces;
 using WMS.Core.Entities;
 
 namespace WMS.Infrastructure.Data
 {
     public class ApplicationDbContext(
         DbContextOptions<ApplicationDbContext> options)
-        : DbContext(options)
+        : DbContext(options), IAppDbContext
     {
         public DbSet<Product> Products {  get; set; }
         public DbSet<Location> Locations { get; set; }

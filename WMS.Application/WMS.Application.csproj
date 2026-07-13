@@ -10,4 +10,19 @@
     <ProjectReference Include="..\WMS.Core\WMS.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Products\Command\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" Version="10.0.10" />
+    <PackageReference Include="Mapster.DependencyInjection" Version="10.0.10" />
+    <PackageReference Include="Mediator.Abstractions" Version="3.0.2" />
+    <PackageReference Include="Mediator.SourceGenerator" Version="3.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9" />
+  </ItemGroup>
+
 </Project>
