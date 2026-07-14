@@ -10,26 +10,22 @@ namespace WMS.Infrastructure.Repositories
     public class Repository<T>(ApplicationDbContext context) : IRepository<T> where T : class
     {
         private readonly DbSet<T> _dbSet = context.Set<T>();
-        public async Task AddAsync(T entity)
+        public async Task AddAsync(T entity, CancellationToken cancellationToken)
         {
-            await _dbSet.AddAsync(entity);
+            await _dbSet.AddAsync(entity,cancellationToken);
         }
 
-        public async Task DeleteAsync(int id)
+        public void Delete(T entity, CancellationToken cancellationToken)
         {
-            var entity = await GetByIdAsync(id);
-            if(entity is not null)
-            {
                 _dbSet.Remove(entity);
-            }
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync() =>
-            await _dbSet.ToListAsync();
+        public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken) =>
+            await _dbSet.ToListAsync(cancellationToken);
 
-        public async Task<T?> GetByIdAsync(int id) =>
-            await _dbSet.FindAsync(id);
-        public void UpdateAsync(T entity)
+        public async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken) =>
+            await _dbSet.FindAsync([id], cancellationToken: cancellationToken);
+        public void Update(T entity)
         {
             _dbSet.Update(entity);
         }

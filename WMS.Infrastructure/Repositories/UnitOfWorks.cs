@@ -22,7 +22,7 @@ namespace WMS.Infrastructure.Repositories
             _stock ??= new Repository<Stock>(context);
 
 
-        public async Task SaveChangesAsync() =>
-            await context.SaveChangesAsync();
+        public async Task SaveChangesAsync(CancellationToken cancellationToken) =>
+            await context.SaveChangesAsync(cancellationToken);
     }
 }

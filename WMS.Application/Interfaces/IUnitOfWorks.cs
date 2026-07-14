@@ -10,6 +10,6 @@ namespace WMS.Application.Interfaces
         IRepository<Location> Location { get; }
         IRepository<Product> Product { get; }
         IRepository<Stock> Stock { get; }
-        Task SaveChangesAsync();
+        Task SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
