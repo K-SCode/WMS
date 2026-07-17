@@ -3,6 +3,7 @@ using WMS.Application.Interfaces;
 using WMS.Infrastructure.Data;
 using WMS.Infrastructure.Repositories;
 using Mapster;
+using WMS.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,8 @@ builder.Services.AddScoped<IAppDbContext>(sp =>
     sp.GetRequiredService<ApplicationDbContext>());
 
 builder.Services.AddScoped<IUnitOfWorks, UnitOfWorks>();
-builder.Services.AddMediator();
+
+builder.Services.AddApplication();
 
 
 var app = builder.Build();
