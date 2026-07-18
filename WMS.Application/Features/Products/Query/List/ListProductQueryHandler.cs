@@ -6,22 +6,22 @@ using WMS.Application.Features.Products.Dtos;
 using Mapster;
 using MapsterMapper;
 using WMS.Application.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using Dapper;
 
 namespace WMS.Application.Features.Products.Query.List
 {
     public sealed class ListProductQueryHandler(
-        IAppDbContext context) : IRequestHandler<ListProductQuery, List<ProductDto>>
+        ISqlConnectionFactory connectionFactory) : IRequestHandler<ListProductQuery, List<ProductDto>>
     {
         public async ValueTask<List<ProductDto>> Handle(
             ListProductQuery request,
             CancellationToken cancellationToken)
         {
-            var result = await context.Products
-                .AsNoTracking()
-                .ProjectToType<ProductDto>()
-                .ToListAsync(cancellationToken);
-            return result;
+            using var connection = connectionFactory.CreateConnection();
+            var sql = $"SELECT Id, Name, Price FROM Products";
+
+            var product = await connection.QueryAsync<ProductDto>(sql);
+            return product.ToList();
         }
     }
 }
