@@ -5,6 +5,8 @@ using WMS.Application.Features.Products.Query.Get;
 using WMS.Application.Features.Products.Dtos;
 using WMS.Application.Features.Products.Command.Create;
 using WMS.Application.Features.Products.Query.List;
+using WMS.Application.Features.Products.Command.Update;
+using WMS.Application.Features.Products.Command.Delete;
 
 namespace WMS.Api.Controllers
 {
@@ -43,6 +45,28 @@ namespace WMS.Api.Controllers
             if (products is null)
                 return NotFound();
             return Ok(products);
+        }
+
+        [HttpPut()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ProductDto>> Update([FromBody] UpdateProductCommand command, CancellationToken cancellationToken)
+        {
+            var isUpdated = await mediator.Send(command, cancellationToken);
+            if (!isUpdated)
+                return NotFound();
+            return Ok();
+        }
+
+        [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ProductDto>> Delete([FromRoute] DeleteProductCommand command, CancellationToken cancellationToken)
+        {
+            var isDeleted = await mediator.Send(command, cancellationToken);
+            if (!isDeleted)
+                return NotFound();
+            return NoContent();
         }
 
     }

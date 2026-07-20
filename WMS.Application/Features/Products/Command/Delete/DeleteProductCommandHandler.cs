@@ -16,7 +16,7 @@ namespace WMS.Application.Features.Products.Command.Delete
             var product = await unitOfWorks.Product.GetByIdAsync(request.Id, cancellationToken);
             if (product is null)
                 return false;
-
+            
             unitOfWorks.Product.Delete(product,cancellationToken);
 
             await unitOfWorks.SaveChangesAsync(cancellationToken);
