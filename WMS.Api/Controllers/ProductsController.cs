@@ -17,55 +17,59 @@ namespace WMS.Api.Controllers
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ProductDto>> GetById(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
         {
             var product = await mediator.Send(new GetProductQuery(id), cancellationToken);
             if (product is null)
-                return NotFound();
+                return NotFound(new {Error = $"Product with ID: {id} not found"});
+
             return Ok(product);
         }
+
         [HttpPost()]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Create([FromBody] CreateProductCommand command, CancellationToken cancellationToken)
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> Create([FromBody] CreateProductCommand command, CancellationToken cancellationToken)
         {
             var productId = await mediator.Send(command,cancellationToken);
             if (productId == 0)
-                return BadRequest();
+                return Conflict(new {Error = "Product already exists"});
 
-            return Created($"/api/products/{productId}", new {id = productId});
+            return CreatedAtAction(nameof(GetById),new { id = productId }, productId);
         }
 
         [HttpGet()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ProductDto>> GetAll(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var products = await mediator.Send(new ListProductQuery(), cancellationToken);
             if (products is null)
-                return NotFound();
+                return NotFound(new {Error = "No products found"});
             return Ok(products);
         }
 
         [HttpPut()]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ProductDto>> Update([FromBody] UpdateProductCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> Update([FromBody] UpdateProductCommand command, CancellationToken cancellationToken)
         {
             var isUpdated = await mediator.Send(command, cancellationToken);
             if (!isUpdated)
-                return NotFound();
-            return Ok();
+                return NotFound(new { Error = "Product cannot be updated"});
+
+            return NoContent();
         }
 
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ProductDto>> Delete([FromRoute] DeleteProductCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete([FromRoute] DeleteProductCommand command, CancellationToken cancellationToken)
         {
             var isDeleted = await mediator.Send(command, cancellationToken);
             if (!isDeleted)
-                return NotFound();
+                return NotFound(new { Error = "Product not exists"});
+
             return NoContent();
         }
 

@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Mediator;
 
 namespace WMS.Application.Features.Products.Command.Create
 {
