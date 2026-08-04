@@ -57,6 +57,12 @@ namespace WMS.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Barcode")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nchar(13)")
+                        .IsFixedLength();
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)

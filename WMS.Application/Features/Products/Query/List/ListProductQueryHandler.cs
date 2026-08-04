@@ -18,7 +18,7 @@ namespace WMS.Application.Features.Products.Query.List
             CancellationToken cancellationToken)
         {
             using var connection = connectionFactory.CreateConnection();
-            var sql = $"SELECT Id, Name, Price FROM Products";
+            var sql = $"SELECT Id, Name, Price, Barcode FROM Products";
 
             var product = await connection.QueryAsync<ProductDto>(sql);
             return product.ToList();

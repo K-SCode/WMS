@@ -23,6 +23,12 @@ namespace WMS.Infrastructure.Data.Configurations
             builder.Property(entity => entity.Price)
                 .HasPrecision(18, 2)
                 .IsRequired();
+
+            builder.Property(entity => entity.Barcode)
+                .HasMaxLength(13)
+                .IsFixedLength()
+                .IsRequired();
+
         }
     }
 }
