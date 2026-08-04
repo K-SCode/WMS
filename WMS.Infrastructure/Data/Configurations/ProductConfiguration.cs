@@ -29,6 +29,8 @@ namespace WMS.Infrastructure.Data.Configurations
                 .IsFixedLength()
                 .IsRequired();
 
+            builder.HasIndex(entity => entity.Barcode);
+
         }
     }
 }

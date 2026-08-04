@@ -74,6 +74,8 @@ namespace WMS.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Barcode");
+
                     b.HasIndex("Name");
 
                     b.ToTable("Products");

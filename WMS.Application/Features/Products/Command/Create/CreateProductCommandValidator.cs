@@ -1,10 +1,12 @@
 ﻿using FluentValidation;
+using WMS.Application.Interfaces;
+using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Products.Command.Create
 {
     public sealed class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
     {
-        public CreateProductCommandValidator()
+        public CreateProductCommandValidator(IUnitOfWorks unitOfWorks)
         {
             RuleFor(product => product.Name)
                 .NotEmpty()
@@ -19,6 +21,12 @@ namespace WMS.Application.Features.Products.Command.Create
             RuleFor(product => product.Barcode)
                 .NotEmpty()
                 .Length(13);
+
+            RuleFor(product => product.Barcode)
+                .Cascade(CascadeMode.Stop)
+                .MustAsync(async (barcode, cancellationToken) =>
+                    await unitOfWorks.Product.GetByBarcodeAsync(barcode,cancellationToken) is null)
+                .WithMessage("Product with barcode: '{PropertyValue}' already exists");
         }
     }
 }

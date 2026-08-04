@@ -9,7 +9,7 @@ namespace WMS.Infrastructure.Repositories
 {
     public class Repository<T>(ApplicationDbContext context) : IRepository<T> where T : class
     {
-        private readonly DbSet<T> _dbSet = context.Set<T>();
+        protected readonly DbSet<T> _dbSet = context.Set<T>();
         public async Task AddAsync(T entity, CancellationToken cancellationToken)
         {
             await _dbSet.AddAsync(entity,cancellationToken);
