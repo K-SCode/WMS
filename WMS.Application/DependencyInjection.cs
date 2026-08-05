@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using WMS.Application.Behaviors;
+using WMS.Application.Features.Locations.Command.Create;
 using WMS.Application.Features.Products.Command.Create;
 
 namespace WMS.Application
