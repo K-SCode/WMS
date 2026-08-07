@@ -5,14 +5,12 @@ using WMS.Application.Features.Locations.Command.Delete;
 using WMS.Application.Features.Locations.Command.Update;
 using WMS.Application.Features.Locations.Query.Get;
 using WMS.Application.Features.Locations.Query.List;
-using WMS.Application.Features.Products.Query.Get;
-using WMS.Application.Features.Products.Query.List;
 
 namespace WMS.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LocationController(ISender sender) : Controller
+    public class LocationController(ISender sender) : ControllerBase
     {
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]

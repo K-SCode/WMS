@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Mediator;
 using WMS.Application.Features.Products.Query.Get;
-using WMS.Application.Features.Products.Dtos;
 using WMS.Application.Features.Products.Command.Create;
 using WMS.Application.Features.Products.Query.List;
 using WMS.Application.Features.Products.Command.Update;
