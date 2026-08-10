@@ -1,27 +1,24 @@
 ﻿using Mediator;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using WMS.Application.Features.Products.Dtos;
-using Mapster;
-using MapsterMapper;
 using WMS.Application.Interfaces;
 using Dapper;
+using WMS.Core.Common;
+using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Products.Query.List
 {
     public sealed class ListProductQueryHandler(
-        ISqlConnectionFactory connectionFactory) : IRequestHandler<ListProductQuery, List<ProductDto>>
+        ISqlConnectionFactory connectionFactory) : IQueryHandler<ListProductQuery, Result<IEnumerable<ProductDto>>>
     {
-        public async ValueTask<List<ProductDto>> Handle(
-            ListProductQuery request,
+        private const string sql = "SELECT Id, Name, Price, Barcode FROM Products";
+        public async ValueTask<Result<IEnumerable<ProductDto>>> Handle(
+            ListProductQuery query,
             CancellationToken cancellationToken)
         {
             using var connection = connectionFactory.CreateConnection();
-            var sql = $"SELECT Id, Name, Price, Barcode FROM Products";
 
-            var product = await connection.QueryAsync<ProductDto>(sql);
-            return product.ToList();
+            var products = await connection.QueryAsync<ProductDto>(sql);
+            return products.ToList();
         }
     }
 }

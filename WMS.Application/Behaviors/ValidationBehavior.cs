@@ -2,7 +2,9 @@
 using Mediator;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
+using WMS.Core.Common;
 
 namespace WMS.Application.Behaviors
 {
@@ -10,6 +12,7 @@ namespace WMS.Application.Behaviors
         IEnumerable<IValidator<TMessage>> validators)
         : IPipelineBehavior<TMessage, TResponse>
         where TMessage : IMessage
+        where TResponse : Result, IValidationFailureFactory<TResponse>
     {
         public async ValueTask<TResponse> Handle(
             TMessage message,
@@ -29,7 +32,11 @@ namespace WMS.Application.Behaviors
 
                 if (failures.Count > 0)
                 {
-                    throw new ValidationException(failures);
+                    var errorMessage = string.Join(
+                        "\n", failures.Select(f => $"{f.PropertyName}: {f.ErrorMessage}"));
+                    var validationError = new Error("Validation Error", ErrorType.Validation, errorMessage);
+
+                    return TResponse.ValidationFailure(validationError);
                 }
             }
             return await next(message, cancellationToken);

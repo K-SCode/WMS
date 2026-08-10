@@ -1,10 +1,8 @@
 ﻿using Mediator;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using WMS.Application.Features.Products.Dtos;
+using WMS.Core.Common;
 
 namespace WMS.Application.Features.Products.Query.List
 {
-    public sealed record ListProductQuery : IRequest<List<ProductDto>>;
+    public sealed record ListProductQuery : IQuery<Result<IEnumerable<ProductDto>>>;
 }

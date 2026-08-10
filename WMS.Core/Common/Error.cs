@@ -5,6 +5,10 @@
     {
         public static Error ObjectExists { get; } = 
             new("Object exists" , ErrorType.Conflict, $"{typeof(T).Name} already exists.");
+        public static Error NotFound { get; } =
+            new("Object not found", ErrorType.NotFound, $"{typeof(T).Name} not found");
+        public static Error ObjectNotExists(int id) =>
+            new("Object not exists", ErrorType.NotFound, $"{typeof(T).Name} with ID: {id} not exists");
         
     }
 }
