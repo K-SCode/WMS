@@ -1,28 +1,24 @@
 ﻿using Dapper;
 using Mediator;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using WMS.Application.Features.Locations.Dtos;
 using WMS.Application.Interfaces;
-using WMS.Core.Entities;
+using WMS.Core.Common;
 
 namespace WMS.Application.Features.Locations.Query.List
 {
     public sealed class ListLocationQueryHandler(
         ISqlConnectionFactory connectionFactory)
-        : IQueryHandler<ListLocationQuery, IEnumerable<LocationDto?>>
+        : IQueryHandler<ListLocationQuery, Result<IEnumerable<LocationDto>>>
     {
-        public async ValueTask<IEnumerable<LocationDto?>> Handle(
+        private const string sql = $"SELECT Id, Sector, Rack, Number, IsFull FROM Locations";
+        public async ValueTask<Result<IEnumerable<LocationDto>>> Handle(
             ListLocationQuery query,
             CancellationToken cancellationToken)
         {
             using var connection = connectionFactory.CreateConnection();
 
-            var sql = $"SELECT Id, Sector, Rack, Number, IsFull FROM Locations";
-
             var locations = await connection.QueryAsync<LocationDto>(sql);
-            return locations;
+            return locations.ToList();
         }
     }
 }

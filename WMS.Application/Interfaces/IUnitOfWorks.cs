@@ -7,7 +7,7 @@ namespace WMS.Application.Interfaces
 {
     public interface IUnitOfWorks
     {
-        IRepository<Location> Location { get; }
+        ILocationRepository Location { get; }
         IProductRepository Product { get; }
         IRepository<Stock> Stock { get; }
         Task SaveChangesAsync(CancellationToken cancellationToken);

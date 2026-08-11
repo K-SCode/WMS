@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Reflection.Emit;
-using System.Text;
 using WMS.Core.Entities;
 
 namespace WMS.Infrastructure.Data.Configurations
@@ -13,6 +9,10 @@ namespace WMS.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<Location> builder)
         {
             builder.HasKey(entity => entity.Id);
+
+            builder.HasIndex(entity => new { entity.Sector, entity.Rack, entity.Number })
+                .IsUnique()
+                .HasDatabaseName("Location_Coordinates");
 
             builder.Property(entity => entity.Sector)
                 .IsRequired();

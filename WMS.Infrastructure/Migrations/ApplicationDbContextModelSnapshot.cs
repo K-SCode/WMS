@@ -46,6 +46,10 @@ namespace WMS.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Sector", "Rack", "Number")
+                        .IsUnique()
+                        .HasDatabaseName("Location_Coordinates");
+
                     b.ToTable("Locations");
                 });
 

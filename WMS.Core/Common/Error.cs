@@ -9,6 +9,7 @@
             new("Object not found", ErrorType.NotFound, $"{typeof(T).Name} not found");
         public static Error ObjectNotExists(int id) =>
             new("Object not exists", ErrorType.NotFound, $"{typeof(T).Name} with ID: {id} not exists");
-        
+        public static Error ObjectCanNotBeDelete =>
+            new($"Object can not be delete", ErrorType.Conflict, $"{typeof(T).Name} has reference to other object in Database");
     }
 }

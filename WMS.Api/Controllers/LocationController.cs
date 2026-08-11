@@ -1,5 +1,6 @@
 ﻿using Mediator;
 using Microsoft.AspNetCore.Mvc;
+using WMS.Api.Extensions;
 using WMS.Application.Features.Locations.Command.Create;
 using WMS.Application.Features.Locations.Command.Delete;
 using WMS.Application.Features.Locations.Command.Update;
@@ -19,10 +20,8 @@ namespace WMS.Api.Controllers
             [FromBody] CreateLocationCommand request,
             CancellationToken cancellationToken)
         {
-            var locationId = await sender.Send(request, cancellationToken);
-            if (locationId == 0)
-                return Conflict(new {Error = "Location already exists"});
-            return Ok();
+            var result = await sender.Send(request, cancellationToken);
+            return result.ToOkOrProblem();
         }
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -31,13 +30,8 @@ namespace WMS.Api.Controllers
             [FromBody] DeleteLocationCommand request,
             CancellationToken cancellationToken)
         {
-            var isDeleted = await sender.Send(request, cancellationToken);
-            if(!isDeleted)
-            {
-                return NotFound(new { Error = $"Location with ID: {request.Id} not exists" });
-            }
-
-            return NoContent();
+            var result = await sender.Send(request, cancellationToken);
+            return result.ToNoContentOrProblem();
         }
 
         [HttpPut()]
@@ -45,11 +39,9 @@ namespace WMS.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Update([FromBody] UpdateLocationCommand command, CancellationToken cancellationToken)
         {
-            var isUpdated = await sender.Send(command, cancellationToken);
-            if (!isUpdated)
-                return NotFound(new { Error = "Location cannot be updated" });
+            var result = await sender.Send(command, cancellationToken);
 
-            return NoContent();
+            return result.ToNoContentOrProblem();
         }
 
         [HttpGet("{id:int}")]
@@ -57,11 +49,9 @@ namespace WMS.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
         {
-            var location = await sender.Send(new GetLocationQuery(id), cancellationToken);
-            if (location is null)
-                return NotFound(new { Error = $"Location with ID: {id} not found" });
+            var result = await sender.Send(new GetLocationQuery(id), cancellationToken);
 
-            return Ok(location);
+            return result.ToOkOrProblem();
         }
 
 
@@ -70,10 +60,8 @@ namespace WMS.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var location = await sender.Send(new ListLocationQuery(), cancellationToken);
-            if (location is null)
-                return NotFound(new { Error = "No locations found" });
-            return Ok(location);
+            var result = await sender.Send(new ListLocationQuery(), cancellationToken);
+            return result.ToOkOrProblem();
         }
     }
 }

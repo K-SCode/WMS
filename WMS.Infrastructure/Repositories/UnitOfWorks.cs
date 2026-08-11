@@ -9,13 +9,13 @@ namespace WMS.Infrastructure.Repositories
 {
     public class UnitOfWorks(ApplicationDbContext context) : IUnitOfWorks
     {
-        private IRepository<Location>? _location;
+        private ILocationRepository? _location;
         private IProductRepository? _product;
         private IRepository<Stock>? _stock;
 
 
-        public IRepository<Location> Location =>
-            _location ??= new Repository<Location>(context);
+        public ILocationRepository Location =>
+            _location ??= new LocationRepository(context);
         public IProductRepository Product =>
             _product ??= new ProductRepository(context);
         public IRepository<Stock> Stock =>

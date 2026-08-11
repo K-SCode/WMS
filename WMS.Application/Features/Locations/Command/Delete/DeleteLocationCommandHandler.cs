@@ -3,22 +3,40 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using WMS.Application.Interfaces;
+using WMS.Core.Common;
+using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Locations.Command.Delete
 {
-    public sealed class DeleteLocationCommandHandler(IUnitOfWorks unitOfWorks) : ICommandHandler<DeleteLocationCommand, bool>
+    public sealed class DeleteLocationCommandHandler(IUnitOfWorks unitOfWorks) : ICommandHandler<DeleteLocationCommand, Result<bool>>
     {
-        public async ValueTask<bool> Handle(DeleteLocationCommand command, CancellationToken cancellationToken)
+        public async ValueTask<Result<bool>> Handle(DeleteLocationCommand command, CancellationToken cancellationToken)
         {
-            var location = await unitOfWorks.Location.GetByIdAsync(command.Id,cancellationToken);
 
-            if (location is null)
-                return false;
+            if (await LocationExistsAsync(command.Id, cancellationToken))
+                return Errors<Location>.ObjectNotExists(command.Id);
 
-            unitOfWorks.Location.Delete(location,cancellationToken);
-            await unitOfWorks.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await DeleteLocationAsync(command.Id, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                return Errors<Location>.ObjectCanNotBeDelete;
+            }
 
             return true;
+        }
+        private async Task<bool> LocationExistsAsync(int id, CancellationToken ct)
+        {
+            var location = await unitOfWorks.Location.GetByIdAsync(id, ct);
+            return location is null;
+        }
+        private async Task DeleteLocationAsync(int id, CancellationToken ct)
+        {
+            var location = await unitOfWorks.Location.GetByIdAsync(id, ct);
+            unitOfWorks.Location.Delete(location!, ct);
+            await unitOfWorks.SaveChangesAsync(ct);
         }
     }
 }

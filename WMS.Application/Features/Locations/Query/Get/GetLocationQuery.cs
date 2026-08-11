@@ -1,11 +1,9 @@
 ﻿using Mediator;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using WMS.Application.Features.Locations.Dtos;
+using WMS.Core.Common;
 
 namespace WMS.Application.Features.Locations.Query.Get
 {
-    public sealed record GetLocationQuery(int Id) : IQuery<LocationDto?>;
+    public sealed record GetLocationQuery(int Id) : IQuery<Result<LocationDto?>>;
 
 }
