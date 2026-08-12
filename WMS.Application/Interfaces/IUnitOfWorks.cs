@@ -9,7 +9,7 @@ namespace WMS.Application.Interfaces
     {
         ILocationRepository Location { get; }
         IProductRepository Product { get; }
-        IRepository<Stock> Stock { get; }
+        IStockRepository Stock { get; }
         Task SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Mediator;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WMS.Api.Extensions;
 using WMS.Application.Features.Stocks.Command.Create;
 using WMS.Application.Features.Stocks.Command.Delete;
 using WMS.Application.Features.Stocks.Command.Update;
@@ -20,10 +21,9 @@ namespace WMS.Api.Controllers
            [FromBody] CreateStockCommand request,
            CancellationToken cancellationToken)
         {
-            var stockId = await sender.Send(request, cancellationToken);
-            if (stockId == 0)
-                return Conflict(new { Error = "Stock already exists" });
-            return CreatedAtAction(nameof(GetById),new { Id = stockId },stockId);
+            var result = await sender.Send(request, cancellationToken);
+
+            return result.ToCreatedAtActionOrProblem(nameof(GetById),nameof(StocksController));
         }
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -32,13 +32,9 @@ namespace WMS.Api.Controllers
             [FromBody] DeleteStockCommand request,
             CancellationToken cancellationToken)
         {
-            var isDeleted = await sender.Send(request, cancellationToken);
-            if (!isDeleted)
-            {
-                return NotFound(new { Error = $"Stock with ID: {request.Id} not exists" });
-            }
+            var result = await sender.Send(request, cancellationToken);
 
-            return NoContent();
+            return result.ToNoContentOrProblem();
         }
 
         [HttpPut()]
@@ -48,11 +44,8 @@ namespace WMS.Api.Controllers
             [FromBody] UpdateStockCommand command,
             CancellationToken cancellationToken)
         {
-            var isUpdated = await sender.Send(command, cancellationToken);
-            if (!isUpdated)
-                return NotFound(new { Error = "Stock cannot be updated" });
-
-            return NoContent();
+            var result = await sender.Send(command, cancellationToken);
+            return result.ToNoContentOrProblem();
         }
 
         [HttpGet("{id:int}")]
@@ -60,11 +53,8 @@ namespace WMS.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
         {
-            var stock = await sender.Send(new GetStockQuery(id), cancellationToken);
-            if (stock is null)
-                return NotFound(new { Error = $"Stock with ID: {id} not found" });
-
-            return Ok(stock);
+            var result = await sender.Send(new GetStockQuery(id), cancellationToken);
+            return result.ToOkOrProblem();
         }
 
 
@@ -73,10 +63,9 @@ namespace WMS.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var stocks = await sender.Send(new ListStockQuery(), cancellationToken);
-            if (stocks is null)
-                return NotFound(new { Error = "No stocks found" });
-            return Ok(stocks);
+            var result = await sender.Send(new ListStockQuery(), cancellationToken);
+
+            return result.ToOkOrProblem();
         }
     }
 }

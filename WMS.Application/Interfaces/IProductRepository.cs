@@ -5,7 +5,7 @@ using WMS.Core.Entities;
 
 namespace WMS.Application.Interfaces
 {
-    public interface IProductRepository : IRepository<Product>
+    public interface IProductRepository : IStockRepository<Product>
     {
         Task<Product?> GetByBarcodeAsync(string barcode, CancellationToken cancellationToken);
     }

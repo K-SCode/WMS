@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WMS.Application.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IStockRepository<T> where T : class
     {
         Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken);
         Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken);

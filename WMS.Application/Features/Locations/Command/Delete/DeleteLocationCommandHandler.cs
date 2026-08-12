@@ -16,14 +16,7 @@ namespace WMS.Application.Features.Locations.Command.Delete
             if (await LocationExistsAsync(command.Id, cancellationToken))
                 return Errors<Location>.ObjectNotExists(command.Id);
 
-            try
-            {
-                await DeleteLocationAsync(command.Id, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                return Errors<Location>.ObjectCanNotBeDelete;
-            }
+            await DeleteLocationAsync(command.Id, cancellationToken);
 
             return true;
         }

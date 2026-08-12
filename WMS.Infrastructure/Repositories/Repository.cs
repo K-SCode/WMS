@@ -7,7 +7,7 @@ using WMS.Infrastructure.Data;
 
 namespace WMS.Infrastructure.Repositories
 {
-    public class Repository<T>(ApplicationDbContext context) : IRepository<T> where T : class
+    public class Repository<T>(ApplicationDbContext context) : IStockRepository<T> where T : class
     {
         protected readonly DbSet<T> _dbSet = context.Set<T>();
         public async Task AddAsync(T entity, CancellationToken cancellationToken)

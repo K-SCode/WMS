@@ -108,6 +108,10 @@ namespace WMS.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
+                    b.HasIndex("ProductId", "LocationId")
+                        .IsUnique()
+                        .HasDatabaseName("Stock_Organization");
+
                     b.ToTable("Stocks");
                 });
 

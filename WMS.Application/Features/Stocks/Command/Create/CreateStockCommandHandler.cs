@@ -1,27 +1,43 @@
 ﻿using Mapster;
 using Mediator;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using WMS.Application.Interfaces;
+using WMS.Core.Common;
 using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Stocks.Command.Create
 {
     public sealed class CreateStockCommandHandler(IUnitOfWorks unitOfWorks)
-        : ICommandHandler<CreateStockCommand, int>
+        : ICommandHandler<CreateStockCommand, Result<int>>
     {
-        public async ValueTask<int> Handle(
+        public async ValueTask<Result<int>> Handle(
             CreateStockCommand command,
             CancellationToken cancellationToken)
         {
-            var stock = command.Adapt<Stock>();
-
-            await unitOfWorks.Stock.AddAsync(stock,cancellationToken);
-            await unitOfWorks.SaveChangesAsync(cancellationToken);
+            if(await StockExistsAsync(command,cancellationToken))
+            {
+                return Errors<Stock>.ObjectExists;
+            }
+            var stock = ConvertToStock(command);
             
+            await AddToDatabaseAsync(stock, cancellationToken);
+
             return stock.Id;
         }
+
+        private async Task<bool> StockExistsAsync(CreateStockCommand command,CancellationToken ct)
+        {
+           return await unitOfWorks.Stock.StockExistsAsync(command.ProductId, command.LocationId, ct);
+        }
+
+        private async Task AddToDatabaseAsync(Stock stock, CancellationToken ct)
+        {
+            await unitOfWorks.Stock.AddAsync(stock, ct);
+
+            await unitOfWorks.SaveChangesAsync(ct);
+        }
+
+        private Stock ConvertToStock(CreateStockCommand command) =>
+            command.Adapt<Stock>();
     }
 
 }
