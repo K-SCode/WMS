@@ -7,5 +7,5 @@ using WMS.Core.Common;
 
 namespace WMS.Application.Features.Stocks.Command.Update
 {
-    public sealed record UpdateStockCommand(int Id, int LocationId, int ProductId, int Quantity) : ICommand<Result<bool>>;
+    public sealed record UpdateStockCommand(int Id, int LocationId, int ProductId, int Quantity, int MaxQuantity) : ICommand<Result<bool>>;
 }

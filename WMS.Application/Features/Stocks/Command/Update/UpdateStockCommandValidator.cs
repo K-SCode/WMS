@@ -14,6 +14,8 @@ namespace WMS.Application.Features.Stocks.Command.Update
             RuleFor(stock => stock.Quantity)
                 .GreaterThan(0)
                 .LessThan(int.MaxValue);
+            RuleFor(stock => stock.MaxQuantity)
+                .GreaterThanOrEqualTo(stock => stock.Quantity);
         }
     }
 }

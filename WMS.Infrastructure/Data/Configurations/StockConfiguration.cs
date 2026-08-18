@@ -40,6 +40,9 @@ namespace WMS.Infrastructure.Data.Configurations
             builder.HasIndex(entity => new { entity.ProductId, entity.LocationId })
                 .IsUnique()
                 .HasDatabaseName("Stock_Organization");
+
+            builder.Property(entity => entity.MaxQuantity)
+                .HasDefaultValue(200);
         }
     }
 }

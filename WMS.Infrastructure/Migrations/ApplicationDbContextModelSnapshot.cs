@@ -96,6 +96,11 @@ namespace WMS.Infrastructure.Migrations
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
 
+                    b.Property<int>("MaxQuantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(200);
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
