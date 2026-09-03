@@ -36,7 +36,8 @@ namespace WMS.Core.Common
         public T Value => IsSuccess 
             ? _value! 
             : throw new InvalidOperationException("Unable to obtain value of invalid operation.");
-
+        
+        public static Result<T> Success(T value) => new (value);
         public static new Result<T> ValidationFailure(Error error) => new(error);
 
         public static implicit operator Result<T>(T value) => new(value);

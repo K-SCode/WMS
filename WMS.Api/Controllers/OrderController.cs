@@ -1,7 +1,8 @@
 ﻿using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using WMS.Api.Extensions;
-using WMS.Application.Features.GoodsReceived;
+using WMS.Application.Features.GoodsReceived.Commands.GoodsReceived;
+using WMS.Application.Features.GoodsReceived.Commands.ImportFileGoodsReceived;
 
 namespace WMS.Api.Controllers
 {
@@ -15,6 +16,16 @@ namespace WMS.Api.Controllers
             var goodReceiptConfirmation = await sender.Send(goodsReceived, cancellationToken);
 
             return goodReceiptConfirmation.ToOkOrProblem();
+        }
+        [HttpPost("import")]
+        public async Task<IActionResult> ImportGoodsRecived(IFormFile file, CancellationToken cancellationToken)
+        {
+            string extension = Path.GetExtension(file.FileName).TrimStart('.').ToLowerInvariant();
+            await using Stream fileStream = file.OpenReadStream();
+            ImportFileGoodsReceivedCommand command = new(fileStream, extension);
+            var result = await sender.Send(command, cancellationToken);
+
+            return result.ToOkOrProblem();
         }
     }
 }

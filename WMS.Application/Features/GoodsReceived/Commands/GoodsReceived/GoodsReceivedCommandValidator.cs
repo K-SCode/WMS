@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace WMS.Application.Features.GoodsReceived
+namespace WMS.Application.Features.GoodsReceived.Commands.GoodsReceived
 {
     public class GoodsReceivedCommandValidator : AbstractValidator<GoodsReceivedCommand>
     {

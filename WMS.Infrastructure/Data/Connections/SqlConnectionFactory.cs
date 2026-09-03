@@ -11,6 +11,10 @@ namespace WMS.Infrastructure.Data.Connections
     {
         public IDbConnection CreateConnection()
         {
+            if(string.IsNullOrEmpty(connectionString))
+            {
+                throw new ArgumentException("Connection String cannot be null or empty");
+            }
             return new SqlConnection(connectionString);
         }
     }

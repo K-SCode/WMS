@@ -7,6 +7,8 @@ using System.Text;
 using WMS.Application.Interfaces;
 using WMS.Infrastructure.Data;
 using WMS.Infrastructure.Data.Connections;
+using WMS.Infrastructure.Import;
+using WMS.Infrastructure.Import.Adapters;
 using WMS.Infrastructure.Repositories;
 
 namespace WMS.Infrastructure
@@ -22,7 +24,11 @@ namespace WMS.Infrastructure
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
             services.AddScoped<IUnitOfWorks, UnitOfWorks>();
-            services.AddSingleton<ISqlConnectionFactory>(new SqlConnectionFactory(connectionString));
+            services.AddSingleton<ISqlConnectionFactory>(new SqlConnectionFactory(connectionString!));
+
+            services.AddScoped<IProductImportFileAdapter, CsvProductAdapter>();
+            services.AddScoped<IProductImportFileAdapter, XmlProductAdapter>();
+            services.AddScoped<IProductImportFileAdapterFactory, ProductImportFileFactory>();
 
             return services;
         }

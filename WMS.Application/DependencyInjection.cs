@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using WMS.Application.Behaviors;
+using WMS.Application.Features.GoodsReceived.Services;
 using WMS.Application.Features.Locations.Command.Create;
 using WMS.Application.Features.Products.Command.Create;
+using WMS.Application.Interfaces;
 
 namespace WMS.Application
 {
@@ -22,6 +24,7 @@ namespace WMS.Application
             });
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddScoped<IGoodsReceivedProcessor, GoodsReceivedProcessor>();
             return services;
         }
     }
