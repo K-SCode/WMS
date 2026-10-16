@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using WMS.Core.Entities;
 
 namespace WMS.Infrastructure.Data.Configurations
@@ -17,6 +14,9 @@ namespace WMS.Infrastructure.Data.Configurations
                 .IsRequired();
             builder.Property(entity => entity.Address)
                 .IsRequired();
+
+            builder.HasIndex(entity => entity.NIP)
+                .IsUnique();
             builder.Property(entity => entity.NIP)
                 .HasMaxLength(10)
                 .IsFixedLength();

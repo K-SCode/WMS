@@ -16,9 +16,6 @@ namespace WMS.Core.Entities
         public ICollection<GoodsReceiptsItems> Item { get; set; } = new List<GoodsReceiptsItems>();
 
 
-        public int UserID { get; set; }
-        public User User { get; set;  }
-
         public OrderStatus Status { get; set; }
         public string Comment { get; set; } = null!;
 
