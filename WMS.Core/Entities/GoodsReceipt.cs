@@ -16,7 +16,7 @@ namespace WMS.Core.Entities
         public ICollection<GoodsReceiptsItems> Item { get; set; } = [];
 
 
-        public OrderStatus Status { get; set; }
+        public GrnStatus Status { get; set; }
         public string Comment { get; set; } = null!;
 
     }

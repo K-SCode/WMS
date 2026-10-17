@@ -29,7 +29,7 @@ namespace WMS.Application.Features.GoodsReceived.Services
                 DateOfIssue = dateOfIssue,
                 ReceivedAtUtc = receivedAatUtc,
                 SupplierNip = information.SupplierData.Nip,
-                Status = items.Keys.Any(tmp => tmp != ItemGrnStatus.Accepted) ? OrderStatus.InAnalysis : OrderStatus.Accepted,
+                Status = items.Keys.Any(tmp => tmp != ItemGrnStatus.Accepted) ? GrnStatus.InAnalysis : GrnStatus.Accepted,
                 Comment = information.Comment
             };
 
@@ -53,7 +53,3 @@ namespace WMS.Application.Features.GoodsReceived.Services
         }
     }
 }
-
-//Jak skoncze
-
-//update bazy danych !!!!!!!!!!!!

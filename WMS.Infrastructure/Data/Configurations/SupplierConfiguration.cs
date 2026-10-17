@@ -8,7 +8,6 @@ namespace WMS.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Supplier> builder)
         {
-
             builder.Property(entity => entity.CompanyName)
                 .IsRequired();
             builder.Property(entity => entity.Address)
