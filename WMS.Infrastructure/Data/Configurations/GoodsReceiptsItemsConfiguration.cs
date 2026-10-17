@@ -14,9 +14,12 @@ namespace WMS.Infrastructure.Data.Configurations
             builder.HasKey(entity => entity.Id);
             builder.Property(entity => entity.GoodsReceiptID)
                 .IsRequired();
-            builder.Property(entity => entity.ProductId)
-                .IsRequired();
-            builder.HasIndex(entity => entity.ProductId);
+            builder.Property(entity => entity.Barcode)
+                .IsRequired()
+                .HasMaxLength(13)
+                .IsFixedLength();
+
+            builder.HasIndex(entity => entity.Barcode);
 
             builder.Property(entity => entity.UnitQuantity)
                 .IsRequired();
@@ -25,6 +28,9 @@ namespace WMS.Infrastructure.Data.Configurations
                 .HasPrecision(18, 3);
             builder.Property(entity => entity.PurchasePrice)
                 .HasPrecision(18, 2);
+            builder.Property(entity => entity.Status)
+                .IsRequired()
+                .HasConversion<string>();
 
         }
     }

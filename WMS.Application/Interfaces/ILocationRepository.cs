@@ -5,7 +5,7 @@ using WMS.Core.Entities;
 
 namespace WMS.Application.Interfaces
 {
-    public interface ILocationRepository : IStockRepository<Location>
+    public interface ILocationRepository : IRepository<Location>
     {
         Task<bool> LocationExistsAsync(char sector, int rack, int number, CancellationToken cancellationToken);
     }

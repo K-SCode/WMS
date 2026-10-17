@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WMS.Api.Extensions;
 using WMS.Application.Features.GoodsReceived.Commands.GoodsReceived;
 using WMS.Application.Features.GoodsReceived.Commands.ImportFileGoodsReceived;
+using WMS.Application.Features.GoodsReceived.Dto;
 
 namespace WMS.Api.Controllers
 {
@@ -18,11 +19,13 @@ namespace WMS.Api.Controllers
             return goodReceiptConfirmation.ToOkOrProblem();
         }
         [HttpPost("import")]
-        public async Task<IActionResult> ImportGoodsRecived(IFormFile file, CancellationToken cancellationToken)
+        public async Task<IActionResult> ImportGoodsRecived([FromForm] DocumentInformation information, IFormFile file, CancellationToken cancellationToken)
         {
+
             string extension = Path.GetExtension(file.FileName).TrimStart('.').ToLowerInvariant();
             await using Stream fileStream = file.OpenReadStream();
-            ImportFileGoodsReceivedCommand command = new(fileStream, extension);
+            
+            ImportFileGoodsReceivedCommand command = new(fileStream, extension,information);
             var result = await sender.Send(command, cancellationToken);
 
             return result.ToOkOrProblem();

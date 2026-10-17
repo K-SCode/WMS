@@ -18,9 +18,11 @@ namespace WMS.Infrastructure.Import.Adapters
             };
             using var reader = new StreamReader(input);
             using var csv = new CsvReader(reader, config);
-            var records = csv.GetRecords<ProductReceived>().ToList();
 
-            return Task.FromResult<IEnumerable<ProductReceived>>(records);
+         
+            List<ProductReceived> products = csv.GetRecords<ProductReceived>().ToList();
+
+            return Task.FromResult<IEnumerable<ProductReceived>>(products);
         }
     }
 }

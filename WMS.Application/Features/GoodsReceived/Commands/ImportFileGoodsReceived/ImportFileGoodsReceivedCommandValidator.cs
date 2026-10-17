@@ -17,6 +17,9 @@ namespace WMS.Application.Features.GoodsReceived.Commands.ImportFileGoodsReceive
             RuleFor(f => f.FileStream.Length)
                 .GreaterThan(0);
 
+            RuleFor(property => property.Information)
+                .SetValidator(new DocumentInformationValidator());
+
         }
     }
 }

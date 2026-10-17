@@ -10,6 +10,9 @@ namespace WMS.Application.Interfaces
         ILocationRepository Location { get; }
         IProductRepository Product { get; }
         IStockRepository Stock { get; }
+        IGoodsReceiptRepository GoodsReceipt { get; }
+        ISupplierRepository Supplier { get; }
+        IGoodsReceiptsItemsRepository GoodsReceiptsItems{ get; }
         Task SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

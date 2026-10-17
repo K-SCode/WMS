@@ -6,11 +6,14 @@ namespace WMS.Application.Features.GoodsReceived.Commands.GoodsReceived
     {
         public GoodsReceivedCommandValidator()
         {
-            RuleFor(property => property.Products)
-                .NotEmpty()
+            RuleFor(property => property.GoodsReceivedNote)
                 .NotNull();
-            RuleForEach(property => property.Products)
+
+            RuleForEach(property => property.GoodsReceivedNote.Products)
                 .SetValidator(new GoodsReceviedValidator());
+
+            RuleFor(property => property.GoodsReceivedNote.Information)
+                .SetValidator(new DocumentInformationValidator());
         }
     }
 }

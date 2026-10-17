@@ -35,6 +35,7 @@ namespace WMS.Infrastructure.Data.Configurations
                 .IsRequired();
 
             builder.Property(entity => entity.Quantity)
+                .HasPrecision(18,3)
                 .IsRequired();
 
             builder.HasIndex(entity => new { entity.ProductId, entity.LocationId })

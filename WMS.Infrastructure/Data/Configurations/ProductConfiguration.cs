@@ -24,6 +24,7 @@ namespace WMS.Infrastructure.Data.Configurations
                 .HasPrecision(18, 2)
                 .IsRequired();
 
+            builder.HasIndex(entity => entity.Barcode);
             builder.Property(entity => entity.Barcode)
                 .HasMaxLength(13)
                 .IsFixedLength()

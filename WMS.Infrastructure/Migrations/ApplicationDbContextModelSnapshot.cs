@@ -17,7 +17,7 @@ namespace WMS.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.9")
+                .HasAnnotation("ProductVersion", "10.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -53,11 +53,13 @@ namespace WMS.Infrastructure.Migrations
                     b.Property<DateTime>("ReceivedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SupplierId")
-                        .HasColumnType("int");
+                    b.Property<string>("SupplierNip")
+                        .IsRequired()
+                        .HasColumnType("nchar(10)");
 
                     b.HasKey("Id");
 
@@ -67,7 +69,7 @@ namespace WMS.Infrastructure.Migrations
                     b.HasIndex("InvoiceNumber")
                         .IsUnique();
 
-                    b.HasIndex("SupplierId");
+                    b.HasIndex("SupplierNip");
 
                     b.ToTable("GoodsReceipt");
                 });
@@ -80,10 +82,13 @@ namespace WMS.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("GoodsReceiptID")
-                        .HasColumnType("int");
+                    b.Property<string>("Barcode")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nchar(13)")
+                        .IsFixedLength();
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("GoodsReceiptID")
                         .HasColumnType("int");
 
                     b.Property<decimal>("PurchasePrice")
@@ -94,15 +99,19 @@ namespace WMS.Infrastructure.Migrations
                         .HasPrecision(18, 3)
                         .HasColumnType("decimal(18,3)");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UnitQuantity")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GoodsReceiptID");
+                    b.HasIndex("Barcode");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("GoodsReceiptID");
 
                     b.ToTable("GoodsReceiptsItems");
                 });
@@ -190,8 +199,9 @@ namespace WMS.Infrastructure.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Quantity")
+                        .HasPrecision(18, 3)
+                        .HasColumnType("decimal(18,3)");
 
                     b.HasKey("Id");
 
@@ -208,11 +218,10 @@ namespace WMS.Infrastructure.Migrations
 
             modelBuilder.Entity("WMS.Core.Entities.Supplier", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Nip")
+                        .HasMaxLength(10)
+                        .HasColumnType("nchar(10)")
+                        .IsFixedLength();
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -222,22 +231,13 @@ namespace WMS.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NIP")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nchar(10)")
-                        .IsFixedLength();
-
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(11)
                         .HasColumnType("nchar(11)")
                         .IsFixedLength();
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("NIP")
-                        .IsUnique();
+                    b.HasKey("Nip");
 
                     b.ToTable("Supplier");
                 });
@@ -246,7 +246,7 @@ namespace WMS.Infrastructure.Migrations
                 {
                     b.HasOne("WMS.Core.Entities.Supplier", "Supplier")
                         .WithMany()
-                        .HasForeignKey("SupplierId")
+                        .HasForeignKey("SupplierNip")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -261,15 +261,7 @@ namespace WMS.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WMS.Core.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("GoodsReceipt");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.Stock", b =>

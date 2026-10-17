@@ -11,7 +11,7 @@ namespace WMS.Core.Entities
         public Location Localization { get; set; } = null!;
         public int ProductId { get; set; }
         public Product Product { get; set; } = null!;
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
         public int MaxQuantity { get; set;  }
     }
 }

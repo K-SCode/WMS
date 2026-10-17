@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WMS.Application.Interfaces
+﻿namespace WMS.Application.Interfaces
 {
-    public interface IStockRepository<T> where T : class
+    public interface IRepository<T> where T : class
     {
         Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken);
         Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken);

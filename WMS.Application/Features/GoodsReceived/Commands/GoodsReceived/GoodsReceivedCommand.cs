@@ -6,5 +6,5 @@ using WMS.Core.Common.Enum;
 namespace WMS.Application.Features.GoodsReceived.Commands.GoodsReceived
 {
     public sealed record GoodsReceivedCommand(
-            IReadOnlyCollection<ProductReceived> Products) : ICommand<Result<Dictionary<GoodsReceivedStatus, IEnumerable<GoodsReceivedDto>>>>;
+            GoodsReceivedNote GoodsReceivedNote) : ICommand<Result<Dictionary<ItemGrnStatus, IEnumerable<GoodsReceivedDto>>>>;
 }

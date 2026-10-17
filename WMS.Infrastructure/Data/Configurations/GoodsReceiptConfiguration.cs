@@ -25,7 +25,8 @@ namespace WMS.Infrastructure.Data.Configurations
             builder.Property(entity => entity.DateOfIssue)
                 .IsRequired();
             builder.Property(entity => entity.Status)
-                .IsRequired();
+                .IsRequired()
+                .HasConversion<string>();
             builder.Property(entity => entity.Comment)
                 .HasMaxLength(400);
         }

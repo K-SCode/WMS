@@ -2,6 +2,7 @@
 using Mediator;
 using System;
 using WMS.Application.Features.GoodsReceived.Dto;
+using WMS.Application.Features.GoodsReceived.Services;
 using WMS.Application.Interfaces;
 using WMS.Core.Common;
 using WMS.Core.Common.Enum;
@@ -10,11 +11,11 @@ namespace WMS.Application.Features.GoodsReceived.Commands.ImportFileGoodsReceive
 {
     public class ImportFileGoodsReceivedCommandHandler(
         IProductImportFileAdapterFactory productAdapterFactory,
-        IGoodsReceivedProcessor processor,
+        IGoodsReceivedProcess processor,
         IValidator<ProductReceived> validator) :
-        ICommandHandler<ImportFileGoodsReceivedCommand, Result<Dictionary<GoodsReceivedStatus, IEnumerable<GoodsReceivedDto>>>>
+        ICommandHandler<ImportFileGoodsReceivedCommand, Result<Dictionary<ItemGrnStatus, IEnumerable<GoodsReceivedDto>>>>
     {
-        public async ValueTask<Result<Dictionary<GoodsReceivedStatus, IEnumerable<GoodsReceivedDto>>>> Handle(
+        public async ValueTask<Result<Dictionary<ItemGrnStatus, IEnumerable<GoodsReceivedDto>>>> Handle(
             ImportFileGoodsReceivedCommand command,
             CancellationToken cancellationToken)
         {
@@ -25,15 +26,17 @@ namespace WMS.Application.Features.GoodsReceived.Commands.ImportFileGoodsReceive
                 return Errors.InvalidFileFormat(command.Format);
             }
 
-            var importedItems = await adapter.ParseAsync(command.FileStream);
+            IEnumerable<ProductReceived> importedItems = await adapter.ParseAsync(command.FileStream);
 
             (bool, string) validData = await ValidDataAsync(importedItems, cancellationToken);
             if (!validData.Item1)
             {
                 return Errors<GoodsReceviedValidator>.ValidationProductFailure(validData.Item2);
             }
-            
-            var result = await processor.ProcessAsync(importedItems, cancellationToken);
+
+            GoodsReceivedNote goodsReceivedNote = new(importedItems,command.Information);
+
+            var result = await processor.ProcessAsync(goodsReceivedNote, cancellationToken);
             return result;
         }
         private async Task<(bool,string)> ValidDataAsync(IEnumerable<ProductReceived> items,CancellationToken ct)
@@ -47,7 +50,7 @@ namespace WMS.Application.Features.GoodsReceived.Commands.ImportFileGoodsReceive
                     return (false, message);
                 }
             }
-            return (true,"");
+            return (true,string.Empty);
         }
     }
 }

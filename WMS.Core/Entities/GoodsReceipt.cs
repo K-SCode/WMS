@@ -10,10 +10,10 @@ namespace WMS.Core.Entities
         public DateTime DateOfIssue { get; set; }
         public DateTime ReceivedAtUtc { get; set; }
 
-        public int SupplierId { get; set;  }
-        public Supplier Supplier { get; set; }
+        public string SupplierNip { get; set; } = null!;
+        public Supplier Supplier { get; set; } = null!;
 
-        public ICollection<GoodsReceiptsItems> Item { get; set; } = new List<GoodsReceiptsItems>();
+        public ICollection<GoodsReceiptsItems> Item { get; set; } = [];
 
 
         public OrderStatus Status { get; set; }

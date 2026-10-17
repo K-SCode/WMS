@@ -16,12 +16,13 @@ namespace WMS.Infrastructure.Import.Adapters
         {
             var doc = await XDocument.LoadAsync(input, LoadOptions.None, CancellationToken.None);
 
-            var records = doc.Descendants("Product")
+            IEnumerable<ProductReceived> records = doc.Descendants("Product")
                 .Select(element => new ProductReceived(
                     Barcode: element.Element("Barcode")?.Value ?? string.Empty,
-                    Quantity: int.TryParse(element.Element("Quantity")?.Value, out var quantity) ? quantity : 0
-                ))
-                .ToList();
+                    Quantity: decimal.TryParse(element.Element("Quantity")?.Value, out var quantity) ? quantity : -1,
+                    UnitQuantity: element.Element("UnitQuantity")?.Value ?? string.Empty,
+                    PurchasePrice: decimal.TryParse(element.Element("PurchasePrice")?.Value, out decimal price) ? price : -1
+                ));
 
             return records;
         }
