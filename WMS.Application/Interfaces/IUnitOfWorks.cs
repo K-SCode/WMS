@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using WMS.Core.Entities;
-
-namespace WMS.Application.Interfaces
+﻿namespace WMS.Application.Interfaces
 {
     public interface IUnitOfWorks
     {
@@ -13,6 +8,9 @@ namespace WMS.Application.Interfaces
         IGoodsReceiptRepository GoodsReceipt { get; }
         ISupplierRepository Supplier { get; }
         IGoodsReceiptsItemsRepository GoodsReceiptsItems{ get; }
+        IOrderRepository Order { get; }
+        ICustomerRepository Customer { get; }
+        IOrderItemsRepository OrderItems { get; }
         Task SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
