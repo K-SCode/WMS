@@ -10,7 +10,7 @@ namespace WMS.Application.Features.Products.Query.Get
     public sealed class GetProductQueryHandler(
         ISqlConnectionFactory connectionFactory) : IQueryHandler<GetProductQuery, Result<ProductDto>>
     {
-        private const string sql = "SELECT Id, Name, Price, Barcode FROM Products WHERE Id = @Id";
+        private const string sql = "SELECT Id, Name, Price, Barcode, UnitQuantity FROM Products WHERE Id = @Id";
         public async ValueTask<Result<ProductDto>> Handle(
             GetProductQuery query,
             CancellationToken cancellationToken)

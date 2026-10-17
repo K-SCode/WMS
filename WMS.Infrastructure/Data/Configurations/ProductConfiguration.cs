@@ -32,6 +32,9 @@ namespace WMS.Infrastructure.Data.Configurations
 
             builder.HasIndex(entity => entity.Barcode);
 
+            builder.Property(entity => entity.UnitQuantity)
+                .HasMaxLength(10);
+
         }
     }
 }

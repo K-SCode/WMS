@@ -11,5 +11,7 @@ namespace WMS.Core.Entities
         public decimal Price { get; set; }
         public List<Stock> Stocks { get; set; } = new();
         public string Barcode { get;set;} = string.Empty;
+        public string UnitQuantity { get; set; } = null!;
+
     }
 }
