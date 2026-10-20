@@ -4,6 +4,7 @@ namespace WMS.Application.Interfaces
 {
     public interface IOrderItemsRepository
     {
-        Task AddRangeAsync(IEnumerable<OrderItem> items, CancellationToken ct);
+        Task AddRangeAsync(IReadOnlyCollection<OrderItem> items, CancellationToken ct);
+        Task<IReadOnlyCollection<OrderItem>> GetAllByOrderIdAsync(int OrderId, CancellationToken ct);
     }
 }

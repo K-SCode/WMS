@@ -1,30 +1,35 @@
-﻿using Mapster;
-using WMS.Application.Features.GoodsReceived.Commands.GoodsReceived;
-using WMS.Application.Features.GoodsReceived.Dto;
+﻿using WMS.Application.Features.GoodsReceived.Dto;
 using WMS.Application.Interfaces;
-using WMS.Core.Common.Enum;
+using WMS.Core.Entities;
 
 namespace WMS.Application.Features.GoodsReceived.Services
 {
     public class GoodsReceivedProcess(
-        IIncreaseStock increaseStock,
-        ISaveGoodsReceipt grn,
+        IIncreaseQuantity increaseQuantity,
+        ISaveGoodsReceipt saveGoodsReceipt,
+        ICreateWarehouseTask createWarehouseTask,
         IUnitOfWorks unitOfWorks) : IGoodsReceivedProcess
     {
-        public async Task<Dictionary<ItemGrnStatus, IEnumerable<GoodsReceivedDto>>>ProcessAsync(
+        public async Task<bool>ProcessAsync(
             GoodsReceivedNote goodsReceived,
             CancellationToken ct)
         {
-            Dictionary<ItemGrnStatus, IEnumerable<GoodsReceiptModel>> goodsReceipt = await increaseStock.ProcessAsync(goodsReceived.Products, ct);
+            GoodsReceipt grn = await saveGoodsReceipt.SaveInDatabaseAsync(goodsReceived.Products, goodsReceived.Information, ct);
 
-            await grn.SaveInDatabase(goodsReceipt, goodsReceived.Information, ct);
+            var increaseResult =
+                await increaseQuantity.IncreaseAsync(
+                    goodsReceived.Products,
+                    p => p.Barcode,
+                    p => p.Quantity,
+                    ct);
 
-            var result = goodsReceipt.Adapt<Dictionary<ItemGrnStatus, IEnumerable<GoodsReceivedDto>>>();
+            await createWarehouseTask.CreateTaskForNotExistDocumentAsync(increaseResult, WarehouseSource.GoodsReceiptOverflow,  d => d.Id, grn,ct);
 
             await unitOfWorks.SaveChangesAsync(ct);
-            return result;
-        }
-    }
 
-    public record GoodsReceiptModel(string Barcode, ItemGrnStatus Status, decimal Quantity, string UnitQuantity, decimal PurchasePrice);
+            return true;
+        }
+
+
+    }
 }

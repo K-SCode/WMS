@@ -5,5 +5,5 @@ using WMS.Application.Features.GoodsReceived.Commands;
 
 namespace WMS.Application.Features.GoodsReceived.Dto
 {
-    public record GoodsReceivedNote(IEnumerable<ProductReceived> Products, DocumentInformation Information);
+    public record GoodsReceivedNote(IReadOnlyCollection<ProductReceived> Products, DocumentInformation Information);
 }

@@ -8,6 +8,6 @@ namespace WMS.Application.Interfaces
     public interface IProductImportFileAdapter
     {
         string Format { get; }
-        Task<IEnumerable<ProductReceived>> ParseAsync(Stream input);
+        Task<IReadOnlyCollection<ProductReceived>> ParseAsync(Stream input);
     }
 }

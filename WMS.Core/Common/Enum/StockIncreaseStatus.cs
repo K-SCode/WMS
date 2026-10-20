@@ -1,10 +1,11 @@
 ﻿namespace WMS.Core.Common.Enum
 {
-    public enum ItemGrnStatus
+    public enum StockIncreaseStatus
     {
         Accepted,
         OutOfSapce,
         ProductNotFound,
-        Returned
+        Returned,
+        PartiallyAccepted
     }
 }

@@ -14,6 +14,7 @@ namespace WMS.Infrastructure.Repositories
         private IOrderRepository? _order;
         private ICustomerRepository? _customer;
         private IOrderItemsRepository? _orderItems;
+        private IWarehouseRepository? _warehouse;
         public ILocationRepository Location =>
             _location ??= new LocationRepository(context);
         public IProductRepository Product =>
@@ -32,6 +33,8 @@ namespace WMS.Infrastructure.Repositories
             _customer ??= new CustomerRepository(context);
         public IOrderItemsRepository OrderItems =>
             _orderItems ??= new OrderItemsRepository(context);
+        public IWarehouseRepository Warehouse =>
+            _warehouse ??= new WarehouseRepository(context);
 
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken) =>

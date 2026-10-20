@@ -64,7 +64,7 @@ namespace WMS.Infrastructure.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Customer");
+                    b.ToTable("Customer", (string)null);
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.GoodsReceipt", b =>
@@ -116,7 +116,7 @@ namespace WMS.Infrastructure.Migrations
 
                     b.HasIndex("SupplierNip");
 
-                    b.ToTable("GoodsReceipt");
+                    b.ToTable("GoodsReceipt", (string)null);
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.GoodsReceiptsItems", b =>
@@ -158,7 +158,7 @@ namespace WMS.Infrastructure.Migrations
 
                     b.HasIndex("GoodsReceiptID");
 
-                    b.ToTable("GoodsReceiptsItems");
+                    b.ToTable("GoodsReceiptsItems", (string)null);
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.Location", b =>
@@ -190,7 +190,7 @@ namespace WMS.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("Location_Coordinates");
 
-                    b.ToTable("Locations");
+                    b.ToTable("Locations", (string)null);
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.Order", b =>
@@ -242,7 +242,7 @@ namespace WMS.Infrastructure.Migrations
 
                     b.HasIndex("CustomerId", "CreatedAt");
 
-                    b.ToTable("Order");
+                    b.ToTable("Order", (string)null);
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.OrderItem", b =>
@@ -278,7 +278,7 @@ namespace WMS.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItem", (string)null);
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.Product", b =>
@@ -315,7 +315,7 @@ namespace WMS.Infrastructure.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.Stock", b =>
@@ -351,7 +351,7 @@ namespace WMS.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("Stock_Organization");
 
-                    b.ToTable("Stocks");
+                    b.ToTable("Stocks", (string)null);
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.Supplier", b =>
@@ -377,7 +377,7 @@ namespace WMS.Infrastructure.Migrations
 
                     b.HasKey("Nip");
 
-                    b.ToTable("Supplier");
+                    b.ToTable("Supplier", (string)null);
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.GoodsReceipt", b =>

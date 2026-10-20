@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using WMS.Application.Behaviors;
+using WMS.Application.common.Service;
 using WMS.Application.Features.GoodsReceived.Services;
 using WMS.Application.Features.Orders.Command.Service;
 using WMS.Application.Features.Products.Command.Create;
@@ -21,7 +22,7 @@ namespace WMS.Application
             });
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            services.AddScoped<IIncreaseStock, IncreaseStock>();
+            services.AddScoped<IIncreaseQuantity, IncreaseQunatity>();
             services.AddScoped<ISaveGoodsReceipt, SaveGoodsReceipt>();
             services.AddScoped<IGoodsReceivedProcess, GoodsReceivedProcess>();
 
@@ -29,6 +30,8 @@ namespace WMS.Application
             services.AddScoped<IAssignOrderItems, AssignOrderItems>();
             services.AddScoped<IAssignOrderUser, AssignOrderUser>();
             services.AddScoped<IOrderRegistration, OrderRegistration>();
+
+            services.AddScoped<ICreateWarehouseTask, CreateWarehouseTask>();
             return services;
         }
     }

@@ -11,6 +11,7 @@
         IOrderRepository Order { get; }
         ICustomerRepository Customer { get; }
         IOrderItemsRepository OrderItems { get; }
+        IWarehouseRepository Warehouse { get; }
         Task SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

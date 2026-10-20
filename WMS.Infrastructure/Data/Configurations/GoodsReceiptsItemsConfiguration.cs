@@ -28,10 +28,6 @@ namespace WMS.Infrastructure.Data.Configurations
                 .HasPrecision(18, 3);
             builder.Property(entity => entity.PurchasePrice)
                 .HasPrecision(18, 2);
-            builder.Property(entity => entity.Status)
-                .IsRequired()
-                .HasConversion<string>();
-
         }
     }
 }

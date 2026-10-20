@@ -10,7 +10,7 @@ namespace WMS.Infrastructure.Import.Adapters
     {
         public string Format => "csv";
 
-        public Task<IEnumerable<ProductReceived>> ParseAsync(Stream input)
+        public Task<IReadOnlyCollection<ProductReceived>> ParseAsync(Stream input)
         {
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
@@ -22,7 +22,7 @@ namespace WMS.Infrastructure.Import.Adapters
          
             List<ProductReceived> products = csv.GetRecords<ProductReceived>().ToList();
 
-            return Task.FromResult<IEnumerable<ProductReceived>>(products);
+            return Task.FromResult<IReadOnlyCollection<ProductReceived>>(products);
         }
     }
 }

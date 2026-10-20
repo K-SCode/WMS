@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using WMS.Application.Features.GoodsReceived.Commands;
 using WMS.Application.Features.GoodsReceived.Dto;
 using WMS.Application.Interfaces;
 using WMS.Core.Common.Enum;
@@ -9,8 +10,8 @@ namespace WMS.Application.Features.GoodsReceived.Services
     public class SaveGoodsReceipt(
         IUnitOfWorks unitOfWorks) : ISaveGoodsReceipt
     {
-        public async Task SaveInDatabase(
-            Dictionary<ItemGrnStatus, IEnumerable<GoodsReceiptModel>> items,
+        public async Task<GoodsReceipt> SaveInDatabaseAsync(
+            IEnumerable<ProductReceived> products,
             DocumentInformation information,
             CancellationToken ct)
         {
@@ -29,27 +30,17 @@ namespace WMS.Application.Features.GoodsReceived.Services
                 DateOfIssue = dateOfIssue,
                 ReceivedAtUtc = receivedAatUtc,
                 SupplierNip = information.SupplierData.Nip,
-                Status = items.Keys.Any(tmp => tmp != ItemGrnStatus.Accepted) ? GrnStatus.InAnalysis : GrnStatus.Accepted,
                 Comment = information.Comment
             };
 
             string grnNumber = $"GRN-{Guid.NewGuid().ToString("N")[..12].ToUpper()}";
             goodsReceipt.GRNNumber = grnNumber;
             await unitOfWorks.GoodsReceipt.AddAsync(goodsReceipt, ct);
-                
 
-            List<GoodsReceiptsItems> productToAdd = items.Values
-                .SelectMany(item => item)
-                .Select(x =>
-                {
-                    var item = x.Adapt<GoodsReceiptsItems>();
-                    item.GoodsReceipt = goodsReceipt;
-                    return item;
-                })
-                .ToList();
+            IEnumerable<GoodsReceiptsItems> items = products.Adapt<IEnumerable<GoodsReceiptsItems>>();
+            await unitOfWorks.GoodsReceiptsItems.AddRangeAsync(items, ct);
 
-            await unitOfWorks.GoodsReceiptsItems.AddRangeAsync(productToAdd, ct);
-           
+            return goodsReceipt;
         }
     }
 }

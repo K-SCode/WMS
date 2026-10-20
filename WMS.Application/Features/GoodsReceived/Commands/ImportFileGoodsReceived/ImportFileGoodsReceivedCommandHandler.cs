@@ -13,9 +13,9 @@ namespace WMS.Application.Features.GoodsReceived.Commands.ImportFileGoodsReceive
         IProductImportFileAdapterFactory productAdapterFactory,
         IGoodsReceivedProcess processor,
         IValidator<ProductReceived> validator) :
-        ICommandHandler<ImportFileGoodsReceivedCommand, Result<Dictionary<ItemGrnStatus, IEnumerable<GoodsReceivedDto>>>>
+        ICommandHandler<ImportFileGoodsReceivedCommand, Result<bool>>
     {
-        public async ValueTask<Result<Dictionary<ItemGrnStatus, IEnumerable<GoodsReceivedDto>>>> Handle(
+        public async ValueTask<Result<bool>> Handle(
             ImportFileGoodsReceivedCommand command,
             CancellationToken cancellationToken)
         {
@@ -26,7 +26,7 @@ namespace WMS.Application.Features.GoodsReceived.Commands.ImportFileGoodsReceive
                 return Errors.InvalidFileFormat(command.Format);
             }
 
-            IEnumerable<ProductReceived> importedItems = await adapter.ParseAsync(command.FileStream);
+            IReadOnlyCollection<ProductReceived> importedItems = await adapter.ParseAsync(command.FileStream);
 
             (bool, string) validData = await ValidDataAsync(importedItems, cancellationToken);
             if (!validData.Item1)
