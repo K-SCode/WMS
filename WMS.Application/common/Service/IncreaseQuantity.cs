@@ -70,7 +70,6 @@ namespace WMS.Application.common.Service
             var rowStatus = remaining == 0
                 ? StockIncreaseStatus.Accepted
                 : StockIncreaseStatus.PartiallyAccepted;
-
             var results = distribution.Select(
                 d => new ResolveStatus(d.Stock.LocationId, rowStatus, d.Assigned)).ToList();
 
@@ -90,8 +89,10 @@ namespace WMS.Application.common.Service
                 if (quantity == 0)
                     break;
 
-                var freeSpace = Math.Max(0, stock.MaxQuantity - stock.Quantity);
-                var toAdd = Math.Min(quantity, freeSpace);
+                decimal freeSpace = Math.Max(0, stock.MaxQuantity - stock.Quantity);
+                if (freeSpace == 0)
+                    continue;
+                decimal toAdd = Math.Min(quantity, freeSpace);
                 stock.Quantity += toAdd;
                 quantity -= toAdd;
 

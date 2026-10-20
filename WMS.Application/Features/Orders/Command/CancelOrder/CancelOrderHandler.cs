@@ -32,7 +32,7 @@ namespace WMS.Application.Features.Orders.Command.CancelOrder
 
             var xd = await increaseQuantity.IncreaseAsync(items, i => i.Product.Barcode, i => i.Quantity, cancellationToken);
 
-            await createWarehouseTask.CreateTaskForExistDocumentAsync(xd, WarehouseSource.OrderCancellation, order.Id, cancellationToken);
+            await createWarehouseTask.CreateTaskAsync(xd, WarehouseSource.OrderCancellation, order.Id, cancellationToken);
 
             await unitOfWorks.SaveChangesAsync(cancellationToken);
             return true;

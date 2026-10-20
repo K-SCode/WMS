@@ -5,13 +5,7 @@ namespace WMS.Application.Interfaces
 {
     public interface ICreateWarehouseTask
     {
-        Task CreateTaskForNotExistDocumentAsync<T>(
-            IReadOnlyCollection<StockIncreaseResult> items,
-            WarehouseSource source,
-            Func<T, int> linkId,
-            T document,
-            CancellationToken ct);
-        Task CreateTaskForExistDocumentAsync(
+        Task CreateTaskAsync(
             IReadOnlyCollection<StockIncreaseResult> items,
             WarehouseSource source,
             int documentId,

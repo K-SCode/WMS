@@ -37,7 +37,10 @@ namespace WMS.Application.Features.GoodsReceived.Services
             goodsReceipt.GRNNumber = grnNumber;
             await unitOfWorks.GoodsReceipt.AddAsync(goodsReceipt, ct);
 
-            IEnumerable<GoodsReceiptsItems> items = products.Adapt<IEnumerable<GoodsReceiptsItems>>();
+            var items = products.Adapt<List<GoodsReceiptsItems>>();
+            foreach (GoodsReceiptsItems item in items)
+                item.GoodsReceipt = goodsReceipt;
+
             await unitOfWorks.GoodsReceiptsItems.AddRangeAsync(items, ct);
 
             return goodsReceipt;

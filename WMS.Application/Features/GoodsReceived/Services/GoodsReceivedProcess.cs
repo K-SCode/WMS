@@ -14,7 +14,11 @@ namespace WMS.Application.Features.GoodsReceived.Services
             GoodsReceivedNote goodsReceived,
             CancellationToken ct)
         {
+            await using var transaction = await unitOfWorks.BeginTransactionAsync(ct);
+            
             GoodsReceipt grn = await saveGoodsReceipt.SaveInDatabaseAsync(goodsReceived.Products, goodsReceived.Information, ct);
+
+            await unitOfWorks.SaveChangesAsync(ct);
 
             var increaseResult =
                 await increaseQuantity.IncreaseAsync(
@@ -23,10 +27,11 @@ namespace WMS.Application.Features.GoodsReceived.Services
                     p => p.Quantity,
                     ct);
 
-            await createWarehouseTask.CreateTaskForNotExistDocumentAsync(increaseResult, WarehouseSource.GoodsReceiptOverflow,  d => d.Id, grn,ct);
+            await createWarehouseTask.CreateTaskAsync(increaseResult, WarehouseSource.GoodsReceiptOverflow,  grn.Id,ct);
 
             await unitOfWorks.SaveChangesAsync(ct);
 
+            await transaction.CommitAsync(ct);
             return true;
         }
 
