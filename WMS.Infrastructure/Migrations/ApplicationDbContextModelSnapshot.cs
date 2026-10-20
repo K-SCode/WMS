@@ -64,7 +64,7 @@ namespace WMS.Infrastructure.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Customer", (string)null);
+                    b.ToTable("Customer");
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.GoodsReceipt", b =>
@@ -116,7 +116,7 @@ namespace WMS.Infrastructure.Migrations
 
                     b.HasIndex("SupplierNip");
 
-                    b.ToTable("GoodsReceipt", (string)null);
+                    b.ToTable("GoodsReceipt");
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.GoodsReceiptsItems", b =>
@@ -144,10 +144,6 @@ namespace WMS.Infrastructure.Migrations
                         .HasPrecision(18, 3)
                         .HasColumnType("decimal(18,3)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UnitQuantity")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -158,7 +154,7 @@ namespace WMS.Infrastructure.Migrations
 
                     b.HasIndex("GoodsReceiptID");
 
-                    b.ToTable("GoodsReceiptsItems", (string)null);
+                    b.ToTable("GoodsReceiptsItems");
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.Location", b =>
@@ -190,7 +186,7 @@ namespace WMS.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("Location_Coordinates");
 
-                    b.ToTable("Locations", (string)null);
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.Order", b =>
@@ -242,7 +238,7 @@ namespace WMS.Infrastructure.Migrations
 
                     b.HasIndex("CustomerId", "CreatedAt");
 
-                    b.ToTable("Order", (string)null);
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.OrderItem", b =>
@@ -278,7 +274,7 @@ namespace WMS.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItem", (string)null);
+                    b.ToTable("OrderItem");
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.Product", b =>
@@ -315,7 +311,7 @@ namespace WMS.Infrastructure.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.Stock", b =>
@@ -351,7 +347,7 @@ namespace WMS.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("Stock_Organization");
 
-                    b.ToTable("Stocks", (string)null);
+                    b.ToTable("Stocks");
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.Supplier", b =>
@@ -377,7 +373,69 @@ namespace WMS.Infrastructure.Migrations
 
                     b.HasKey("Nip");
 
-                    b.ToTable("Supplier", (string)null);
+                    b.ToTable("Supplier");
+                });
+
+            modelBuilder.Entity("WMS.Core.Entities.WarehouseTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Barcode")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .IsUnicode(false)
+                        .HasColumnType("char(13)")
+                        .IsFixedLength();
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int?>("GoodsReceiptId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Quantity")
+                        .HasPrecision(18, 3)
+                        .HasColumnType("decimal(18,3)");
+
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<string>("StockStatus")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GoodsReceiptId");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("StockStatus", "CreatedAt");
+
+                    b.ToTable("WarehouseTask");
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.GoodsReceipt", b =>
@@ -449,6 +507,30 @@ namespace WMS.Infrastructure.Migrations
                     b.Navigation("Localization");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("WMS.Core.Entities.WarehouseTask", b =>
+                {
+                    b.HasOne("WMS.Core.Entities.GoodsReceipt", "GoodsReceipt")
+                        .WithMany()
+                        .HasForeignKey("GoodsReceiptId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("WMS.Core.Entities.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("WMS.Core.Entities.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("GoodsReceipt");
+
+                    b.Navigation("Location");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("WMS.Core.Entities.Customer", b =>
