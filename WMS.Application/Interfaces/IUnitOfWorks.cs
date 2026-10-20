@@ -1,4 +1,6 @@
-﻿namespace WMS.Application.Interfaces
+﻿using Microsoft.EntityFrameworkCore.Storage;
+
+namespace WMS.Application.Interfaces
 {
     public interface IUnitOfWorks
     {
@@ -13,5 +15,6 @@
         IOrderItemsRepository OrderItems { get; }
         IWarehouseRepository Warehouse { get; }
         Task SaveChangesAsync(CancellationToken cancellationToken);
+        Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken);
     }
 }

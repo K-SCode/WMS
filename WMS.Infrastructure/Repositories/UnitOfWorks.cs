@@ -1,4 +1,5 @@
-﻿using WMS.Application.Interfaces;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using WMS.Application.Interfaces;
 using WMS.Infrastructure.Data;
 
 namespace WMS.Infrastructure.Repositories
@@ -36,6 +37,8 @@ namespace WMS.Infrastructure.Repositories
         public IWarehouseRepository Warehouse =>
             _warehouse ??= new WarehouseRepository(context);
 
+        public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken) =>
+            context.Database.BeginTransactionAsync(cancellationToken);
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken) =>
             await context.SaveChangesAsync(cancellationToken);
