@@ -18,13 +18,13 @@ namespace WMS.Core.Entities
             Source = source;
 
             if (source == WarehouseSource.GoodsReceiptOverflow)
-                GoodsReceipId = documentId;
+                GoodsReceiptId = documentId;
             else
                 OrderId = documentId;
 
             StockStatus = stockStatus;
             Status = stockStatus != StockIncreaseStatus.Accepted 
-                ? WarehouseStatus.InAnalyssis 
+                ? WarehouseStatus.InAnalysis 
                 : WarehouseStatus.Pending;
 
             CreatedAt = DateTime.UtcNow;
@@ -35,7 +35,7 @@ namespace WMS.Core.Entities
         public string Barcode { get; set; } = null!;
         public decimal Quantity { get; set; }
 
-        public int? GoodsReceipId { get; set; }
+        public int? GoodsReceiptId { get; set; }
         public GoodsReceipt? GoodsReceipt { get; set; }
         public int? OrderId { get; set; }
         public Order? Order { get; set; }
@@ -48,7 +48,7 @@ namespace WMS.Core.Entities
         public DateTimeOffset? UpdatedAt { get; set; }
 
         public int? LocationId { get; set; }
-        public Location Location { get; set; } = null!;
+        public Location? Location { get; set; }
         public StockIncreaseStatus StockStatus { get; set; }
 
     }
@@ -61,7 +61,7 @@ namespace WMS.Core.Entities
     public enum WarehouseStatus
     {
         Pending,
-        InAnalyssis,
+        InAnalysis,
         Completed
     }
 }
