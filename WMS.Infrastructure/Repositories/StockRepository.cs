@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using WMS.Application.Interfaces;
 using WMS.Core.Entities;
 using WMS.Infrastructure.Data;
@@ -12,19 +13,42 @@ namespace WMS.Infrastructure.Repositories
             return await _dbSet.AnyAsync(stock => stock.ProductId == productId && stock.LocationId == locationId, ct);
         }
 
-        public async Task<Dictionary<string, IEnumerable<Stock>>> GetNotFullStocksByProductBarcodesAsync(IEnumerable<string> barcodes, CancellationToken ct)
+        public async Task<Dictionary<string, IReadOnlyCollection<Stock>>> GetNotFullStocksByProductBarcodesAsync(
+            IReadOnlyCollection<string> barcodes,
+            CancellationToken ct)
         {
-          
-            var freeStocks = await _dbSet.Include(stock => stock.Product)
-                .Where(stock => barcodes.Contains(stock.Product.Barcode) && !stock.Localization.IsFull)
+
+            return await GetStocksGrouppedAsync(barcodes, stock => !stock.Localization.IsFull, ct);
+        }
+
+        public async Task<IDictionary<string, IReadOnlyCollection<Stock>>> GetStocksWithProductByBarcodeAsync(
+            IReadOnlyCollection<string> barcodes,
+            CancellationToken ct)
+        {
+            return await GetStocksGrouppedAsync(barcodes,
+                stock => stock.Quantity > 0,
+                ct);
+        }
+
+        private async Task<IDictionary<string, IReadOnlyCollection<Stock>>> GetStocksGrouppedAsync(
+            IReadOnlyCollection<string> barcodes,
+            Expression<Func<Stock,bool>> predicate,
+            CancellationToken ct)
+        {
+            var distinctBarcodes = barcodes.Distinct().ToList();
+            var stocks = await _dbSet
+                .Include(stock => stock.Product)
+                .Where(stock =>
+                    distinctBarcodes.Contains(stock.Product.Barcode))
+                .Where(predicate)
             .ToListAsync(ct);
 
-            var stocks = freeStocks.GroupBy(stock => stock.Product.Barcode)
-                .ToDictionary(group => group.Key, group => group.AsEnumerable());
+            var grouped = stocks.GroupBy(stock => stock.Product.Barcode)
+                .ToDictionary(group => group.Key, group => (IReadOnlyCollection<Stock>)group.ToList());
 
-            return barcodes.ToDictionary(
+            return distinctBarcodes.ToDictionary(
                 barcode => barcode,
-                barcode => stocks.TryGetValue(barcode, out var list) ? list : Enumerable.Empty<Stock>());
+                barcode => grouped.TryGetValue(barcode, out var list) ? list : Array.Empty<Stock>());
         }
     }
 }
