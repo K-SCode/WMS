@@ -6,20 +6,20 @@ namespace WMS.Application.common.Service
     public class CreateWarehouseTask(IUnitOfWorks unitOfWorks) : ICreateWarehouseTask
     {
         public async Task CreateTaskAsync(
-            IReadOnlyCollection<StockIncreaseResult> items,
+            IReadOnlyCollection<StockResult> items,
             WarehouseSource source,
             int documentId,
             CancellationToken ct)
         {
             List<WarehouseTask> task = new(items.Count);
 
-            foreach (StockIncreaseResult item in items)
+            foreach (StockResult item in items)
             {
                 foreach (var stock in item.ResolveStatuses)
                 {
                     task.Add(new(
                         item.Barcode,
-                        stock.AssignedQuantity,
+                        stock.Quantity,
                         documentId,
                         source,
                         stock.Status,

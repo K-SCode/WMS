@@ -23,6 +23,8 @@ namespace WMS.Application
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddScoped<IIncreaseQuantity, IncreaseQunatity>();
+            services.AddScoped<IDecreaseQuantity, DecreaseQuantity>();
+
             services.AddScoped<ISaveGoodsReceipt, SaveGoodsReceipt>();
             services.AddScoped<IGoodsReceivedProcess, GoodsReceivedProcess>();
 

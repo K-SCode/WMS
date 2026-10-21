@@ -13,7 +13,7 @@ namespace WMS.Infrastructure.Repositories
             return await _dbSet.AnyAsync(stock => stock.ProductId == productId && stock.LocationId == locationId, ct);
         }
 
-        public async Task<Dictionary<string, IReadOnlyCollection<Stock>>> GetNotFullStocksByProductBarcodesAsync(
+        public async Task<IDictionary<string, IReadOnlyCollection<Stock>>> GetNotFullStocksByProductBarcodesAsync(
             IReadOnlyCollection<string> barcodes,
             CancellationToken ct)
         {

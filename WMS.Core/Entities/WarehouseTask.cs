@@ -56,7 +56,8 @@ namespace WMS.Core.Entities
     {
         GoodsReceiptOverflow,
         OrderCancellation,
-        CustomerReturn
+        CustomerReturn,
+        NewOrder
     }
     public enum WarehouseStatus
     {

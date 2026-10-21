@@ -25,6 +25,9 @@ namespace WMS.Application.Features.Orders.Command.CreateOrder
                 command.Information,
                 cancellationToken);
 
+            if (id <= 0)
+                return Errors<OrderItem>.NotFound;
+
             return id;
         }
         private static bool VerifyNip(string? nip) =>

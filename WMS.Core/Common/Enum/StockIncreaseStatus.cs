@@ -6,6 +6,7 @@
         OutOfSapce,
         ProductNotFound,
         Returned,
-        PartiallyAccepted
+        PartiallyAccepted,
+        StocksEmpty
     }
 }

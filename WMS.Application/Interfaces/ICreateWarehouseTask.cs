@@ -6,7 +6,7 @@ namespace WMS.Application.Interfaces
     public interface ICreateWarehouseTask
     {
         Task CreateTaskAsync(
-            IReadOnlyCollection<StockIncreaseResult> items,
+            IReadOnlyCollection<StockResult> items,
             WarehouseSource source,
             int documentId,
             CancellationToken ct);

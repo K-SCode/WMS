@@ -6,7 +6,7 @@ namespace WMS.Application.common.Service
 {
     public class IncreaseQunatity(IUnitOfWorks unitOfWorks) : IIncreaseQuantity
     {
-        public async Task<IReadOnlyList<StockIncreaseResult>> IncreaseAsync<TItem>(
+        public async Task<IReadOnlyList<StockResult>> IncreaseAsync<TItem>(
             IReadOnlyCollection<TItem> items,
             Func<TItem, string> barcodeSelector,
             Func<TItem, decimal> quantitySelector,
@@ -18,10 +18,10 @@ namespace WMS.Application.common.Service
             IDictionary<string, bool> exists =
                 await GetExistsProductsAsync(barcodes, ct);
 
-            IDictionary<string, IEnumerable<Stock>> notFullStocks =
+            IDictionary<string, IReadOnlyCollection<Stock>> notFullStocks =
                 await GetNotFullStocksAsync(barcodes, ct);
 
-            var results = new List<StockIncreaseResult>(items.Count);
+            var results = new List<StockResult>(items.Count);
 
 
             foreach (var item in items)
@@ -45,7 +45,7 @@ namespace WMS.Application.common.Service
             string barcode,
             decimal quantity,
             IDictionary<string, bool> existing,
-            IDictionary<string, IEnumerable<Stock>> notFullStocks
+            IDictionary<string, IReadOnlyCollection<Stock>> notFullStocks
             )
         {
             existing.TryGetValue(barcode, out bool exists);
@@ -78,8 +78,6 @@ namespace WMS.Application.common.Service
 
            return results;
         }
-        public sealed record ResolveStatus(int? LocationId, StockIncreaseStatus Status, decimal AssignedQuantity);
-
         private static List<(Stock Stock, decimal Assigned)> DistributeQuantity(IEnumerable<Stock> stocks, decimal quantity)
         {
             var assigned = new List<(Stock, decimal)>();
@@ -102,12 +100,12 @@ namespace WMS.Application.common.Service
         }
 
         private async Task<IDictionary<string, bool>> GetExistsProductsAsync(
-            IEnumerable<string> barcodes, CancellationToken ct)
+            IReadOnlyCollection<string> barcodes, CancellationToken ct)
         {
             return await unitOfWorks.Product.ExistsByBarcodes(barcodes, ct);
         }
-        private async Task<IDictionary<string, IEnumerable<Stock>>> GetNotFullStocksAsync(
-            IEnumerable<string> barcodes, CancellationToken ct)
+        private async Task<IDictionary<string, IReadOnlyCollection<Stock>>> GetNotFullStocksAsync(
+            IReadOnlyCollection<string> barcodes, CancellationToken ct)
         {
             return await unitOfWorks.Stock.GetNotFullStocksByProductBarcodesAsync(
                 barcodes, ct);

@@ -5,7 +5,7 @@ namespace WMS.Application.Interfaces
 {
     public interface IIncreaseQuantity
     {
-        Task<IReadOnlyList<StockIncreaseResult>> IncreaseAsync<TItem>(
+        Task<IReadOnlyList<StockResult>> IncreaseAsync<TItem>(
             IReadOnlyCollection<TItem> items,
             Func<TItem, string> barcodeSelector,
             Func<TItem, decimal> quantitySelector,
