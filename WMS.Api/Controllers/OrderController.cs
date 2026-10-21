@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WMS.Application.Features.Orders.Command.CreateOrder;
 using WMS.Api.Extensions;
 using WMS.Application.Features.Orders.Command.CancelOrder;
+using WMS.Application.Features.Orders.Command.ShippedOrder;
 namespace WMS.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -20,6 +21,14 @@ namespace WMS.Api.Controllers
         {
             var isCancel = await sender.Send(command, cancellationToken);
             return isCancel.ToOkOrProblem();
+        }
+
+        [HttpPut("[action]")]
+        public async Task<IActionResult> Shipped(ShippedOrderCommand command, CancellationToken cancellationToken)
+        {
+            var changeToShipped = await sender.Send(command, cancellationToken);
+
+            return changeToShipped.ToOkOrProblem();
         }
     }
 }
