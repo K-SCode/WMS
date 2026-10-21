@@ -14,7 +14,10 @@ namespace WMS.Infrastructure.Repositories
         
         public async Task<IReadOnlyCollection<OrderItem>> GetAllByOrderIdAsync(int OrderId, CancellationToken ct)
         {
-            return await context.Set<OrderItem>().Where(o => o.OrderId == OrderId).ToListAsync(ct);
+            return await context.Set<OrderItem>()
+                .Include(i => i.Product)
+                .Where(o => o.OrderId == OrderId)
+                .ToListAsync(ct);
         }
     }
 }
