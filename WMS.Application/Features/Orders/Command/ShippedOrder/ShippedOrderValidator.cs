@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FluentValidation;
 
 namespace WMS.Application.Features.Orders.Command.ShippedOrder
 {
-    internal class ShippedOrderValidator
+    public class ShippedOrderValidator : AbstractValidator<ShippedOrderCommand>
     {
+        public ShippedOrderValidator() 
+        {
+            RuleFor(p => p.Id)
+                .GreaterThan(0);
+        }
     }
 }
