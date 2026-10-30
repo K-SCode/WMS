@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+using FluentValidation;
 
 namespace WMS.Application.Features.Orders.Command.ReturnOrder
 {
-    internal class ReturnOrderValidator
+    public class ReturnOrderValidator : AbstractValidator<ReturnOrderCommand>
     {
+        public ReturnOrderValidator() {
+            RuleFor(command => command.Id)
+                .GreaterThan(0);
+        }
     }
 }
