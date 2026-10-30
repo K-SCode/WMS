@@ -1,10 +1,12 @@
 ﻿using Mediator;
 using Microsoft.AspNetCore.Mvc;
-using WMS.Application.Features.Orders.Command.CreateOrder;
 using WMS.Api.Extensions;
 using WMS.Application.Features.Orders.Command.CancelOrder;
-using WMS.Application.Features.Orders.Command.ShippedOrder;
+using WMS.Application.Features.Orders.Command.CreateOrder;
 using WMS.Application.Features.Orders.Command.ReturnOrder;
+using WMS.Application.Features.Orders.Command.ShippedOrder;
+using WMS.Application.Features.Orders.Query.List;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace WMS.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -36,6 +38,13 @@ namespace WMS.Api.Controllers
         {
             var changeToReturned = await sender.Send(command, cancellationToken);
             return changeToReturned.ToOkOrProblem();
+        }
+
+        [HttpGet()]
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        {
+            var orders = await sender.Send(new ListOrderQuery(), cancellationToken);
+            return orders.ToOkOrProblem();
         }
     }
 }
