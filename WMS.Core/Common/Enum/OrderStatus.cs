@@ -4,6 +4,7 @@
     {
         New = 0,
         Shipped = 1,
-        Cancelled = 2
+        Cancelled = 2,
+        Returned = 3
     }
 }
