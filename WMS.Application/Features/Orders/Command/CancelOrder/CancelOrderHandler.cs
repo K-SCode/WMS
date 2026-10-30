@@ -1,4 +1,5 @@
 ﻿using Mediator;
+using WMS.Application.Features.Orders.Command.Service;
 using WMS.Application.Interfaces;
 using WMS.Core.Common;
 using WMS.Core.Common.Enum;
@@ -8,8 +9,7 @@ namespace WMS.Application.Features.Orders.Command.CancelOrder
 {
     public class CancelOrderHandler(
         IUnitOfWorks unitOfWorks,
-        IIncreaseQuantity increaseQuantity,
-        ICreateWarehouseTask createWarehouseTask
+        IOrderRestocking orderRestocking
         )
         : ICommandHandler<CancelOrderCommand, Result<bool>>
     {
@@ -21,25 +21,20 @@ namespace WMS.Application.Features.Orders.Command.CancelOrder
             {
                 return Errors<Order>.ObjectNotExists(orderId);
             }
+
             if(order.Status == OrderStatus.Cancelled)
             {
                 return true;
             }
-            order.UpdatedAt = DateTime.UtcNow;
-            order.Status = OrderStatus.Cancelled;
 
-            IReadOnlyCollection<OrderItem> items = await unitOfWorks.OrderItems.GetAllByOrderIdAsync(orderId, cancellationToken);
+            ChangeOrderStatus.ChangeStatus(order, OrderStatus.Cancelled);
 
-            var xd = await increaseQuantity.IncreaseAsync(items, i => i.Product.Barcode, i => i.Quantity, cancellationToken);
-
-            await createWarehouseTask.CreateTaskAsync(xd, WarehouseSource.OrderCancellation, order.Id, cancellationToken);
+            await orderRestocking.Restock(order,WarehouseSource.OrderCancellation, cancellationToken);
 
             await unitOfWorks.SaveChangesAsync(cancellationToken);
             return true;
 
         }
     }
-
-    
 
 }
