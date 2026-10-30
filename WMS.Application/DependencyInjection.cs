@@ -34,6 +34,7 @@ namespace WMS.Application
             services.AddScoped<IOrderRegistration, OrderRegistration>();
 
             services.AddScoped<ICreateWarehouseTask, CreateWarehouseTask>();
+            services.AddScoped<IOrderRestocking, OrderRestocking>();
             return services;
         }
     }
