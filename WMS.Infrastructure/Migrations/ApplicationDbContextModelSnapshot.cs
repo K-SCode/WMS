@@ -111,10 +111,7 @@ namespace WMS.Infrastructure.Migrations
                     b.HasIndex("GRNNumber")
                         .IsUnique();
 
-                    b.HasIndex("InvoiceNumber")
-                        .IsUnique();
-
-                    b.HasIndex("SupplierNip");
+                    b.HasIndex("SupplierNip", "InvoiceNumber");
 
                     b.ToTable("GoodsReceipt");
                 });
@@ -146,7 +143,8 @@ namespace WMS.Infrastructure.Migrations
 
                     b.Property<string>("UnitQuantity")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.HasKey("Id");
 
@@ -427,11 +425,15 @@ namespace WMS.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Barcode");
+
                     b.HasIndex("GoodsReceiptId");
 
                     b.HasIndex("LocationId");
 
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("Status", "Source");
 
                     b.HasIndex("StockStatus", "CreatedAt");
 
@@ -443,7 +445,7 @@ namespace WMS.Infrastructure.Migrations
                     b.HasOne("WMS.Core.Entities.Supplier", "Supplier")
                         .WithMany()
                         .HasForeignKey("SupplierNip")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Supplier");
