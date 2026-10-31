@@ -84,17 +84,17 @@ namespace WMS.Application.Features.Orders.Query.Get
         private sealed class OrderHeaderRow
         {
             public int Id { get; set; }
-            public string Status {get;set;}
-            public string PaymentMethod {get;set;}
-            public string Currency {get;set;}
-            public string ShippingAddress {get;set;}
+            public string Status { get; set; } = null!;
+            public string PaymentMethod { get; set; } = null!;
+            public string Currency { get; set; } = null!;
+            public string ShippingAddress { get; set; } = null!;
             public string? InvoiceNumber {get;set;}
             public DateTimeOffset CreatedAt {get;set;}
             public DateTimeOffset? UpdatedAt {get;set;}
-            public string FirstName {get;set;}
-            public string LastName {get;set;}
-            public string Phone {get;set;}
-            public string Email {get;set;}
+            public string FirstName { get; set; } = null!;
+            public string LastName { get; set; } = null!;
+            public string Phone { get; set; } = null!;
+            public string Email { get; set; } = null!;
             public string? Nip {get;set;}
             public string? CompanyName {get;set;}
             }

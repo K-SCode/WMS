@@ -4,6 +4,7 @@ using WMS.Api.Extensions;
 using WMS.Application.Features.GoodsReceived.Commands.GoodsReceived;
 using WMS.Application.Features.GoodsReceived.Commands.ImportFileGoodsReceived;
 using WMS.Application.Features.GoodsReceived.Dto;
+using WMS.Application.Features.GoodsReceived.Query.List;
 
 namespace WMS.Api.Controllers
 {
@@ -29,6 +30,12 @@ namespace WMS.Api.Controllers
             var result = await sender.Send(command, cancellationToken);
 
             return result.ToOkOrProblem();
+        }
+        [HttpGet()]
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        {
+            var goodsReceiveds = await sender.Send(new ListGoodsReceivedQuery(), cancellationToken);
+            return goodsReceiveds.ToOkOrProblem(); 
         }
     }
 }

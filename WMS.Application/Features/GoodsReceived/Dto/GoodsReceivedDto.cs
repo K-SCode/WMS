@@ -1,6 +1,11 @@
-﻿using WMS.Core.Common.Enum;
-
-namespace WMS.Application.Features.GoodsReceived.Dto
+﻿namespace WMS.Application.Features.GoodsReceived.Dto
 {
-    public sealed record GoodsReceivedDto(string Barcode, decimal Quantity);
+    public sealed record GoodsReceivedDto(
+        int Id,
+        string InvoiceNumber,
+        string GRNNumber,
+        DateTime DateOfIssue,
+        string SupplierNip,
+        string Status
+        );
 }
