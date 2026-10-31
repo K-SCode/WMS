@@ -40,6 +40,11 @@ namespace WMS.Infrastructure.Data.Configurations
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasIndex(w => new { w.StockStatus, w.CreatedAt});
+            builder.HasIndex(w => w.GoodsReceiptId);
+            builder.HasIndex(w => w.OrderId);
+            builder.HasIndex(w => w.LocationId);
+            builder.HasIndex(w => w.Barcode);
+            builder.HasIndex(w => new { w.Status, w.Source });
         }
     }
 }

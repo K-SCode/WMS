@@ -14,6 +14,7 @@ namespace WMS.Infrastructure.Data.Configurations
                 .HasPrecision(18, 3);
 
             builder.Property(p => p.UnitQuantity)
+                .IsRequired()
                 .HasMaxLength(10);
 
             builder.Property(p => p.Price)

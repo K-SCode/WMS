@@ -1,4 +1,5 @@
 ﻿using WMS.Application.Interfaces;
+using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Orders.Command.Service

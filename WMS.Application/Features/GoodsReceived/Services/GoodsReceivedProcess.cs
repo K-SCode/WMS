@@ -1,5 +1,6 @@
 ﻿using WMS.Application.Features.GoodsReceived.Dto;
 using WMS.Application.Interfaces;
+using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
 
 namespace WMS.Application.Features.GoodsReceived.Services

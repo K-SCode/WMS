@@ -1,5 +1,5 @@
 ﻿using WMS.Application.common.Service;
-using WMS.Core.Entities;
+using WMS.Core.Common.Enum;
 
 namespace WMS.Application.Interfaces
 {

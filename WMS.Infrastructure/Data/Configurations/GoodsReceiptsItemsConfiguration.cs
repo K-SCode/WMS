@@ -22,7 +22,8 @@ namespace WMS.Infrastructure.Data.Configurations
             builder.HasIndex(entity => entity.Barcode);
 
             builder.Property(entity => entity.UnitQuantity)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(10);
 
             builder.Property(entity => entity.Quantity)
                 .HasPrecision(18, 3);

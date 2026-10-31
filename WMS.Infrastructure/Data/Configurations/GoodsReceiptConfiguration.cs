@@ -9,10 +9,10 @@ namespace WMS.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<GoodsReceipt> builder)
         {
             builder.HasKey(entity => entity.Id);
-            builder.HasIndex(entity => entity.InvoiceNumber)
-                .IsUnique();
+            
             builder.HasIndex(entity => entity.GRNNumber)
                 .IsUnique();
+            builder.HasIndex(entity => new { entity.SupplierNip, entity.InvoiceNumber });
             builder.Property(entity => entity.GRNNumber)
                 .HasMaxLength(17)
                 .IsFixedLength();
@@ -29,6 +29,16 @@ namespace WMS.Infrastructure.Data.Configurations
                 .HasConversion<string>();
             builder.Property(entity => entity.Comment)
                 .HasMaxLength(400);
+
+            builder.HasOne(entity => entity.Supplier)
+                .WithMany()
+                .HasForeignKey(entity => entity.SupplierNip)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(entity => entity.Item)
+                .WithOne(entity => entity.GoodsReceipt)
+                .HasForeignKey(entity => entity.GoodsReceiptID)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

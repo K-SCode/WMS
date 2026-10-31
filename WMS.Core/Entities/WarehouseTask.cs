@@ -52,17 +52,4 @@ namespace WMS.Core.Entities
         public StockIncreaseStatus StockStatus { get; set; }
 
     }
-    public enum WarehouseSource
-    {
-        GoodsReceiptOverflow,
-        OrderCancellation,
-        CustomerReturn,
-        NewOrder
-    }
-    public enum WarehouseStatus
-    {
-        Pending,
-        InAnalysis,
-        Completed
-    }
 }
