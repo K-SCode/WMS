@@ -5,6 +5,7 @@ using WMS.Application.Features.Orders.Command.CancelOrder;
 using WMS.Application.Features.Orders.Command.CreateOrder;
 using WMS.Application.Features.Orders.Command.ReturnOrder;
 using WMS.Application.Features.Orders.Command.ShippedOrder;
+using WMS.Application.Features.Orders.Query.Get;
 using WMS.Application.Features.Orders.Query.List;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace WMS.Api.Controllers
@@ -45,6 +46,12 @@ namespace WMS.Api.Controllers
         {
             var orders = await sender.Send(new ListOrderQuery(), cancellationToken);
             return orders.ToOkOrProblem();
+        }
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> Get([FromRoute] GetOrderQuery query, CancellationToken cancellationToken)
+        {
+            var order = await sender.Send(query, cancellationToken);
+            return order.ToOkOrProblem();
         }
     }
 }
