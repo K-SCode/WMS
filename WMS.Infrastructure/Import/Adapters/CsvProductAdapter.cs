@@ -1,5 +1,4 @@
 ﻿using CsvHelper;
-using CsvHelper.Configuration;
 using System.Globalization;
 using WMS.Application.Features.GoodsReceived.Commands;
 using WMS.Application.Interfaces;
@@ -12,12 +11,9 @@ namespace WMS.Infrastructure.Import.Adapters
 
         public Task<IReadOnlyCollection<ProductReceived>> ParseAsync(Stream input)
         {
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-            {
-                Delimiter = ";"
-            };
+            var options = new CsvReaderOptions { Separator = ';' };
             using var reader = new StreamReader(input);
-            using var csv = new CsvReader(reader, config);
+            using var csv = CsvReader.Create(reader, options);
 
          
             List<ProductReceived> products = csv.GetRecords<ProductReceived>().ToList();

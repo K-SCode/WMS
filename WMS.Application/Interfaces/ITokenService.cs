@@ -4,6 +4,6 @@ namespace WMS.Application.Interfaces
 {
     public interface ITokenService
     {
-        Task<AuthToken> CreateTokenAsync(int userId, CancellationToken ct);
+        Task<AuthToken> CreateTokenAsync(int userId);
     }
 }

@@ -21,7 +21,6 @@ namespace WMS.Infrastructure.Auth
             var expiresAt = DateTime.UtcNow.AddMinutes(_settings.ExpiryMinutes);
             var user = await userManager.FindByIdAsync(userId.ToString())
                 ?? throw new InvalidDataException($"Id:{userId} user not founded");
-           
 
             var roles = await userManager.GetRolesAsync(user);
 

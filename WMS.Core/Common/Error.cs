@@ -15,11 +15,17 @@
             new("Validation invalid", ErrorType.Failure, $"Product has invalid data. {message}");
         public static Error InvalidProperty(string propertyName) =>
             new("Invalid format", ErrorType.Validation, $"{typeof(T).Name} - {propertyName} has invalid format");
+        public static Error ObjectWithIdExists(object id) =>
+            new("Object exists", ErrorType.Conflict, $"{typeof(T).Name} with id: {id} already exists.");
+        public static Error OperationFailed =>
+            new("Operation Failed", ErrorType.Failure, $"Operation on {typeof(T).Name} failed");
     }
     public static class Errors
     {
         public static Error InvalidFileFormat(string extension) =>
             new("Invalid format", ErrorType.Failure, $"Extension: '{extension}' is not supported");
+        public static Error Unauthorized =>
+            new("Invalid data", ErrorType.AccessUnAuthorized, $"Invalid authorize data");
 
     }
 }
