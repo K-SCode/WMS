@@ -15,26 +15,26 @@ namespace WMS.Api.Controllers
     public class AuthController(
         ISender sender) : ControllerBase
     {
-        [HttpPost]
+        [HttpPost("[action]")]
         [Authorize(Roles = Roles.Manager)]
-        public async Task<IActionResult> Register(RegisterCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> Register([FromBody] RegisterCommand command, CancellationToken cancellationToken)
         {
             var result = await sender.Send(command, cancellationToken);
 
             return result.ToOkOrProblem();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginRequest request, CancellationToken cancellationToken)
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
         {
             var result = await sender.Send(new LoginCommand(request.Email, request.Password), cancellationToken);
 
             return result.ToOkOrProblem();
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         [Authorize(Roles = Roles.Manager)]
-        public async Task<IActionResult> AssignRole(AssignRoleCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> AssignRole([FromBody] AssignRoleCommand command, CancellationToken cancellationToken)
         {
             var result = await sender.Send(command, cancellationToken);
 

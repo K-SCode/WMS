@@ -22,7 +22,10 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    await IdentitySeeder.SeedUserAsync(app.Services);
 }
+await IdentitySeeder.SeedRolesAsync(app.Services);
+
 
 app.UseHttpsRedirection();
 

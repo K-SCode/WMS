@@ -39,6 +39,8 @@ namespace WMS.Infrastructure
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IIdentityService, IdentityService>();
 
+            services.Configure<JwtSettings>(configuration.GetSection(nameof(JwtSettings)));
+
             var jwtSettings = configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>()
                 ?? throw new InvalidOperationException($"{nameof(JwtSettings)} not exists");
 

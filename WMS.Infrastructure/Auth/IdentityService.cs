@@ -22,7 +22,28 @@ namespace WMS.Infrastructure.Auth
             {
                 return Errors.NotExists;
             }
+
+            var currentRole = await userManager.GetRolesAsync(user);
+            if(currentRole.Count == 1 && currentRole.Contains(role))
+            {
+                return true;
+            }
+
+            if(currentRole.Count > 0)
+            {
+                var removeResult = await userManager.RemoveFromRolesAsync(user, currentRole);
+                if(!removeResult.Succeeded)
+                {
+                    return Errors<ApplicationUser>.OperationFailed;
+                }
+            }
+            var addResult = await userManager.AddToRoleAsync(user, role);
+            if (!addResult.Succeeded)
+            {
+                return Errors<ApplicationUser>.OperationFailed;
+            }
             await userManager.AddToRoleAsync(user, role);
+            await userManager.UpdateSecurityStampAsync(user);
             return true;
         }
 
@@ -52,13 +73,14 @@ namespace WMS.Infrastructure.Auth
 
             var user = new ApplicationUser
             {
+                UserName = email,
                 FirstName = firstName,
                 LastName = lastName,
                 Email = email,
                 PhoneNumber = phone
             };
 
-            var result = await userManager.CreateAsync(user);
+            var result = await userManager.CreateAsync(user,password);
 
             if(!result.Succeeded)
             {
