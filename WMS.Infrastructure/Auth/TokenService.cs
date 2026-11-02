@@ -19,11 +19,9 @@ namespace WMS.Infrastructure.Auth
         public async Task<AuthToken> CreateTokenAsync(int userId)
         {
             var expiresAt = DateTime.UtcNow.AddMinutes(_settings.ExpiryMinutes);
-            var user = await userManager.FindByIdAsync(userId.ToString());
-            if(user is null)
-            {
-                throw new InvalidDataException();
-            }
+            var user = await userManager.FindByIdAsync(userId.ToString())
+                ?? throw new InvalidDataException($"Id:{userId} user not founded");
+           
 
             var roles = await userManager.GetRolesAsync(user);
 
