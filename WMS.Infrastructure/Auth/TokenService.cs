@@ -32,7 +32,7 @@ namespace WMS.Infrastructure.Auth
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            claims.AddRange(roles.Select(r => new Claim("Role", r)));
+            claims.AddRange(roles.Select(r => new Claim("role", r)));
 
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key));
             var credentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);

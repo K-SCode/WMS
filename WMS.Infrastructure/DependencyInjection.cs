@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,7 @@ using WMS.Core.Common;
 using WMS.Infrastructure.Auth;
 using WMS.Infrastructure.Data;
 using WMS.Infrastructure.Data.Connections;
+using WMS.Infrastructure.Data.Identity;
 using WMS.Infrastructure.Import;
 using WMS.Infrastructure.Import.Adapters;
 using WMS.Infrastructure.Repositories;
@@ -34,6 +36,8 @@ namespace WMS.Infrastructure
             services.AddScoped<IProductImportFileAdapter, CsvProductAdapter>();
             services.AddScoped<IProductImportFileAdapter, XmlProductAdapter>();
             services.AddScoped<IProductImportFileAdapterFactory, ProductImportFileFactory>();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IIdentityService, IdentityService>();
 
             var jwtSettings = configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>()
                 ?? throw new InvalidOperationException($"{nameof(JwtSettings)} not exists");
@@ -60,6 +64,18 @@ namespace WMS.Infrastructure
                     RoleClaimType = "role"
                 };
             });
+
+            services.AddIdentityCore<ApplicationUser>(o =>
+            {
+                o.Password.RequiredLength = 10;
+                o.Password.RequireNonAlphanumeric = false;
+                o.User.RequireUniqueEmail = true;
+                o.Lockout.MaxFailedAccessAttempts = 5;
+                o.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
+            })
+            .AddRoles<IdentityRole<int>>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddSignInManager();
 
             services.AddAuthorization(options =>
             {

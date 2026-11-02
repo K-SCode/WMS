@@ -8,7 +8,7 @@ namespace WMS.Infrastructure.Auth
 {
     public class IdentityService(
         UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole> roleManager,
+        RoleManager<IdentityRole<int>> roleManager,
         ITokenService tokenService) : IIdentityService
     {
         public async Task<Result<bool>> AssignRole(string email, string role)
