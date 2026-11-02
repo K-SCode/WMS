@@ -34,6 +34,9 @@ namespace WMS.Infrastructure
             services.AddScoped<IProductImportFileAdapter, XmlProductAdapter>();
             services.AddScoped<IProductImportFileAdapterFactory, ProductImportFileFactory>();
 
+            var jwtSettings = configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>()
+                ?? throw new InvalidOperationException($"{nameof(JwtSettings)} not exists");
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -48,7 +51,7 @@ namespace WMS.Infrastructure
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtSettigns.Issuer,
+                    ValidIssuer = jwtSettings.Issuer,
                     ValidAudience = jwtSettings.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key)),
                     ClockSkew = TimeSpan.Zero,
