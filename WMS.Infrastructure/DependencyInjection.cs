@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using WMS.Application.Interfaces;
+using WMS.Core.Common;
 using WMS.Infrastructure.Auth;
 using WMS.Infrastructure.Data;
 using WMS.Infrastructure.Data.Connections;
@@ -60,7 +61,11 @@ namespace WMS.Infrastructure
                 };
             });
 
-            services.AddAuthorization();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Policy.ManagerOrWarehouseman,
+                    policy => policy.RequireRole(Roles.Warehouseman, Roles.Manager));
+            });
 
             return services;
         }

@@ -16,7 +16,7 @@ namespace WMS.Infrastructure.Import.Adapters
             using var csv = CsvReader.Create(reader, options);
 
          
-            List<ProductReceived> products = csv.GetRecords<ProductReceived>().ToList();
+            List<ProductReceived> products = [.. csv.GetRecords<ProductReceived>()];
 
             return Task.FromResult<IReadOnlyCollection<ProductReceived>>(products);
         }

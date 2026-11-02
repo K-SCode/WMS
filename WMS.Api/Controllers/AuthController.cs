@@ -1,9 +1,11 @@
 ﻿using Mediator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using WMS.Api.Extensions;
 using WMS.Application.Features.Auth.command.Login;
 using WMS.Application.Features.Auth.command.Register;
+using WMS.Core.Common;
 
 namespace WMS.Api.Controllers
 {
@@ -13,6 +15,7 @@ namespace WMS.Api.Controllers
         ISender sender) : ControllerBase
     {
         [HttpPost]
+        [Authorize(Roles = Roles.Manager)]
         public async Task<IActionResult> Register(RegisterCommand command, CancellationToken cancellationToken)
         {
             var result = await sender.Send(command, cancellationToken);

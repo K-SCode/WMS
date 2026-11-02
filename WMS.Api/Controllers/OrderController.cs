@@ -1,4 +1,5 @@
 ﻿using Mediator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WMS.Api.Extensions;
 using WMS.Application.Features.Orders.Command.CancelOrder;
@@ -7,14 +8,17 @@ using WMS.Application.Features.Orders.Command.ReturnOrder;
 using WMS.Application.Features.Orders.Command.ShippedOrder;
 using WMS.Application.Features.Orders.Query.Get;
 using WMS.Application.Features.Orders.Query.List;
+using WMS.Core.Common;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace WMS.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = Policy.ManagerOrWarehouseman)]
     public class OrderController(ISender sender) : ControllerBase
     {
         [HttpPost("[action]")]
+
         public async Task<IActionResult> Create([FromBody]CreateOrderCommand command,CancellationToken cancellationToken)
         {
             var id = await sender.Send(command, cancellationToken);
