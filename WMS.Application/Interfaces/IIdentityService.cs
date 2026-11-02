@@ -13,5 +13,6 @@ namespace WMS.Application.Interfaces
             string phone,
             CancellationToken ct);
         Task<Result<AuthToken>> LoginUserAsync(string email, string password, CancellationToken ct);
+        Task<Result<bool>> AssignRole(string email, string role);
     }
 }

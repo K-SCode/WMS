@@ -11,6 +11,7 @@ namespace WMS.Core.Common
         Validation = 2,
         Conflict = 3,
         AccessUnAuthorized = 4,
-        AccessForbidden = 5
+        AccessForbidden = 5,
+        BadRequest = 6
     }
 }

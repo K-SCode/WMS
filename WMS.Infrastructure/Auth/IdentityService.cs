@@ -8,8 +8,24 @@ namespace WMS.Infrastructure.Auth
 {
     public class IdentityService(
         UserManager<ApplicationUser> userManager,
+        RoleManager<IdentityRole> roleManager,
         ITokenService tokenService) : IIdentityService
     {
+        public async Task<Result<bool>> AssignRole(string email, string role)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if(user is null)
+            {
+                return Errors<ApplicationUser>.NotFound;
+            }
+            if(!await roleManager.RoleExistsAsync(role))
+            {
+                return Errors.NotExists;
+            }
+            await userManager.AddToRoleAsync(user, role);
+            return true;
+        }
+
         public async Task<Result<AuthToken>> LoginUserAsync(string email, string password, CancellationToken ct)
         {
            var user = await userManager.FindByEmailAsync(email);

@@ -26,6 +26,8 @@
             new("Invalid format", ErrorType.Failure, $"Extension: '{extension}' is not supported");
         public static Error Unauthorized =>
             new("Invalid data", ErrorType.AccessUnAuthorized, $"Invalid authorize data");
+        public static Error NotExists =>
+            new("Bad Request", ErrorType.BadRequest, $"Object not exists");
 
     }
 }
