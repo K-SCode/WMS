@@ -31,7 +31,7 @@ namespace WMS.Application.Features.Locations.Command.Update
                 command.Rack,
                 command.Number,
                 ct);
-            return location is null && exists;
+            return !(location is not null) && exists;
         }
         private async Task<Location> AdaptToLocationAsync(
             UpdateLocationCommand command,

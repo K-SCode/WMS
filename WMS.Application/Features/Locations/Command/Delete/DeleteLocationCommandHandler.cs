@@ -13,7 +13,7 @@ namespace WMS.Application.Features.Locations.Command.Delete
         public async ValueTask<Result<bool>> Handle(DeleteLocationCommand command, CancellationToken cancellationToken)
         {
 
-            if (await LocationExistsAsync(command.Id, cancellationToken))
+            if (!await LocationExistsAsync(command.Id, cancellationToken))
                 return Errors<Location>.ObjectNotExists(command.Id);
 
             await DeleteLocationAsync(command.Id, cancellationToken);
@@ -23,7 +23,7 @@ namespace WMS.Application.Features.Locations.Command.Delete
         private async Task<bool> LocationExistsAsync(int id, CancellationToken ct)
         {
             var location = await unitOfWorks.Location.GetByIdAsync(id, ct);
-            return location is null;
+            return location is not null;
         }
         private async Task DeleteLocationAsync(int id, CancellationToken ct)
         {
