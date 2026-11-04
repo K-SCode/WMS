@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WMS.Application.Features.Stocks.Dtos
+﻿namespace WMS.Application.Features.Stocks.Dtos
 {
-    public sealed record StockDto(int Id, int LocationId, int ProductId, int Quantity);
+    public sealed record StockDto(int Id, int LocationId, int ProductId, decimal Quantity, decimal MaxQuantity);
 }

@@ -4,6 +4,7 @@ using WMS.Application.Features.Products.Dtos;
 using WMS.Application.Interfaces;
 using WMS.Core.Common;
 using WMS.Core.Entities;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WMS.Application.Features.Products.Query.Get
 {
@@ -24,19 +25,28 @@ namespace WMS.Application.Features.Products.Query.Get
             GetProductQuery query,
             CancellationToken cancellationToken)
         {
+
+            var product = await GetProductAsync(query.Id, cancellationToken);
+
+            if (!ProductExists(product))
+                return Errors<Product>.ObjectNotExists(query.Id);
+
+            return product!;
+        }
+        
+        private async Task<ProductDto?> GetProductAsync(int id, CancellationToken ct)
+        {
             using var connection = connectionFactory.CreateConnection();
             var command = new CommandDefinition(
                 sql,
-                new { query.Id },
-                cancellationToken: cancellationToken);
-
-            var product = 
+                new { id },
+                cancellationToken: ct);
+            var product =
                 await connection.QueryFirstOrDefaultAsync<ProductDto>(command);
-
-            if (product is null)
-                return Errors<Product>.ObjectNotExists(query.Id);
 
             return product;
         }
+        private bool ProductExists(ProductDto? product) =>
+            product is not null;
     }
 }

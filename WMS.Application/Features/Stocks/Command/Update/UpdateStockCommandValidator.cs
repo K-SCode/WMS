@@ -8,13 +8,18 @@ namespace WMS.Application.Features.Stocks.Command.Update
         {
             RuleFor(stock => stock.LocationId)
                 .GreaterThan(0);
+            RuleFor(stock => stock.LocationId)
+                .GreaterThan(0);
             RuleFor(stock => stock.ProductId)
                 .GreaterThan(0);
 
             RuleFor(stock => stock.Quantity)
-                .GreaterThan(0)
-                .LessThan(int.MaxValue);
+                .PrecisionScale(18, 2, true)
+                .GreaterThan(0);
+
             RuleFor(stock => stock.MaxQuantity)
+                .PrecisionScale(18, 2, true)
+                .GreaterThan(0)
                 .GreaterThanOrEqualTo(stock => stock.Quantity);
         }
     }

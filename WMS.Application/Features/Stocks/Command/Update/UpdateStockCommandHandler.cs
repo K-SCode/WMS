@@ -1,8 +1,6 @@
 ﻿using Mapster;
 using Mediator;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using WMS.Application.common.Helper;
 using WMS.Application.Interfaces;
 using WMS.Core.Common;
 using WMS.Core.Entities;
@@ -13,23 +11,39 @@ namespace WMS.Application.Features.Stocks.Command.Update
     {
         public async ValueTask<Result<bool>> Handle(UpdateStockCommand command, CancellationToken cancellationToken)
         {
-            if (await StockExists(command.Id, cancellationToken))
-                return Errors<Stock>.ObjectNotExists(command.Id);
+            var verifyResult = await ExistsDataAsync(command, cancellationToken);
+            if (verifyResult is not null)
+            {
+                return verifyResult;
+            }
 
             var stock = await ConvertToStock(command, cancellationToken);
 
             await UpdateStock(stock, cancellationToken);
 
-
             return true;
         }
 
-        private async Task<bool> StockExists(int id,CancellationToken ct)
+        private async Task<Error?> ExistsDataAsync(UpdateStockCommand command, CancellationToken ct)
+        {
+            if (await StockExistsAsync(command.Id, ct))
+            {
+                return Errors<Stock>.ObjectNotExists(command.Id);
+            }
+            var result = await VerifyStockHelper.VerifyAsync(
+                unitOfWorks,
+                command.LocationId,
+                command.ProductId,
+                ct);
+
+            return result;
+        }
+
+        private async Task<bool> StockExistsAsync(int id,CancellationToken ct)
         {
             var stock = await  unitOfWorks.Stock.GetByIdAsync(id, ct);
             return stock is null;
         }
-
         private async Task<Stock> ConvertToStock(UpdateStockCommand command,CancellationToken ct)
         {
             var stock = await unitOfWorks.Stock.GetByIdAsync(command.Id, ct);

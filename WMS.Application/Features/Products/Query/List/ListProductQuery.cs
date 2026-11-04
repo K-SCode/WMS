@@ -4,5 +4,5 @@ using WMS.Core.Common;
 
 namespace WMS.Application.Features.Products.Query.List
 {
-    public sealed record ListProductQuery : IQuery<Result<IEnumerable<ProductDto>>>;
+    public sealed record ListProductQuery : IQuery<Result<IReadOnlyCollection<ProductDto>>>;
 }

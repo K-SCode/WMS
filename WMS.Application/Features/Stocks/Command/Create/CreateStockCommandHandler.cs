@@ -1,8 +1,10 @@
 ﻿using Mapster;
 using Mediator;
+using WMS.Application.common.Helper;
 using WMS.Application.Interfaces;
 using WMS.Core.Common;
 using WMS.Core.Entities;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace WMS.Application.Features.Stocks.Command.Create
 {
@@ -13,9 +15,11 @@ namespace WMS.Application.Features.Stocks.Command.Create
             CreateStockCommand command,
             CancellationToken cancellationToken)
         {
-            if(await StockExistsAsync(command,cancellationToken))
+            var verifyResult = await ExistsDataAsync(command, cancellationToken);
+
+            if(verifyResult is not null)
             {
-                return Errors<Stock>.ObjectExists;
+                return verifyResult;
             }
             var stock = ConvertToStock(command);
             
@@ -23,12 +27,25 @@ namespace WMS.Application.Features.Stocks.Command.Create
 
             return stock.Id;
         }
-
-        private async Task<bool> StockExistsAsync(CreateStockCommand command,CancellationToken ct)
+        private async Task<Error?> ExistsDataAsync(CreateStockCommand command, CancellationToken ct)
         {
-           return await unitOfWorks.Stock.StockExistsAsync(command.ProductId, command.LocationId, ct);
-        }
+            if (await StockExistsAsync(command.ProductId, command.LocationId, ct))
+            {
+                return Errors<Stock>.ObjectExists;
+            }
+            var result = await VerifyStockHelper.VerifyAsync(
+                unitOfWorks,
+                command.LocationId,
+                command.ProductId,
+                ct);
 
+            return result;
+        }
+        private async Task<bool> StockExistsAsync(int productId, int locationId, CancellationToken ct)
+        {
+            return await unitOfWorks.Stock.StockExistsAsync(productId, locationId, ct);
+
+        }
         private async Task AddToDatabaseAsync(Stock stock, CancellationToken ct)
         {
             await unitOfWorks.Stock.AddAsync(stock, ct);

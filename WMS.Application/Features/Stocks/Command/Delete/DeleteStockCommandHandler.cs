@@ -1,8 +1,4 @@
 ﻿using Mediator;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using WMS.Application.Interfaces;
 using WMS.Core.Common;
 using WMS.Core.Entities;
@@ -17,7 +13,7 @@ namespace WMS.Application.Features.Stocks.Command.Delete
             CancellationToken cancellationToken)
         {
 
-            if (await StockExistsAsync(command.Id, cancellationToken))
+            if (!await StockExistsAsync(command.Id, cancellationToken))
                 return Errors<Stock>.ObjectNotExists(command.Id);
 
             await DeleteFromDataBase(command.Id, cancellationToken);
@@ -28,7 +24,7 @@ namespace WMS.Application.Features.Stocks.Command.Delete
         private async Task<bool> StockExistsAsync(int id,CancellationToken ct)
         {
             var stock = await unitOfWorks.Stock.GetByIdAsync(id,ct);
-            return stock is null;
+            return stock is not null;
         }
         private async Task DeleteFromDataBase(int id, CancellationToken ct)
         {
