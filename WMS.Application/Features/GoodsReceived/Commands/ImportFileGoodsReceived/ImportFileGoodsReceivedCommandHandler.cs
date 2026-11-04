@@ -1,11 +1,8 @@
 ﻿using FluentValidation;
 using Mediator;
-using System;
 using WMS.Application.Features.GoodsReceived.Dto;
-using WMS.Application.Features.GoodsReceived.Services;
 using WMS.Application.Interfaces;
 using WMS.Core.Common;
-using WMS.Core.Common.Enum;
 
 namespace WMS.Application.Features.GoodsReceived.Commands.ImportFileGoodsReceived
 {
@@ -28,10 +25,10 @@ namespace WMS.Application.Features.GoodsReceived.Commands.ImportFileGoodsReceive
 
             IReadOnlyCollection<ProductReceived> importedItems = await adapter.ParseAsync(command.FileStream);
 
-            (bool, string) validData = await ValidDataAsync(importedItems, cancellationToken);
-            if (!validData.Item1)
+            (bool IsSuccess, string Error) validData = await ValidDataAsync(importedItems, cancellationToken);
+            if (!validData.IsSuccess)
             {
-                return Errors<GoodsReceviedValidator>.ValidationProductFailure(validData.Item2);
+                return Errors<GoodsReceviedValidator>.ValidationProductFailure(validData.Error);
             }
 
             GoodsReceivedNote goodsReceivedNote = new(importedItems,command.Information);

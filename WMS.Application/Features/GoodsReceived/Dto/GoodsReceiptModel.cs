@@ -1,5 +1,4 @@
-﻿
-namespace WMS.Application.Features.GoodsReceived.Services
+﻿namespace WMS.Application.Features.GoodsReceived.Dto
 {
     public record GoodsReceiptModel(
         string Barcode,

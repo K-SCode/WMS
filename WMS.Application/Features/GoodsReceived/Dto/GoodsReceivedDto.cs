@@ -4,7 +4,7 @@
         int Id,
         string InvoiceNumber,
         string GRNNumber,
-        DateTime DateOfIssue,
+        DateTimeOffset DateOfIssue,
         string SupplierNip,
         string Status
         );

@@ -59,8 +59,8 @@ namespace WMS.Application.Features.GoodsReceived.Query.Get
             public int Id { get; set; }
             public string InvoiceNumber { get; set; } = null!;
             public string GRNNumber {get;set;} = null!;
-            public DateTime DateOfIssue {get;set;}
-            public DateTime ReceivedAtUtc {get;set;}
+            public DateTimeOffset DateOfIssue {get;set;}
+            public DateTimeOffset ReceivedAtUtc {get;set;}
             public string SupplierNip {get;set;} = null!;
             public string Status {get;set;} = null!;
             public string Comment {get;set;} = null!;
