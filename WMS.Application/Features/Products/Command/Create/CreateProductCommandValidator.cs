@@ -1,6 +1,4 @@
 ﻿using FluentValidation;
-using WMS.Application.Interfaces;
-using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Products.Command.Create
 {
@@ -8,17 +6,20 @@ namespace WMS.Application.Features.Products.Command.Create
     {
         public CreateProductCommandValidator()
         {
-            RuleFor(product => product.Name)
-                .NotEmpty()
+            RuleFor(p => p.Name)
                 .Length(3, 255);
 
-            RuleFor(product => product.Price)
-                .NotEmpty()
+            RuleFor(p => p.Price)
                 .PrecisionScale(18, 2, true)
                 .GreaterThan(0);
 
-            RuleFor(product => product.Barcode)
-                .Length(13);
+            RuleFor(p => p.Barcode)
+                .Length(13)
+                .Matches(@"^\d+$");
+
+            RuleFor(p => p.UnitQuantity)
+                .NotEmpty()
+                .MaximumLength(10);
         }
     }
 }

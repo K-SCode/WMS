@@ -1,8 +1,5 @@
 ﻿using Mapster;
 using Mediator;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using WMS.Application.Interfaces;
 using WMS.Core.Common;
 using WMS.Core.Entities;
@@ -32,9 +29,9 @@ namespace WMS.Application.Features.Products.Command.Create
             string barcode,
             CancellationToken ct)
         {
-            var product =
+            var result =
                 await unitOfWorks.Product.GetByBarcodeAsync(barcode, ct);
-            return product is not null; 
+            return result is not null; 
         }
         private async Task CreateProductAsync(Product product, CancellationToken ct)
         {

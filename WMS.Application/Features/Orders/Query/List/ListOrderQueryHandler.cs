@@ -10,7 +10,6 @@ namespace WMS.Application.Features.Orders.Query.List
         ISqlConnectionFactory connectionFactory) : IQueryHandler<ListOrderQuery, Result<IReadOnlyCollection<OrderDto>>>
     {
         private const string sql = """
-            
                 SELECT
                     o.Id,
                     o.InvoiceNumber, 
