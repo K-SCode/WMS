@@ -12,8 +12,8 @@ namespace WMS.Application.Features.Orders.Command.Service
             Order order = request.Adapt<Order>();
             order.Customer = customer;
             order.Status = OrderStatus.New;
-            order.CreatedAt = DateTime.Now;
-            order.UpdatedAt = DateTime.Now;
+            order.CreatedAt = DateTimeOffset.UtcNow;
+            order.UpdatedAt = DateTimeOffset.UtcNow;
             order.InvoiceNumber = $"FV-{Guid.NewGuid().ToString("N")[..13].ToUpper()}";
 
             await unitOfWorks.Order.AddAsync(order, ct);

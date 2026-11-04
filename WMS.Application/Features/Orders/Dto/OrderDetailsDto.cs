@@ -1,6 +1,4 @@
-﻿using WMS.Core.Common.Enum;
-
-namespace WMS.Application.Features.Orders.Dto
+﻿namespace WMS.Application.Features.Orders.Dto
 {
     public record OrderDetailsDto(
         int Id,
@@ -11,9 +9,7 @@ namespace WMS.Application.Features.Orders.Dto
         string Currency,
         DateTimeOffset CreatedAt,
         DateTimeOffset? UpdatedAt,
-        
         CustomerDto Customer,
-
         IReadOnlyCollection<OrderItemDto> Items
         );
 }

@@ -19,16 +19,13 @@ namespace WMS.Application.Features.Orders.Command.CreateOrder
                 return Errors<Customer>.InvalidProperty(nameof(command.Customer.Nip));
             }
 
-            int id = await CreateOrder(
+            var order = await CreateOrder(
                 command.Customer,
                 command.Products,
                 command.Information,
                 cancellationToken);
 
-            if (id <= 0)
-                return Errors<OrderItem>.NotFound;
-
-            return id;
+            return order;
         }
         private static bool VerifyNip(string? nip) =>
             NipIsNotNull(nip) && !NipIsCorrect(nip!);
@@ -62,17 +59,23 @@ namespace WMS.Application.Features.Orders.Command.CreateOrder
         private static bool ControlNumberIsValid(int number, string nip) =>
             number == 10 || number == int.Parse(nip[^1].ToString());
 
-        private async Task<int> CreateOrder(
+        private async Task<Result<int>> CreateOrder(
             CustomerInformation customer,
             IReadOnlyCollection<CreateProductOrder> products,
             OrderInformation information,
             CancellationToken ct)
         {
-            return await process.ProcessAsync(
+            var result =
+                await process.ProcessAsync(
                 customer,
                 products,
                 information,
                 ct);
+            if(!result.IsSuccess)
+            {
+                return result.Error!; 
+            }
+            return result.Value;
         }
     }
 }

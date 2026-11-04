@@ -19,6 +19,8 @@
             new("Object exists", ErrorType.Conflict, $"{typeof(T).Name} with id: {id} already exists.");
         public static Error OperationFailed =>
             new("Operation Failed", ErrorType.Failure, $"Operation on {typeof(T).Name} failed");
+        public static Error InsufficeintQuantity =>
+            new("InsufficeintQ uantity", ErrorType.Failure, $"{typeof(T).Name} has not enough qunaitity.");
     }
     public static class Errors
     {
@@ -28,6 +30,8 @@
             new("Invalid data", ErrorType.AccessUnAuthorized, $"Invalid authorize data");
         public static Error NotExists =>
             new("Bad Request", ErrorType.BadRequest, $"Object not exists");
+        public static Error CanNotChangeStatus =>
+            new("Bad Request", ErrorType.BadRequest, "Cannot change order status.");
 
     }
 }

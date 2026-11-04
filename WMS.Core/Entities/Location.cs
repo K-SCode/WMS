@@ -10,7 +10,6 @@ namespace WMS.Core.Entities
         public char Sector { get; set; }
         public int Rack { get; set; }
         public int Number {  get; set; }
-        public bool IsFull { get; set; } = false;
         public List<Stock> Stocks { get; set; } = new();
     }
 }

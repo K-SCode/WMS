@@ -23,9 +23,6 @@ namespace WMS.Infrastructure.Data.Configurations
             builder.Property(entity => entity.Number)
                 .IsRequired();
 
-            builder.Property(entity => entity.IsFull)
-                .HasDefaultValue(false)
-                .IsRequired();
         }
     }
 }

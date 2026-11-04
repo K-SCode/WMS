@@ -18,7 +18,7 @@ namespace WMS.Infrastructure.Repositories
             CancellationToken ct)
         {
 
-            return await GetStocksGrouppedAsync(barcodes, stock => !stock.Localization.IsFull, ct);
+            return await GetStocksGrouppedAsync(barcodes, stock => stock.Quantity < stock.MaxQuantity, ct);
         }
 
         public async Task<IDictionary<string, IReadOnlyCollection<Stock>>> GetStocksWithProductByBarcodeAsync(

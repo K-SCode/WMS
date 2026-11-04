@@ -27,7 +27,7 @@ namespace WMS.Application.Features.Orders.Query.List
             using var connection = connectionFactory.CreateConnection();
 
             var orders = await connection.QueryAsync<OrderDto>(sql);
-            return orders.ToList();
+            return orders.AsList();
         }
     }
 }

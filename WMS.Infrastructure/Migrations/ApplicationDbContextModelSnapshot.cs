@@ -213,8 +213,8 @@ namespace WMS.Infrastructure.Migrations
                         .HasMaxLength(400)
                         .HasColumnType("nvarchar(400)");
 
-                    b.Property<DateTime>("DateOfIssue")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("DateOfIssue")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("GRNNumber")
                         .IsRequired()
@@ -228,8 +228,8 @@ namespace WMS.Infrastructure.Migrations
                         .HasColumnType("nchar(16)")
                         .IsFixedLength();
 
-                    b.Property<DateTime>("ReceivedAtUtc")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("ReceivedAtUtc")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -295,11 +295,6 @@ namespace WMS.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsFull")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
 
                     b.Property<int>("Number")
                         .HasColumnType("int");

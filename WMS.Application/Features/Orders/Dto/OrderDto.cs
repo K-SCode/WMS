@@ -1,12 +1,9 @@
-﻿
-using WMS.Core.Common.Enum;
-
-namespace WMS.Application.Features.Orders.Dto
+﻿namespace WMS.Application.Features.Orders.Dto
 {
     public record OrderDto(
         int Id,
         string InvoiceNumber,
-        OrderStatus Status,
+       string Status,
         string UserEmail,
         string FirstName,
         string LastName,

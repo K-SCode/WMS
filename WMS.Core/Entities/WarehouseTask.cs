@@ -27,7 +27,7 @@ namespace WMS.Core.Entities
                 ? WarehouseStatus.InAnalysis 
                 : WarehouseStatus.Pending;
 
-            CreatedAt = DateTime.UtcNow;
+            CreatedAt = DateTimeOffset.UtcNow;
             LocationId = locationId;
         }
 

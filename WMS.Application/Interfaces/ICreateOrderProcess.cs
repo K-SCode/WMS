@@ -1,11 +1,11 @@
 ﻿using WMS.Application.Features.Orders.Dto;
-using WMS.Core.Entities;
+using WMS.Core.Common;
 
 namespace WMS.Application.Interfaces
 {
     public interface ICreateOrderProcess
     {
-        Task<int> ProcessAsync(
+        Task<Result<int>> ProcessAsync(
             CustomerInformation customer,
             IReadOnlyCollection<CreateProductOrder> items,
             OrderInformation information,

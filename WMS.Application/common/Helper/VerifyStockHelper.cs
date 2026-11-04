@@ -6,16 +6,16 @@ namespace WMS.Application.common.Helper
 {
     public static class VerifyStockHelper
     {
-        private static IUnitOfWorks _unitOfWorks;
+        private static IUnitOfWorks? _unitOfWorks;
         private static async Task<bool> LocationExistsAsync(int locationId, CancellationToken cancellationToken)
         {
-            var result = await _unitOfWorks.Location.GetByIdAsync(locationId, cancellationToken);
+            var result = await _unitOfWorks!.Location.GetByIdAsync(locationId, cancellationToken);
             return result is not null;
         }
 
         private static async Task<bool> ProductExistsAsync(int productId, CancellationToken cancellationToken)
         {
-            var result = await _unitOfWorks.Product.GetByIdAsync(productId, cancellationToken);
+            var result = await _unitOfWorks!.Product.GetByIdAsync(productId, cancellationToken);
             return result is not null;
         }
 

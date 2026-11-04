@@ -13,9 +13,9 @@ namespace WMS.Application.Features.Orders.Command.Service
         {
             IReadOnlyCollection<OrderItem> items = await unitOfWorks.OrderItems.GetAllByOrderIdAsync(order.Id, ct);
 
-            var xd = await increaseQuantity.IncreaseAsync(items, i => i.Product.Barcode, i => i.Quantity, ct);
+            var increaseStockResult = await increaseQuantity.IncreaseAsync(items, i => i.Product.Barcode, i => i.Quantity, ct);
 
-            await createWarehouseTask.CreateTaskAsync(xd, source, order.Id, ct);
+            await createWarehouseTask.CreateTaskAsync(increaseStockResult, source, order.Id, ct);
         }
     }
 }

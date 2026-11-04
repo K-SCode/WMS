@@ -1,7 +1,7 @@
 ﻿using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
 
-namespace WMS.Application.Features.Orders.Command.Service
+namespace WMS.Application.common.Helper
 {
     public static class ChangeOrderStatus
     {
