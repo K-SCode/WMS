@@ -1,6 +1,6 @@
 ﻿namespace WMS.Core.Common.Enum
 {
-    public enum StockIncreaseStatus
+    public enum StockManageStatus
     {
         Accepted,
         OutOfSapce,

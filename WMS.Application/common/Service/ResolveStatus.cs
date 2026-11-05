@@ -2,5 +2,5 @@
 
 namespace WMS.Application.common.Service
 {
-    public sealed record ResolveStatus(int? LocationId, StockIncreaseStatus Status, decimal Quantity);
+    public sealed record ResolveStatus(int? LocationId, StockManageStatus Status, decimal Quantity);
 }

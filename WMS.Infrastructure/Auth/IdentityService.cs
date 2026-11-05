@@ -34,7 +34,6 @@ namespace WMS.Infrastructure.Auth
             {
                 return Errors<ApplicationUser>.OperationFailed;
             }
-            await userManager.AddToRoleAsync(user, role);
             await userManager.UpdateSecurityStampAsync(user);
             return true;
         }
@@ -113,7 +112,16 @@ namespace WMS.Infrastructure.Auth
         }
         private async Task<bool> VerifyUser(string password, ApplicationUser? user)
         {
-            return user is null || !await userManager.CheckPasswordAsync(user, password);
+            if(user is null)
+            {
+                return false;
+            }
+            if(!await userManager.CheckPasswordAsync(user, password))
+            {
+                user.AccessFailedCount++;
+                return false;
+            }
+            return true;
         }
     }
 }

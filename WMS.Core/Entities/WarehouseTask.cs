@@ -10,7 +10,7 @@ namespace WMS.Core.Entities
             decimal quantity,
             int documentId,
             WarehouseSource source,
-            StockIncreaseStatus stockStatus,
+            StockManageStatus stockStatus,
             int? locationId)
         {
             Barcode = barcode;
@@ -23,7 +23,7 @@ namespace WMS.Core.Entities
                 OrderId = documentId;
 
             StockStatus = stockStatus;
-            Status = stockStatus != StockIncreaseStatus.Accepted 
+            Status = stockStatus != StockManageStatus.Accepted 
                 ? WarehouseStatus.InAnalysis 
                 : WarehouseStatus.Pending;
 
@@ -49,7 +49,7 @@ namespace WMS.Core.Entities
 
         public int? LocationId { get; set; }
         public Location? Location { get; set; }
-        public StockIncreaseStatus StockStatus { get; set; }
+        public StockManageStatus StockStatus { get; set; }
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Mediator;
+using WMS.Application.common.Helper;
 using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 using WMS.Core.Common.Enum;
@@ -15,8 +16,12 @@ namespace WMS.Application.Features.Orders.Command.ShippedOrder
             {
                 return Errors<Order>.ObjectNotExists(command.Id);
             }
+            if (order.Status == OrderStatus.Cancelled)
+            {
+                return Errors.CanNotChangeStatus;
+            }
 
-            order.Status = OrderStatus.Shipped;
+            ChangeOrderStatus.ChangeStatus(order, OrderStatus.Shipped);
             await unitOfWorks.SaveChangesAsync(cancellationToken);
 
             return true;

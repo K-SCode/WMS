@@ -6,15 +6,24 @@ namespace WMS.Application.Features.Orders.Command.Service
 {
     public class AssignOrderItems(IUnitOfWork unitOfWorks) : IAssignOrderItems
     {
-        public async Task Assing(
+        public async Task<bool> Assing(
             IReadOnlyCollection<OrderItem> request,
             Order order,
             CancellationToken ct)
         {
+            foreach (var p in request)
+            {
+                var product = await GetProductByIdAsync(p, ct);
+                if (product is null)
+                {
+                    return false;
+                }
+            }
+
             IReadOnlyCollection<Task<OrderItem>> tasks = [.. request
                 .Select(async p =>
                 {
-                    var product = await unitOfWorks.Product.GetByIdAsync(p.ProductId, ct);
+                    var product = await GetProductByIdAsync(p, ct);
                     p.Order = order;
                     p.Price = product!.Price;
                     p.UnitQuantity = product.UnitQuantity;
@@ -28,6 +37,12 @@ namespace WMS.Application.Features.Orders.Command.Service
             }
 
             await unitOfWorks.OrderItems.AddRangeAsync(items, ct);
+            return true;
+        }
+
+        private async Task<Product?> GetProductByIdAsync(OrderItem p, CancellationToken ct)
+        {
+            return await unitOfWorks.Product.GetByIdAsync(p.Id, ct);
         }
     }
 }

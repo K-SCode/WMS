@@ -4,7 +4,7 @@ namespace WMS.Application.Interfaces.Orders
 {
     public interface IAssignOrderItems
     {
-        Task Assing(
+        Task<bool> Assing(
             IReadOnlyCollection<OrderItem> request,
             Order order,
             CancellationToken ct);

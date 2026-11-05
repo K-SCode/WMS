@@ -21,6 +21,7 @@ namespace WMS.Application.Features.GoodsReceived.Query.Get
                 g.ReceivedAtUtc,
                 g.SupplierNip,
                 g.Status
+                g.Comment
             FROM [GoodsReceipt] g
             WHERE g.Id = @id
 

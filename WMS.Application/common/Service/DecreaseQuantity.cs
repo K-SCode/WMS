@@ -53,13 +53,13 @@ namespace WMS.Application.common.Service
             if (!exists)
                 return [new ResolveStatus(
                     null,
-                    StockIncreaseStatus.ProductNotFound,
+                    StockManageStatus.ProductNotFound,
                     quantity)];
 
             if (!stocksWithProduct.TryGetValue(barcode, out var stocks) || stocks.Count ==  0)
                 return [new ResolveStatus(
                     null,
-                    StockIncreaseStatus.StocksEmpty,
+                    StockManageStatus.StocksEmpty,
                     quantity)];
 
             var distribution =
@@ -69,13 +69,13 @@ namespace WMS.Application.common.Service
             decimal remaining = quantity - assignedTotal;
 
             var rowStatus = remaining == 0
-                ? StockIncreaseStatus.Accepted
-                : StockIncreaseStatus.ProductNotFound;
+                ? StockManageStatus.Accepted
+                : StockManageStatus.PartiallyAccepted;
             var results = distribution.Select(
                 d => new ResolveStatus(d.Stock.LocationId, rowStatus, d.TakeQuantity)).ToList();
 
             if (remaining > 0)
-                results.Add(new ResolveStatus(null, StockIncreaseStatus.ProductNotFound, remaining));
+                results.Add(new ResolveStatus(null, StockManageStatus.ProductNotFound, remaining));
 
             return results;
         }

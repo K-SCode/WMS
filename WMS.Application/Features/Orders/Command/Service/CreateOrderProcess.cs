@@ -35,7 +35,11 @@ namespace WMS.Application.Features.Orders.Command.Service
             Order order = await CreateOrderInformation(customer, information, ct);
             await unitOfWorks.SaveChangesAsync(ct);
 
-            await AssignItemsToOrder(items, order, ct);
+            var assignResult = await AssignItemsToOrder(items, order, ct);
+            if(!assignResult)
+            {
+                return Errors<Product>.NotFound;
+            }
             await CreateTask(order, result.Value, ct);
 
             await unitOfWorks.SaveChangesAsync(ct);
@@ -93,7 +97,7 @@ namespace WMS.Application.Features.Orders.Command.Service
         {
             return result.Any(
                 r => r.ResolveStatuses.Any(
-                    s => s.Status != StockIncreaseStatus.Accepted));
+                    s => s.Status != StockManageStatus.Accepted));
         }
 
         private static Result<List<(Product? Product, decimal Quantity)>> BuildOrderLine(
@@ -113,12 +117,12 @@ namespace WMS.Application.Features.Orders.Command.Service
             return lines;
         }
 
-        private async Task AssignItemsToOrder(
+        private async Task<bool> AssignItemsToOrder(
             IReadOnlyCollection<CreateProductOrder> items,
             Order registeredOrder,
             CancellationToken ct)
         {
-            await assignOrderItems.Assing(
+            return await assignOrderItems.Assing(
                 [.. items.Select(p => p.Adapt<OrderItem>())],
                 registeredOrder,
                 ct);

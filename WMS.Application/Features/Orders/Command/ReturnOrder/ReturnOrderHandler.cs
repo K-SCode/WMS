@@ -25,6 +25,11 @@ namespace WMS.Application.Features.Orders.Command.ReturnOrder
                 return verifyResult;
             }
 
+            if(order!.Status == OrderStatus.Cancelled)
+            {
+                return Errors.CanNotChangeStatus;
+            }
+
             if (order!.Status == OrderStatus.Returned)
             {
                 return true;
@@ -32,8 +37,11 @@ namespace WMS.Application.Features.Orders.Command.ReturnOrder
 
             ChangeOrderStatus.ChangeStatus(order, OrderStatus.Returned);
 
-            await orderRestocking.Restock(order, WarehouseSource.CustomerReturn, cancellationToken);
-
+            var restockingResult = await orderRestocking.Restock(order, WarehouseSource.CustomerReturn, cancellationToken);
+            if(!restockingResult)
+            {
+                return false;
+            }
             await unitOfWorks.SaveChangesAsync(cancellationToken);
             return true;
         }

@@ -12,13 +12,17 @@ namespace WMS.Application.Features.Orders.Command.Service
         IIncreaseQuantity increaseQuantity,
         ICreateWarehouseTask createWarehouseTask) : IOrderRestocking
     {
-        public async Task Restock(Order order, WarehouseSource source, CancellationToken ct)
+        public async Task<bool> Restock(Order order, WarehouseSource source, CancellationToken ct)
         {
             IReadOnlyCollection<OrderItem> items = await unitOfWorks.OrderItems.GetAllByOrderIdAsync(order.Id, ct);
 
             var increaseStockResult = await increaseQuantity.IncreaseAsync(items, i => i.Product.Barcode, i => i.Quantity, ct);
-
-            await createWarehouseTask.CreateTaskAsync(increaseStockResult, source, order.Id, ct);
+            if(increaseStockResult is null)
+            {
+                return false;
+            }
+            await createWarehouseTask.CreateTaskAsync(increaseStockResult!, source, order.Id, ct);
+            return true;
         }
     }
 }

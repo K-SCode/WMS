@@ -7,13 +7,12 @@ namespace WMS.Application.common.Service
 {
     public class IncreaseQunatity(IUnitOfWork unitOfWorks) : IIncreaseQuantity
     {
-        public async Task<IReadOnlyList<StockResult>> IncreaseAsync<TItem>(
+        public async Task<IReadOnlyList<StockResult?>> IncreaseAsync<TItem>(
             IReadOnlyCollection<TItem> items,
             Func<TItem, string> barcodeSelector,
             Func<TItem, decimal> quantitySelector,
             CancellationToken ct)
         {
-
             List<string> barcodes = [.. items.Select(barcodeSelector).Distinct()];
 
             IDictionary<string, bool> exists =
@@ -24,7 +23,10 @@ namespace WMS.Application.common.Service
 
             var results = new List<StockResult>(items.Count);
 
-
+            if(items.Any(p => quantitySelector(p) <= 0))
+            {
+                return null!;
+            }
             foreach (var item in items)
             {
                 decimal quantity = quantitySelector(item);
@@ -53,13 +55,13 @@ namespace WMS.Application.common.Service
             if (!exists)
                 return [new ResolveStatus(
                     null,
-                    StockIncreaseStatus.ProductNotFound,
+                    StockManageStatus.ProductNotFound,
                     quantity)];
 
             if (!notFullStocks.TryGetValue(barcode, out var stocks))
                 return [new ResolveStatus(
                     null,
-                    StockIncreaseStatus.OutOfSapce,
+                    StockManageStatus.OutOfSapce,
                     quantity)];
 
             var distribution =
@@ -69,13 +71,13 @@ namespace WMS.Application.common.Service
             decimal remaining = quantity - assignedTotal;
 
             var rowStatus = remaining == 0
-                ? StockIncreaseStatus.Accepted
-                : StockIncreaseStatus.PartiallyAccepted;
+                ? StockManageStatus.Accepted
+                : StockManageStatus.PartiallyAccepted;
             var results = distribution.Select(
                 d => new ResolveStatus(d.Stock.LocationId, rowStatus, d.Assigned)).ToList();
 
             if (remaining > 0)
-                results.Add(new ResolveStatus(null, StockIncreaseStatus.OutOfSapce, remaining));
+                results.Add(new ResolveStatus(null, StockManageStatus.OutOfSapce, remaining));
 
            return results;
         }

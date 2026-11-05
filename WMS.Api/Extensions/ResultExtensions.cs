@@ -39,6 +39,9 @@ namespace WMS.Api.Extensions
                 ErrorType.Validation => StatusCodes.Status400BadRequest,
                 ErrorType.NotFound => StatusCodes.Status404NotFound,
                 ErrorType.AccessUnAuthorized => StatusCodes.Status401Unauthorized,
+                ErrorType.Failure => StatusCodes.Status400BadRequest,
+                ErrorType.BadRequest => StatusCodes.Status400BadRequest,
+                ErrorType.AccessForbidden => StatusCodes.Status403Forbidden,
                 _ => StatusCodes.Status500InternalServerError
             };
 

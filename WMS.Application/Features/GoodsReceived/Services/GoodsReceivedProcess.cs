@@ -20,6 +20,10 @@ namespace WMS.Application.Features.GoodsReceived.Services
         {
             await using var transaction = await unitOfWorks.BeginTransactionAsync(ct);
             
+            if(goodsReceived.Products.Any(p => p is null))
+            {
+                return false;
+            }
             GoodsReceipt grn = await saveGoodsReceipt.SaveInDatabaseAsync(goodsReceived.Products, goodsReceived.Information, ct);
 
             await unitOfWorks.SaveChangesAsync(ct);
@@ -30,8 +34,12 @@ namespace WMS.Application.Features.GoodsReceived.Services
                     p => p.Barcode,
                     p => p.Quantity,
                     ct);
+            if(increaseResult is null)
+            {
+                return false;
+            }
 
-            await createWarehouseTask.CreateTaskAsync(increaseResult, WarehouseSource.GoodsReceiptOverflow,  grn.Id,ct);
+            await createWarehouseTask.CreateTaskAsync(increaseResult!, WarehouseSource.GoodsReceiptOverflow,  grn.Id,ct);
 
             await unitOfWorks.SaveChangesAsync(ct);
 

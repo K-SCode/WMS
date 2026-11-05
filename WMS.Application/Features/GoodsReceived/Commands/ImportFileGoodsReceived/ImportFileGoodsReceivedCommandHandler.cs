@@ -35,7 +35,9 @@ namespace WMS.Application.Features.GoodsReceived.Commands.ImportFileGoodsReceive
             GoodsReceivedNote goodsReceivedNote = new(importedItems,command.Information);
 
             var result = await processor.ProcessAsync(goodsReceivedNote, cancellationToken);
-            return result;
+            if (!result)
+                return false;
+            return true;
         }
         private async Task<(bool,string)> ValidDataAsync(IEnumerable<ProductReceived> items,CancellationToken ct)
         {

@@ -13,7 +13,7 @@ namespace WMS.Application.Features.Locations.Command.Update
     {
         public async ValueTask<Result<bool>> Handle(UpdateLocationCommand command, CancellationToken cancellationToken)
         {
-            if (await LocationExistsAsync(command,cancellationToken))
+            if (!await LocationExistsAsync(command,cancellationToken))
                 return Errors<Location>.ObjectNotExists(command.Id);
 
             var location = await AdaptToLocationAsync(command, cancellationToken);
