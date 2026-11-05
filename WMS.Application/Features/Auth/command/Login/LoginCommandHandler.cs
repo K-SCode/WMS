@@ -1,15 +1,17 @@
-﻿using Mediator;
+﻿using Mapster;
+using Mediator;
+using WMS.Application.Features.Auth.Dtos;
 using WMS.Application.Interfaces;
 using WMS.Core.Common;
-using WMS.Core.Entities.Auth;
 
 namespace WMS.Application.Features.Auth.command.Login
 {
-    public class LoginCommandHandler(IIdentityService identityService) : ICommandHandler<LoginCommand, Result<AuthToken>>
+    public class LoginCommandHandler(IIdentityService identityService) : ICommandHandler<LoginCommand, Result<LoginDto>>
     {
-        public async ValueTask<Result<AuthToken>> Handle(LoginCommand command, CancellationToken cancellationToken)
+        public async ValueTask<Result<LoginDto>> Handle(LoginCommand command, CancellationToken cancellationToken)
         {
-            return await identityService.LoginUserAsync(command.Email, command.Password, cancellationToken);
+            var result = await identityService.LoginUserAsync(command.Email, command.Password, cancellationToken);
+            return result.Value.Adapt<LoginDto>();
         }
     }
 }

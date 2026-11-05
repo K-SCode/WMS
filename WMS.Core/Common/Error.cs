@@ -32,6 +32,8 @@
             new("Bad Request", ErrorType.BadRequest, $"Object not exists");
         public static Error CanNotChangeStatus =>
             new("Bad Request", ErrorType.BadRequest, "Cannot change order status.");
+        public static Error RoleNotExists =>
+            new("Bad Request", ErrorType.BadRequest, "Role not exists.");
 
     }
 }

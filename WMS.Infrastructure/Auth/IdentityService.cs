@@ -77,7 +77,10 @@ namespace WMS.Infrastructure.Auth
                 FirstName = firstName,
                 LastName = lastName,
                 Email = email,
-                PhoneNumber = phone
+                PhoneNumber = phone,
+                IsActive = true,
+                CratedAt = DateTimeOffset.UtcNow,
+                EmailConfirmed = true
             };
 
             var result = await userManager.CreateAsync(user,password);
