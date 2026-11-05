@@ -1,13 +1,14 @@
 ﻿using Mapster;
 using WMS.Application.Features.GoodsReceived.Commands;
 using WMS.Application.Features.GoodsReceived.Dto;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.GoodsReceipts;
+using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Entities;
 
 namespace WMS.Application.Features.GoodsReceived.Services
 {
     public class SaveGoodsReceipt(
-        IUnitOfWorks unitOfWorks) : ISaveGoodsReceipt
+        IUnitOfWork unitOfWorks) : ISaveGoodsReceipt
     {
         public async Task<GoodsReceipt> SaveInDatabaseAsync(
             IEnumerable<ProductReceived> products,

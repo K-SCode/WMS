@@ -4,7 +4,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using WMS.Application.Features.GoodsReceived.Commands;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Import;
 
 namespace WMS.Infrastructure.Import.Adapters
 {

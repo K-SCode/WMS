@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
 
 namespace WMS.Infrastructure.Data.Connections
 {

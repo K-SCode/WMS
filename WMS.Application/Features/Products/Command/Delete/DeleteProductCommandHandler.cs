@@ -1,12 +1,12 @@
 ﻿using Mediator;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Products.Command.Delete
 {
     public class DeleteProductCommandHandler(
-        IUnitOfWorks unitOfWorks) : ICommandHandler<DeleteProductCommand, Result<bool>>
+        IUnitOfWork unitOfWorks) : ICommandHandler<DeleteProductCommand, Result<bool>>
     {
         public async ValueTask<Result<bool>> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
         {

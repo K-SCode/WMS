@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using WMS.Application.Features.GoodsReceived.Commands;
 
-namespace WMS.Application.Interfaces
+namespace WMS.Application.Interfaces.Import
 {
     public interface IProductImportFileAdapter
     {

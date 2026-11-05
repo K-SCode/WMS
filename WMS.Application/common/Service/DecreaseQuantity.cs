@@ -1,10 +1,11 @@
-﻿using WMS.Application.Interfaces;
+﻿using WMS.Application.Interfaces.Infrastructure;
+using WMS.Application.Interfaces.Stocks;
 using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
 
 namespace WMS.Application.common.Service
 {
-    public partial class DecreaseQuantity(IUnitOfWorks unitOfWorks) : IDecreaseQuantity
+    public partial class DecreaseQuantity(IUnitOfWork unitOfWorks) : IDecreaseQuantity
     {
         public async Task<IReadOnlyList<StockResult>> DecreaseAsync<TItem>(
          IReadOnlyCollection<TItem> items,

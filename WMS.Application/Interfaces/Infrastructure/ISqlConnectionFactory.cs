@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-namespace WMS.Application.Interfaces
+namespace WMS.Application.Interfaces.Infrastructure
 {
     public interface ISqlConnectionFactory
     {

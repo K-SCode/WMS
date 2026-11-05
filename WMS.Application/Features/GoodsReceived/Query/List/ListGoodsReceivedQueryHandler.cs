@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using Mediator;
 using WMS.Application.Features.GoodsReceived.Dto;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 
 namespace WMS.Application.Features.GoodsReceived.Query.List

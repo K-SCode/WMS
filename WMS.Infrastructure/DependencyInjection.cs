@@ -8,7 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Import;
+using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 using WMS.Infrastructure.Auth;
 using WMS.Infrastructure.Data;
@@ -30,7 +31,7 @@ namespace WMS.Infrastructure
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
-            services.AddScoped<IUnitOfWorks, UnitOfWorks>();
+            services.AddScoped<IUnitOfWork, UnitOfWorks>();
             services.AddSingleton<ISqlConnectionFactory>(new SqlConnectionFactory(connectionString!));
 
             services.AddScoped<IProductImportFileAdapter, CsvProductAdapter>();

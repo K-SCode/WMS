@@ -1,11 +1,11 @@
 ﻿using Mediator;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Stocks.Command.Delete
 {
-    public sealed class DeleteStockCommandHandler(IUnitOfWorks unitOfWorks)
+    public sealed class DeleteStockCommandHandler(IUnitOfWork unitOfWorks)
         : ICommandHandler<DeleteStockCommand, Result<bool>>
     {
         public async ValueTask<Result<bool>> Handle(

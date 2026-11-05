@@ -1,4 +1,4 @@
-﻿namespace WMS.Application.Interfaces
+﻿namespace WMS.Application.Interfaces.Import
 {
     public interface IProductImportFileAdapterFactory
     {

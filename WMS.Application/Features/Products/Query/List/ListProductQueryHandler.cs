@@ -1,8 +1,8 @@
 ﻿using Mediator;
 using WMS.Application.Features.Products.Dtos;
-using WMS.Application.Interfaces;
 using Dapper;
 using WMS.Core.Common;
+using WMS.Application.Interfaces.Infrastructure;
 
 namespace WMS.Application.Features.Products.Query.List
 {

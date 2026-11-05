@@ -1,7 +1,6 @@
-﻿
-using WMS.Application.common.Service;
+﻿using WMS.Application.common.Service;
 
-namespace WMS.Application.Interfaces
+namespace WMS.Application.Interfaces.Stocks
 {
     public interface IDecreaseQuantity
     {

@@ -1,4 +1,4 @@
-﻿using WMS.Application.Interfaces;
+﻿using WMS.Application.Interfaces.Import;
 
 namespace WMS.Infrastructure.Import
 {

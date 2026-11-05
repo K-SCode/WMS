@@ -6,7 +6,10 @@ using WMS.Application.common.Service;
 using WMS.Application.Features.GoodsReceived.Services;
 using WMS.Application.Features.Orders.Command.Service;
 using WMS.Application.Features.Products.Command.Create;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.GoodsReceipts;
+using WMS.Application.Interfaces.Orders;
+using WMS.Application.Interfaces.Stocks;
+using WMS.Application.Interfaces.Warehouse;
 
 namespace WMS.Application
 {

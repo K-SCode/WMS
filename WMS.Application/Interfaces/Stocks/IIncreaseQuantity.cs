@@ -1,7 +1,7 @@
 ﻿using WMS.Application.common.Service;
 using WMS.Core.Entities;
 
-namespace WMS.Application.Interfaces
+namespace WMS.Application.Interfaces.Stocks
 {
     public interface IIncreaseQuantity
     {

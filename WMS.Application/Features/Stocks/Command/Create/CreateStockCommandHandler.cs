@@ -1,14 +1,14 @@
 ﻿using Mapster;
 using Mediator;
 using WMS.Application.common.Helper;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 using WMS.Core.Entities;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace WMS.Application.Features.Stocks.Command.Create
 {
-    public sealed class CreateStockCommandHandler(IUnitOfWorks unitOfWorks)
+    public sealed class CreateStockCommandHandler(IUnitOfWork unitOfWorks)
         : ICommandHandler<CreateStockCommand, Result<int>>
     {
         public async ValueTask<Result<int>> Handle(

@@ -1,7 +1,10 @@
 ﻿using Mapster;
 using WMS.Application.common.Service;
 using WMS.Application.Features.Orders.Dto;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
+using WMS.Application.Interfaces.Orders;
+using WMS.Application.Interfaces.Stocks;
+using WMS.Application.Interfaces.Warehouse;
 using WMS.Core.Common;
 using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
@@ -14,7 +17,7 @@ namespace WMS.Application.Features.Orders.Command.Service
         IAssignOrderItems assignOrderItems,
         IDecreaseQuantity decreaseQuantity,
         ICreateWarehouseTask createWarehouseTask,
-        IUnitOfWorks unitOfWorks) : ICreateOrderProcess
+        IUnitOfWork unitOfWorks) : ICreateOrderProcess
     {
         public async Task<Result<int>> ProcessAsync(
             CustomerInformation customer,

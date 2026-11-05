@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
+using WMS.Application.Interfaces.Repositories;
 
-namespace WMS.Application.Interfaces
+namespace WMS.Application.Interfaces.Infrastructure
 {
-    public interface IUnitOfWorks
+    public interface IUnitOfWork
     {
         ILocationRepository Location { get; }
         IProductRepository Product { get; }

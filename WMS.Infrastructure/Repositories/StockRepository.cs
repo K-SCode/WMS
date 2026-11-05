@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Repositories;
 using WMS.Core.Entities;
 using WMS.Infrastructure.Data;
 

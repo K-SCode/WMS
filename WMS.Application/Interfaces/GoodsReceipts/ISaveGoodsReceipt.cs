@@ -2,7 +2,7 @@
 using WMS.Application.Features.GoodsReceived.Dto;
 using WMS.Core.Entities;
 
-namespace WMS.Application.Interfaces
+namespace WMS.Application.Interfaces.GoodsReceipts
 {
     public interface ISaveGoodsReceipt
     {

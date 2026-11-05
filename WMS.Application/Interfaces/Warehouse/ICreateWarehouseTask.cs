@@ -1,7 +1,7 @@
 ﻿using WMS.Application.common.Service;
 using WMS.Core.Common.Enum;
 
-namespace WMS.Application.Interfaces
+namespace WMS.Application.Interfaces.Warehouse
 {
     public interface ICreateWarehouseTask
     {

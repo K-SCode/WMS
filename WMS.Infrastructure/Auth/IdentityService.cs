@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 using WMS.Core.Entities.Auth;
 using WMS.Infrastructure.Data.Identity;

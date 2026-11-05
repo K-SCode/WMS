@@ -1,4 +1,4 @@
-﻿namespace WMS.Application.Interfaces
+﻿namespace WMS.Application.Interfaces.Repositories
 {
     public interface IRepository<T> where T : class
     {

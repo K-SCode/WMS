@@ -1,6 +1,7 @@
 ﻿using Mediator;
 using WMS.Application.common.Helper;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
+using WMS.Application.Interfaces.Orders;
 using WMS.Core.Common;
 using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
@@ -8,7 +9,7 @@ using WMS.Core.Entities;
 namespace WMS.Application.Features.Orders.Command.ReturnOrder
 {
     public class ReturnOrderHandler(
-        IUnitOfWorks unitOfWorks,
+        IUnitOfWork unitOfWorks,
         IOrderRestocking orderRestocking)
         : ICommandHandler<ReturnOrderCommand, Result<bool>>
     {

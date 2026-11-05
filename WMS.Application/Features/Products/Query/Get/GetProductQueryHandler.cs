@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using Mediator;
 using WMS.Application.Features.Products.Dtos;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 using WMS.Core.Entities;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;

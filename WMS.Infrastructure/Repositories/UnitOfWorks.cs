@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
+using WMS.Application.Interfaces.Repositories;
 using WMS.Infrastructure.Data;
 
 namespace WMS.Infrastructure.Repositories
 {
-    public class UnitOfWorks(ApplicationDbContext context) : IUnitOfWorks
+    public class UnitOfWorks(ApplicationDbContext context) : IUnitOfWork
     {
         private ILocationRepository? _location;
         private IProductRepository? _product;

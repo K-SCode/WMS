@@ -1,7 +1,7 @@
 ﻿using WMS.Core.Common;
 using WMS.Core.Entities.Auth;
 
-namespace WMS.Application.Interfaces
+namespace WMS.Application.Interfaces.Infrastructure
 {
     public interface IIdentityService
     {

@@ -1,7 +1,7 @@
 ﻿using CsvHelper;
 using System.Globalization;
 using WMS.Application.Features.GoodsReceived.Commands;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Import;
 
 namespace WMS.Infrastructure.Import.Adapters
 {

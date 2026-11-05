@@ -1,4 +1,4 @@
-﻿using WMS.Application.Interfaces;
+﻿using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 using WMS.Core.Entities;
 
@@ -6,7 +6,7 @@ namespace WMS.Application.common.Helper
 {
     public static class VerifyStockHelper
     {
-        private static IUnitOfWorks? _unitOfWorks;
+        private static IUnitOfWork? _unitOfWorks;
         private static async Task<bool> LocationExistsAsync(int locationId, CancellationToken cancellationToken)
         {
             var result = await _unitOfWorks!.Location.GetByIdAsync(locationId, cancellationToken);
@@ -20,7 +20,7 @@ namespace WMS.Application.common.Helper
         }
 
         public static async Task<Error?> VerifyAsync(
-            IUnitOfWorks unitOfWorks,
+            IUnitOfWork unitOfWorks,
             int locationId,
             int productId,
             CancellationToken ct)

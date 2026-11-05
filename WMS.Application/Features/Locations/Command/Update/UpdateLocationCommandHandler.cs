@@ -3,13 +3,13 @@ using Mediator;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Locations.Command.Update
 {
-    public sealed class UpdateLocationCommandHandler(IUnitOfWorks unitOfWorks) : ICommandHandler<UpdateLocationCommand, Result<bool>>
+    public sealed class UpdateLocationCommandHandler(IUnitOfWork unitOfWorks) : ICommandHandler<UpdateLocationCommand, Result<bool>>
     {
         public async ValueTask<Result<bool>> Handle(UpdateLocationCommand command, CancellationToken cancellationToken)
         {

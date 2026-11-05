@@ -1,5 +1,8 @@
 ﻿using WMS.Application.Features.GoodsReceived.Dto;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.GoodsReceipts;
+using WMS.Application.Interfaces.Infrastructure;
+using WMS.Application.Interfaces.Stocks;
+using WMS.Application.Interfaces.Warehouse;
 using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
 
@@ -9,7 +12,7 @@ namespace WMS.Application.Features.GoodsReceived.Services
         IIncreaseQuantity increaseQuantity,
         ISaveGoodsReceipt saveGoodsReceipt,
         ICreateWarehouseTask createWarehouseTask,
-        IUnitOfWorks unitOfWorks) : IGoodsReceivedProcess
+        IUnitOfWork unitOfWorks) : IGoodsReceivedProcess
     {
         public async Task<bool>ProcessAsync(
             GoodsReceivedNote goodsReceived,

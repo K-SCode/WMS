@@ -1,10 +1,11 @@
-﻿using WMS.Application.Interfaces;
+﻿using WMS.Application.Interfaces.Infrastructure;
+using WMS.Application.Interfaces.Warehouse;
 using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
 
 namespace WMS.Application.common.Service
 {
-    public class CreateWarehouseTask(IUnitOfWorks unitOfWorks) : ICreateWarehouseTask
+    public class CreateWarehouseTask(IUnitOfWork unitOfWorks) : ICreateWarehouseTask
     {
         public async Task CreateTaskAsync(
             IReadOnlyCollection<StockResult> items,

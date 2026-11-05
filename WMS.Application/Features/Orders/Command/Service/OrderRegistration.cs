@@ -1,11 +1,12 @@
 ﻿using Mapster;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
+using WMS.Application.Interfaces.Orders;
 using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Orders.Command.Service
 {
-    public class OrderRegistration(IUnitOfWorks unitOfWorks) : IOrderRegistration
+    public class OrderRegistration(IUnitOfWork unitOfWorks) : IOrderRegistration
     {
         public async Task<Order> RegisterAsync(Order request, Customer customer, CancellationToken ct)
         {

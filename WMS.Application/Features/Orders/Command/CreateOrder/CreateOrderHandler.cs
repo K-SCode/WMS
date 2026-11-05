@@ -1,6 +1,6 @@
 ﻿using Mediator;
 using WMS.Application.Features.Orders.Dto;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Orders;
 using WMS.Core.Common;
 using WMS.Core.Entities;
 

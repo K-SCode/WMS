@@ -1,10 +1,11 @@
-﻿using WMS.Application.Interfaces;
+﻿using WMS.Application.Interfaces.Infrastructure;
+using WMS.Application.Interfaces.Stocks;
 using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
 
 namespace WMS.Application.common.Service
 {
-    public class IncreaseQunatity(IUnitOfWorks unitOfWorks) : IIncreaseQuantity
+    public class IncreaseQunatity(IUnitOfWork unitOfWorks) : IIncreaseQuantity
     {
         public async Task<IReadOnlyList<StockResult>> IncreaseAsync<TItem>(
             IReadOnlyCollection<TItem> items,

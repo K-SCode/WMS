@@ -1,6 +1,6 @@
 ﻿using WMS.Application.Features.GoodsReceived.Dto;
 
-namespace WMS.Application.Interfaces
+namespace WMS.Application.Interfaces.GoodsReceipts
 {
     public interface IGoodsReceivedProcess
     {

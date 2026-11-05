@@ -1,7 +1,7 @@
 ﻿using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
 
-namespace WMS.Application.Interfaces
+namespace WMS.Application.Interfaces.Orders
 {
     public interface IOrderRestocking
     {

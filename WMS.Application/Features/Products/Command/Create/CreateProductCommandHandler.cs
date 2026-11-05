@@ -1,13 +1,13 @@
 ﻿using Mapster;
 using Mediator;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Products.Command.Create
 {
     public sealed class CreateProductCommandHandler(
-        IUnitOfWorks unitOfWorks)
+        IUnitOfWork unitOfWorks)
         : ICommandHandler<CreateProductCommand, Result<int>>
     {
         public async ValueTask<Result<int>> Handle(

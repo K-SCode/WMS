@@ -2,7 +2,7 @@
 using Mapster;
 using Mediator;
 using WMS.Application.Features.GoodsReceived.Dto;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 using WMS.Core.Entities;
 

@@ -1,11 +1,14 @@
-﻿using WMS.Application.Interfaces;
+﻿using WMS.Application.Interfaces.Infrastructure;
+using WMS.Application.Interfaces.Orders;
+using WMS.Application.Interfaces.Stocks;
+using WMS.Application.Interfaces.Warehouse;
 using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Orders.Command.Service
 {
     internal class OrderRestocking(
-        IUnitOfWorks unitOfWorks,
+        IUnitOfWork unitOfWorks,
         IIncreaseQuantity increaseQuantity,
         ICreateWarehouseTask createWarehouseTask) : IOrderRestocking
     {

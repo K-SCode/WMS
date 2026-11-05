@@ -1,9 +1,10 @@
-﻿using WMS.Application.Interfaces;
+﻿using WMS.Application.Interfaces.Infrastructure;
+using WMS.Application.Interfaces.Orders;
 using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Orders.Command.Service
 {
-    public class AssignOrderItems(IUnitOfWorks unitOfWorks) : IAssignOrderItems
+    public class AssignOrderItems(IUnitOfWork unitOfWorks) : IAssignOrderItems
     {
         public async Task Assing(
             IReadOnlyCollection<OrderItem> request,

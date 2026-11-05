@@ -2,13 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Locations.Command.Delete
 {
-    public sealed class DeleteLocationCommandHandler(IUnitOfWorks unitOfWorks) : ICommandHandler<DeleteLocationCommand, Result<bool>>
+    public sealed class DeleteLocationCommandHandler(IUnitOfWork unitOfWorks) : ICommandHandler<DeleteLocationCommand, Result<bool>>
     {
         public async ValueTask<Result<bool>> Handle(DeleteLocationCommand command, CancellationToken cancellationToken)
         {

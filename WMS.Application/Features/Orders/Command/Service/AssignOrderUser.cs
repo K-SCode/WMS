@@ -1,10 +1,11 @@
 ﻿using Mapster;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
+using WMS.Application.Interfaces.Orders;
 using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Orders.Command.Service
 {
-    public class AssignOrderUser(IUnitOfWorks unitOfWorks) : IAssignOrderUser
+    public class AssignOrderUser(IUnitOfWork unitOfWorks) : IAssignOrderUser
     {
         public async Task<Customer> AssignAsync(Customer request,CancellationToken ct)
         {

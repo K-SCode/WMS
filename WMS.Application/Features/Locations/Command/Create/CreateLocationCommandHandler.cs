@@ -3,13 +3,13 @@ using Mediator;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Locations.Command.Create
 {
-    public sealed class CreateLocationCommandHandler(IUnitOfWorks unitOfWorks)
+    public sealed class CreateLocationCommandHandler(IUnitOfWork unitOfWorks)
         : ICommandHandler<CreateLocationCommand, Result<int>>
     {
         public async ValueTask<Result<int>> Handle(CreateLocationCommand command, CancellationToken cancellationToken)

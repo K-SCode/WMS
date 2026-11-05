@@ -1,13 +1,13 @@
 ﻿using Mapster;
 using Mediator;
 using WMS.Application.common.Helper;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Stocks.Command.Update
 {
-    public sealed class UpdateStockCommandHandler(IUnitOfWorks unitOfWorks) : ICommandHandler<UpdateStockCommand, Result<bool>>
+    public sealed class UpdateStockCommandHandler(IUnitOfWork unitOfWorks) : ICommandHandler<UpdateStockCommand, Result<bool>>
     {
         public async ValueTask<Result<bool>> Handle(UpdateStockCommand command, CancellationToken cancellationToken)
         {

@@ -1,5 +1,5 @@
 ﻿using Mediator;
-using WMS.Application.Interfaces;
+using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 
 namespace WMS.Application.Features.Auth.command.AssignRole
