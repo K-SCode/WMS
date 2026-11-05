@@ -9,12 +9,14 @@ using WMS.Application.Features.Orders.Command.ShippedOrder;
 using WMS.Application.Features.Orders.Query.Get;
 using WMS.Application.Features.Orders.Query.List;
 using WMS.Core.Common;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace WMS.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Policy = Policy.ManagerOrWarehouseman)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class OrderController(ISender sender) : ControllerBase
     {
         [HttpPost("[action]")]

@@ -1,6 +1,5 @@
 ﻿using Mediator;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WMS.Api.Extensions;
 using WMS.Application.Features.Stocks.Command.Create;
