@@ -24,16 +24,15 @@ namespace WMS.Infrastructure.Auth
 
             var roles = await userManager.GetRolesAsync(user);
 
-            var claims = new List<Claim>()
-            {
-                new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new(JwtRegisteredClaimNames.Email, user.Email!),
-                new(JwtRegisteredClaimNames.Name, $"{user.FirstName} {user.LastName}"),
-                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
+            List<Claim> claims = CreateClaims(user, roles);
+            
+            string token = CreateToken(expiresAt, claims);
 
-            claims.AddRange(roles.Select(r => new Claim("role", r)));
+            return new AuthToken(token, expiresAt);
+        }
 
+        private string CreateToken(DateTime expiresAt, List<Claim> claims)
+        {
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key));
             var credentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
             var descriptor = new SecurityTokenDescriptor
@@ -46,8 +45,21 @@ namespace WMS.Infrastructure.Auth
             };
             var handler = new Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler();
             var token = handler.CreateToken(descriptor);
+            return token;
+        }
 
-            return new AuthToken(token, expiresAt);
+        private static List<Claim> CreateClaims(ApplicationUser user, IList<string> roles)
+        {
+            var claims = new List<Claim>()
+            {
+                new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new(JwtRegisteredClaimNames.Email, user.Email!),
+                new(JwtRegisteredClaimNames.Name, $"{user.FirstName} {user.LastName}"),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            claims.AddRange(roles.Select(r => new Claim("role", r)));
+            return claims;
         }
     }
 }

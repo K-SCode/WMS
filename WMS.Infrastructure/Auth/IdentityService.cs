@@ -14,29 +14,21 @@ namespace WMS.Infrastructure.Auth
         public async Task<Result<bool>> AssignRole(string email, string role)
         {
             var user = await userManager.FindByEmailAsync(email);
-            if(user is null)
+            if (user is null)
             {
                 return Errors<ApplicationUser>.NotFound;
             }
-            if(!await roleManager.RoleExistsAsync(role))
+            if (!await RoleExistsAsync(role))
             {
                 return Errors.NotExists;
             }
 
-            var currentRole = await userManager.GetRolesAsync(user);
-            if(currentRole.Count == 1 && currentRole.Contains(role))
+            var removeResult = await RemoveCurrentRoleAsync(role, user);
+            if (!removeResult.IsSuccess)
             {
-                return true;
+                return removeResult.Error!;
             }
 
-            if(currentRole.Count > 0)
-            {
-                var removeResult = await userManager.RemoveFromRolesAsync(user, currentRole);
-                if(!removeResult.Succeeded)
-                {
-                    return Errors<ApplicationUser>.OperationFailed;
-                }
-            }
             var addResult = await userManager.AddToRoleAsync(user, role);
             if (!addResult.Succeeded)
             {
@@ -47,16 +39,18 @@ namespace WMS.Infrastructure.Auth
             return true;
         }
 
+
         public async Task<Result<AuthToken>> LoginUserAsync(string email, string password, CancellationToken ct)
         {
-           var user = await userManager.FindByEmailAsync(email);
-            if (user is null || !await userManager.CheckPasswordAsync(user,password))
+            var user = await userManager.FindByEmailAsync(email);
+            if (!await VerifyUser(password, user))
             {
                 return Errors.Unauthorized;
             }
-            AuthToken authToken = await tokenService.CreateTokenAsync(user.Id);
+            AuthToken authToken = await tokenService.CreateTokenAsync(user!.Id);
             return authToken;
         }
+
 
         public async Task<Result<bool>> RegisterUserAsync(
             string firstName,
@@ -92,6 +86,34 @@ namespace WMS.Infrastructure.Auth
 
             await userManager.AddToRoleAsync(user, Roles.User);
             return true;
+        }
+        private async Task<Result<bool>> RemoveCurrentRoleAsync(string role, ApplicationUser user)
+        {
+            var currentRole = await userManager.GetRolesAsync(user);
+            if (currentRole.Count == 1 && currentRole.Contains(role))
+            {
+                return true;
+            }
+
+            if (currentRole.Count > 0)
+            {
+                var removeResult = await userManager.RemoveFromRolesAsync(user, currentRole);
+                if (!removeResult.Succeeded)
+                {
+                    return Errors<ApplicationUser>.OperationFailed;
+                }
+            }
+
+            return true;
+        }
+
+        private async Task<bool> RoleExistsAsync(string role)
+        {
+            return await roleManager.RoleExistsAsync(role);
+        }
+        private async Task<bool> VerifyUser(string password, ApplicationUser? user)
+        {
+            return user is null || !await userManager.CheckPasswordAsync(user, password);
         }
     }
 }
