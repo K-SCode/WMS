@@ -14,6 +14,7 @@ namespace WMS.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class LocationController(ISender sender) : ControllerBase
     {
         [HttpPost]

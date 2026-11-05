@@ -3,17 +3,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using WMS.Api.Extensions;
-using WMS.Application.Features.Auth.command.AssignRole;
 using WMS.Application.Features.Auth.command.Login;
 using WMS.Application.Features.Auth.command.Register;
-using WMS.Application.Features.Auth.Query.Get.GetUserDetails;
-using WMS.Application.Features.Auth.Query.List.ListUsers;
 using WMS.Core.Common;
 
 namespace WMS.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class AuthController(
         ISender sender) : ControllerBase
     {
@@ -27,6 +27,8 @@ namespace WMS.Api.Controllers
         }
 
         [HttpPost("[action]")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
         {
             var result = await sender.Send(new LoginCommand(request.Email, request.Password), cancellationToken);
@@ -34,27 +36,6 @@ namespace WMS.Api.Controllers
             return result.ToOkOrProblem();
         }
 
-        [HttpPost("[action]")]
-        [Authorize(Roles = Roles.Manager)]
-        public async Task<IActionResult> AssignRole([FromBody] AssignRoleCommand command, CancellationToken cancellationToken)
-        {
-            var result = await sender.Send(command, cancellationToken);
-
-            return result.ToOkOrProblem();
-        }
-        [HttpGet]
-        [Authorize(Roles = Roles.Manager)]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
-        {
-            var result = await sender.Send(new ListUsersQuery(), cancellationToken);
-            return result.ToOkOrProblem();
-        }
-        [HttpGet("{Id:int}")]
-        [Authorize(Roles = Roles.Manager)]
-        public async Task<IActionResult> GetUserById([FromRoute] GetUserQuery query,  CancellationToken cancellationToken)
-        {
-            var result = await sender.Send(query, cancellationToken);
-            return result.ToOkOrProblem();
-        }
+        
     }
 }

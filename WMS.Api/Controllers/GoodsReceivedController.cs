@@ -14,6 +14,9 @@ namespace WMS.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class GoodsReceivedController(ISender sender) : ControllerBase
     {
         [HttpPut("[action]")]
