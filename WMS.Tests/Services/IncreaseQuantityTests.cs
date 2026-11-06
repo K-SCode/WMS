@@ -1,14 +1,12 @@
 ﻿using Moq;
 using Shouldly;
-using System.Collections;
 using WMS.Application.common.Service;
 using WMS.Application.Interfaces.Infrastructure;
-using WMS.Application.Interfaces.Repositories;
 using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
 using Xunit;
 
-namespace WMS.Tests.Order
+namespace WMS.Tests.Services
 {
     public class IncreaseQuantityTests
     {

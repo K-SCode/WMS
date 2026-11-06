@@ -56,10 +56,12 @@ namespace WMS.Application.common.Service
                     StockManageStatus.ProductNotFound,
                     quantity)];
 
-            if (!stocksWithProduct.TryGetValue(barcode, out var stocks) || stocks.Count ==  0)
+            if (!stocksWithProduct.TryGetValue(barcode, out var stocks) 
+                || stocks.Count ==  0
+                || stocks.Any(s => s is null))
                 return [new ResolveStatus(
                     null,
-                    StockManageStatus.StocksEmpty,
+                    StockManageStatus.StocksNotFound,
                     quantity)];
 
             var distribution =
@@ -70,12 +72,9 @@ namespace WMS.Application.common.Service
 
             var rowStatus = remaining == 0
                 ? StockManageStatus.Accepted
-                : StockManageStatus.PartiallyAccepted;
+                : StockManageStatus.NotEnoughQuantity;
             var results = distribution.Select(
                 d => new ResolveStatus(d.Stock.LocationId, rowStatus, d.TakeQuantity)).ToList();
-
-            if (remaining > 0)
-                results.Add(new ResolveStatus(null, StockManageStatus.ProductNotFound, remaining));
 
             return results;
         }

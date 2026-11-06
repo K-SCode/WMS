@@ -1,14 +1,12 @@
 ﻿using Moq;
 using Shouldly;
-using System.Collections;
 using WMS.Application.common.Service;
 using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
 using Xunit;
-using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
-namespace WMS.Tests.Order
+namespace WMS.Tests.Services
 {
     public class DecreaseQuantityTests
     {

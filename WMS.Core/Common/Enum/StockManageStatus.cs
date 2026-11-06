@@ -7,6 +7,7 @@
         ProductNotFound,
         Returned,
         PartiallyAccepted,
-        StocksEmpty
+        StocksNotFound,
+        NotEnoughQuantity
     }
 }
