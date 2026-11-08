@@ -5,6 +5,6 @@ using WMS.Core.Common;
 namespace WMS.Application.Features.Orders.Command.CreateOrder
 {
     public sealed record CreateOrderCommand(
-        OrderInformation Information, CustomerInformation Customer, IReadOnlyList<CreateProductOrder> Products)
+        OrderInformation Information, CustomerInformation Customer, IReadOnlyCollection<CreateProductOrder> Products)
         : ICommand<Result<int>>;
 }

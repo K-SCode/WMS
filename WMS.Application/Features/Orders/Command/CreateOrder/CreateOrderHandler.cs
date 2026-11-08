@@ -32,7 +32,7 @@ namespace WMS.Application.Features.Orders.Command.CreateOrder
         private static bool NipIsNotNull(string? nip) => nip is not null;
         private static bool NipIsCorrect(string nip)
         {
-            if (LengthIsCorrect(nip))
+            if (!LengthIsCorrect(nip))
                 return false;
 
             int number = CalcControlNumber(nip);
@@ -57,7 +57,7 @@ namespace WMS.Application.Features.Orders.Command.CreateOrder
             return controlNumber;
         }
         private static bool ControlNumberIsValid(int number, string nip) =>
-            number != 10 || number == int.Parse(nip[^1].ToString());
+            number != 10 && number == int.Parse(nip[^1].ToString());
 
         private async Task<Result<int>> CreateOrder(
             CustomerInformation customer,
