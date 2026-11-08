@@ -7,7 +7,7 @@ namespace WMS.Application.common.Service
 {
     public class IncreaseQunatity(IUnitOfWork unitOfWorks) : IIncreaseQuantity
     {
-        public async Task<IReadOnlyList<StockResult?>> IncreaseAsync<TItem>(
+        public async Task<IReadOnlyCollection<StockResult?>> IncreaseAsync<TItem>(
             IReadOnlyCollection<TItem> items,
             Func<TItem, string> barcodeSelector,
             Func<TItem, decimal> quantitySelector,

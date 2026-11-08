@@ -7,7 +7,7 @@ namespace WMS.Application.Interfaces.GoodsReceipts
     public interface ISaveGoodsReceipt
     {
         Task<GoodsReceipt> SaveInDatabaseAsync(
-            IEnumerable<ProductReceived> items,
+            IReadOnlyCollection<ProductReceived> items,
             DocumentInformation information,
             CancellationToken ct);
     }

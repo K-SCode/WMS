@@ -11,7 +11,7 @@ namespace WMS.Application.Features.GoodsReceived.Services
         IUnitOfWork unitOfWorks) : ISaveGoodsReceipt
     {
         public async Task<GoodsReceipt> SaveInDatabaseAsync(
-            IEnumerable<ProductReceived> products,
+            IReadOnlyCollection<ProductReceived> products,
             DocumentInformation information,
             CancellationToken ct)
         {

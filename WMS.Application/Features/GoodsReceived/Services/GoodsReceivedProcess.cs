@@ -43,7 +43,7 @@ namespace WMS.Application.Features.GoodsReceived.Services
 
             await unitOfWorks.SaveChangesAsync(ct);
 
-            await transaction.CommitAsync(ct);
+                await transaction.CommitAsync(ct);
             return true;
         }
 
