@@ -5,7 +5,7 @@ using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Orders.Command.Service
 {
-    public class AssignOrderUser(IUnitOfWork unitOfWorks) : IAssignOrderUser
+    public class AssignCustomerOrder(IUnitOfWork unitOfWorks) : IAssignCustomerOrder
     {
         public async Task<Customer> AssignAsync(Customer request,CancellationToken ct)
         {

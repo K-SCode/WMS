@@ -7,7 +7,7 @@ namespace WMS.Application.common.Service
 {
     public partial class DecreaseQuantity(IUnitOfWork unitOfWorks) : IDecreaseQuantity
     {
-        public async Task<IReadOnlyList<StockResult>> DecreaseAsync<TItem>(
+        public async Task<IReadOnlyCollection<StockResult>> DecreaseAsync<TItem>(
          IReadOnlyCollection<TItem> items,
          Func<TItem, string> barcodeSelector,
          Func<TItem, decimal> quantitySelector,

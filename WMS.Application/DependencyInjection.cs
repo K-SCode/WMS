@@ -33,7 +33,7 @@ namespace WMS.Application
 
             services.AddScoped<ICreateOrderProcess, CreateOrderProcess>();
             services.AddScoped<IAssignOrderItems, AssignOrderItems>();
-            services.AddScoped<IAssignOrderUser, AssignOrderUser>();
+            services.AddScoped<IAssignCustomerOrder, AssignCustomerOrder>();
             services.AddScoped<IOrderRegistration, OrderRegistration>();
 
             services.AddScoped<ICreateWarehouseTask, CreateWarehouseTask>();

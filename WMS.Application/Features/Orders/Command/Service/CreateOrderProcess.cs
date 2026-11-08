@@ -11,8 +11,8 @@ using WMS.Core.Entities;
 
 namespace WMS.Application.Features.Orders.Command.Service
 {
-    internal class CreateOrderProcess(
-        IAssignOrderUser assignOrderUser,
+    public class CreateOrderProcess(
+        IAssignCustomerOrder assignOrderUser,
         IOrderRegistration orderRegistration,
         IAssignOrderItems assignOrderItems,
         IDecreaseQuantity decreaseQuantity,
@@ -62,7 +62,7 @@ namespace WMS.Application.Features.Orders.Command.Service
             if (!lines.IsSuccess)
                 return  lines.Error!;
 
-            IReadOnlyList<StockResult>  stockResult = await decreaseQuantity.DecreaseAsync(
+            IReadOnlyCollection<StockResult>  stockResult = await decreaseQuantity.DecreaseAsync(
                 lines.Value, p => p.Product!.Barcode,
                 p => p.Quantity, ct);
             if (HasUnacceptedStatus(stockResult))
@@ -93,7 +93,7 @@ namespace WMS.Application.Features.Orders.Command.Service
         }
 
         private static bool HasUnacceptedStatus(
-            IReadOnlyList<StockResult> result)
+            IReadOnlyCollection<StockResult> result)
         {
             return result.Any(
                 r => r.ResolveStatuses.Any(

@@ -4,7 +4,7 @@ namespace WMS.Application.Interfaces.Stocks
 {
     public interface IDecreaseQuantity
     {
-        Task<IReadOnlyList<StockResult>> DecreaseAsync<TItem>(
+        Task<IReadOnlyCollection<StockResult>> DecreaseAsync<TItem>(
             IReadOnlyCollection<TItem> items,
             Func<TItem, string> barcodeSelector,
             Func<TItem, decimal> quantitySelector,

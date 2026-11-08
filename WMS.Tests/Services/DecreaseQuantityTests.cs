@@ -55,7 +55,7 @@ namespace WMS.Tests.Services
             };
         }
 
-        private async Task<IReadOnlyList<StockResult>> DecreaseAsync(decimal quantity)
+        private async Task<IReadOnlyCollection<StockResult>> DecreaseAsync(decimal quantity)
         {
             return await _sut.DecreaseAsync(
                 [new Model(Barcode, quantity)],
@@ -92,7 +92,7 @@ namespace WMS.Tests.Services
 
             //Act
 
-            IReadOnlyList<StockResult> result = await DecreaseAsync(30m);
+            IReadOnlyCollection<StockResult> result = await DecreaseAsync(30m);
 
             //Assert
             var row = result.ShouldHaveSingleItem().ResolveStatuses.ToArray();
