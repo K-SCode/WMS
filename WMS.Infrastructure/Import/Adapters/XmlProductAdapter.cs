@@ -19,9 +19,9 @@ namespace WMS.Infrastructure.Import.Adapters
             IReadOnlyCollection<ProductReceived> records = doc.Descendants("Product")
                 .Select(element => new ProductReceived(
                     Barcode: element.Element("Barcode")?.Value ?? string.Empty,
-                    Quantity: decimal.TryParse(element.Element("Quantity")?.Value, out var quantity) ? quantity : -1,
+                    Quantity: decimal.TryParse(element.Element("Quantity")?.Value, out var quantity) ? quantity : 0,
                     UnitQuantity: element.Element("UnitQuantity")?.Value ?? string.Empty,
-                    PurchasePrice: decimal.TryParse(element.Element("PurchasePrice")?.Value, out decimal price) ? price : -1
+                    PurchasePrice: decimal.TryParse(element.Element("PurchasePrice")?.Value, out decimal price) ? price : 0
                 )).ToList();
 
             return records;
