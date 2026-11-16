@@ -21,9 +21,10 @@ namespace WMS.Application.Behaviors
         {
             if (validators.Any())
             {
-                var context = new ValidationContext<TMessage>(message);
                 var results = await Task.WhenAll(
-                    validators.Select(v => v.ValidateAsync(context, cancellationToken)));
+                    validators.Select(v => v.ValidateAsync(
+                        new ValidationContext<TMessage>(message),
+                        cancellationToken)));
 
                 var failures = results
                     .SelectMany(r => r.Errors)
