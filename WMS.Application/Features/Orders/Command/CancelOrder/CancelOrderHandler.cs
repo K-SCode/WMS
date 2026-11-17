@@ -23,6 +23,10 @@ namespace WMS.Application.Features.Orders.Command.CancelOrder
             {
                 return verifyResult;
             }
+            if(order!.Status == OrderStatus.Cancelled)
+            {
+                return true;
+            }
   
 
             ChangeOrderStatus.ChangeStatus(order!, OrderStatus.Cancelled);
