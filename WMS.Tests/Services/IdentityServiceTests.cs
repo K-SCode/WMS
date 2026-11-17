@@ -297,8 +297,7 @@ namespace WMS.Tests.Services
                 lastName,
                 password,
                 email,
-                phone,
-                CancellationToken.None);
+                phone);
 
             //Assert
             result.IsSuccess.ShouldBeTrue();

@@ -39,7 +39,7 @@ namespace WMS.Infrastructure.Auth
         }
 
 
-        public async Task<Result<AuthToken>> LoginUserAsync(string email, string password, CancellationToken ct)
+        public async Task<Result<AuthToken>> LoginUserAsync(string email, string password)
         {
             var user = await userManager.FindByEmailAsync(email);
             if (!await VerifyUser(password, user))
@@ -56,8 +56,7 @@ namespace WMS.Infrastructure.Auth
             string lastName,
             string password,
             string email,
-            string phone,
-            CancellationToken ct)
+            string phone)
         {
             if(await userManager.FindByEmailAsync(email) is not null)
             {

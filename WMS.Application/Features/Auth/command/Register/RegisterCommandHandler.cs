@@ -14,8 +14,7 @@ namespace WMS.Application.Features.Auth.command.Register
                 command.LastName,
                 command.Password,
                 command.Email,
-                command.Phone,
-                cancellationToken);
+                command.Phone);
         }
     }
 }

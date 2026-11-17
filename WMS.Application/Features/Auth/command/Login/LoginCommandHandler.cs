@@ -10,7 +10,7 @@ namespace WMS.Application.Features.Auth.command.Login
     {
         public async ValueTask<Result<LoginDto>> Handle(LoginCommand command, CancellationToken cancellationToken)
         {
-            var result = await identityService.LoginUserAsync(command.Email, command.Password, cancellationToken);
+            var result = await identityService.LoginUserAsync(command.Email, command.Password);
             return result.Value.Adapt<LoginDto>();
         }
     }
