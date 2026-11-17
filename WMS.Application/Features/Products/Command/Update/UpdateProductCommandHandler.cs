@@ -17,22 +17,22 @@ namespace WMS.Application.Features.Products.Command.Update
             UpdateProductCommand command,
             CancellationToken cancellationToken)
         {
-            if (await ExistsProductAsync(command.Id,cancellationToken))
+            var product = await unitOfWorks.Product.GetByIdAsync(command.Id, cancellationToken);
+            if (!await ExistsProductAsync(product,cancellationToken))
             {
                 return Errors<Product>.ObjectNotExists(command.Id); ;
             }
 
-            var product = ConvertToProduct(command);
+            command.Adapt(product);
             
             await UpdateProductAsync(product, cancellationToken);
 
             return true;
         }
 
-        private async Task<bool> ExistsProductAsync(int id, CancellationToken ct)
+        private async Task<bool> ExistsProductAsync(Product product, CancellationToken ct)
         {
-            var existsProduct = await unitOfWorks.Product.GetByIdAsync(id, ct);
-            return existsProduct is null;
+            return product is not null;
         }
         private static Product ConvertToProduct(UpdateProductCommand request)
         {
@@ -41,9 +41,7 @@ namespace WMS.Application.Features.Products.Command.Update
         }
         private async Task UpdateProductAsync(Product product, CancellationToken ct)
         {
-            var existsProduct = await unitOfWorks.Product.GetByIdAsync(product.Id, ct);
-            product.Adapt(existsProduct);
-            unitOfWorks.Product.Update(existsProduct!);
+            unitOfWorks.Product.Update(product!);
             await unitOfWorks.SaveChangesAsync(ct);
         }
     }
