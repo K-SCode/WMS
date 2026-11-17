@@ -84,10 +84,11 @@ namespace WMS.Tests.Services
         [Fact]
         public async Task CreateTokenAsync_UserNotFound_ThrowException()
         {
+            //arrange
             _userManager.Setup(m => m.FindByIdAsync(It.IsAny<string>()))
                .ReturnsAsync((ApplicationUser?)null);
 
-            //Act & Assert
+            //Act, Assert
             await Should.ThrowAsync<Exception>(() => _sut.CreateTokenAsync(99));
         }
     }
