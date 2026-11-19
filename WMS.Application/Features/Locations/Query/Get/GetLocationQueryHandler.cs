@@ -16,6 +16,7 @@ namespace WMS.Application.Features.Locations.Query.Get
                 Sector,
                 Rack,
                 Number,
+                RowVersion AS Version
             FROM [Locations]
             WHERE Id = @Id
             """;

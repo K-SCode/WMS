@@ -16,6 +16,7 @@ namespace WMS.Application.Features.Locations.Query.List
                 Sector,
                 Rack,
                 Number,
+                RowVersion AS Version
             FROM [Locations]
             """;
         public async ValueTask<Result<IReadOnlyCollection<LocationDto>>> Handle(

@@ -21,6 +21,8 @@ namespace WMS.Application.Features.Locations.Command.Update
                 .GreaterThan(0);
             RuleFor(location => location.Number)
                 .InclusiveBetween(0, 10);
+            RuleFor(location => location.Version)
+                .NotEmpty();
         }
     }
 }

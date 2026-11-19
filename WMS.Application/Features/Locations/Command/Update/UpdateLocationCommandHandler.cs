@@ -13,39 +13,35 @@ namespace WMS.Application.Features.Locations.Command.Update
     {
         public async ValueTask<Result<bool>> Handle(UpdateLocationCommand command, CancellationToken cancellationToken)
         {
-            if (!await LocationExistsAsync(command,cancellationToken))
+            var location = await unitOfWorks.Location.GetByIdAsync(command.Id, cancellationToken);
+            if (location is null)
                 return Errors<Location>.ObjectNotExists(command.Id);
 
-            var location = await AdaptToLocationAsync(command, cancellationToken);
+            if (await IsTakenByAnotherLocation(location, command, cancellationToken))
+            {
+                return Errors<Location>.ObjectExists;
+            }
+            command.Adapt(location);
+            unitOfWorks.Location.SetExpectedVersion(location, command.Version);
 
             await UpdateLocationAsync(location, cancellationToken);
 
             return true;
         }
 
-        private async Task<bool> LocationExistsAsync(UpdateLocationCommand command, CancellationToken ct)
+        private async Task<bool> IsTakenByAnotherLocation(Location location, UpdateLocationCommand command, CancellationToken ct)
         {
-            var location = await unitOfWorks.Location.GetByIdAsync(command.Id, ct);
-            var exists = await unitOfWorks.Location.LocationExistsAsync(
-                command.Sector,
-                command.Rack,
-                command.Number,
-                ct);
-            return !(location is not null) && exists;
+            bool addressChanged =
+                location.Sector != command.Sector ||
+                location.Rack != command.Rack ||
+                location.Number != command.Number;
+            return addressChanged &&
+                await unitOfWorks.Location.LocationExistsAsync(
+                    command.Sector,
+                    command.Rack,
+                    command.Number,
+                    ct);
         }
-        private async Task<Location> AdaptToLocationAsync(
-            UpdateLocationCommand command,
-            CancellationToken ct)
-        {
-            var location = await GetLocationAsync(command.Id, ct);
-            return command.Adapt(location);
-        }
-        private async Task<Location> GetLocationAsync(int id, CancellationToken ct)
-        {
-            var location = await unitOfWorks.Location.GetByIdAsync(id, ct);
-            return location!;
-        }
-        
         private async Task UpdateLocationAsync(Location location, CancellationToken ct)
         {
             unitOfWorks.Location.Update(location);
