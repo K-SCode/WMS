@@ -7,5 +7,6 @@
         Task AddAsync(T entity, CancellationToken cancellationToken);
         void Delete(T entity, CancellationToken cancellationToken);
         void Update(T entity);
+        void SetExpectedVersion(T entity, byte[] version);
     }
 }

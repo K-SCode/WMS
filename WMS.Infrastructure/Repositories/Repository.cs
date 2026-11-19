@@ -25,6 +25,14 @@ namespace WMS.Infrastructure.Repositories
 
         public async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken) =>
             await _dbSet.FindAsync([id], cancellationToken: cancellationToken);
+
+        public void SetExpectedVersion(T entity, byte[] version)
+        {
+            var token = _dbSet.Entry(entity).Properties.FirstOrDefault(p => p.Metadata.IsConcurrencyToken) ??
+                throw new InvalidOperationException($"{typeof(T).Name} has no concurrency token configured.");
+            token.OriginalValue = version;
+        }
+
         public void Update(T entity)
         {
             _dbSet.Update(entity);
