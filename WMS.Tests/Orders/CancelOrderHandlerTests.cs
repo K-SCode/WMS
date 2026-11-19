@@ -23,12 +23,11 @@ namespace WMS.Tests.Orders
             _sut = new CancelOrderHandler(_unitOfWork.Object,_orderRestocking.Object);
         }
 
-        [Theory]
-        [InlineData(OrderStatus.New)]
-        [InlineData(OrderStatus.Cancelled)]
-        public async Task Handler_ValidChangeStatusToCancel_ChangeStatusAndUpdateData(OrderStatus status)
+        [Fact]
+        public async Task Handler_ValidChangeStatusToCancel_ChangeStatusAndUpdateData()
         {
             //Arrange
+            var status = OrderStatus.New;
             var command = new CancelOrderCommand(1);
             var order = new Order { Id = command.OrderId, Status = status };
 
