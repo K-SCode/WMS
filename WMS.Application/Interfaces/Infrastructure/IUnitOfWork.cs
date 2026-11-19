@@ -17,5 +17,7 @@ namespace WMS.Application.Interfaces.Infrastructure
         IWarehouseRepository Warehouse { get; }
         Task SaveChangesAsync(CancellationToken cancellationToken);
         Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken);
+
+        void ClearTrackedChagnes();
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using WMS.Application.common.Exceptions;
 using WMS.Application.Interfaces.Infrastructure;
 using WMS.Application.Interfaces.Repositories;
 using WMS.Infrastructure.Data;
@@ -41,7 +43,25 @@ namespace WMS.Infrastructure.Repositories
         public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken) =>
             context.Database.BeginTransactionAsync(cancellationToken);
 
-        public async Task SaveChangesAsync(CancellationToken cancellationToken) =>
-            await context.SaveChangesAsync(cancellationToken);
+        public void ClearTrackedChagnes()
+        {
+            context.ChangeTracker.Clear();
+        }
+
+        public async Task SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                await context.SaveChangesAsync(cancellationToken);
+            }
+            catch(DbUpdateConcurrencyException ex)
+            {
+                var entities = string.Join(", ",
+                    ex.Entries.Select(e => e.Metadata.ClrType.Name).Distinct());
+
+                throw new ConcurrencyConflictException(
+                    $"Concurrency conflict while saving: {entities}.", ex);
+            }
+        }
     }
 }

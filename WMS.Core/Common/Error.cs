@@ -34,6 +34,8 @@
             new("Bad Request", ErrorType.BadRequest, "Cannot change order status.");
         public static Error RoleNotExists =>
             new("Bad Request", ErrorType.BadRequest, "Role not exists.");
+        public static Error ConcurrencyConflict =>
+             new("Concurrency conflict", ErrorType.Conflict, "The data was modified by another operation. Please try again.");
 
     }
 }
