@@ -21,7 +21,11 @@ namespace WMS.Application
             {
                 options.ServiceLifetime = ServiceLifetime.Scoped;
                 options.Assemblies = [typeof(CreateProductCommand)];
-                options.PipelineBehaviors = [typeof(ValidationBehavior<,>)];
+                options.PipelineBehaviors =
+                [
+                    typeof(ValidationBehavior<,>),
+                    typeof(ConcurrencyRetryBehaviour<,>)
+                ];
             });
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
