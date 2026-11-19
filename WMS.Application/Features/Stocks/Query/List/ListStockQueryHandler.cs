@@ -14,7 +14,8 @@ namespace WMS.Application.Features.Stocks.Query.List
                 LocationId,
                 ProductId,
                 Quantity,
-                MaxQuantity
+                MaxQuantity,
+                RowVersion AS Version
                 FROM [Stocks]
             """;
         public async ValueTask<Result<IReadOnlyCollection<StockDto>>> Handle(ListStockQuery query, CancellationToken cancellationToken)

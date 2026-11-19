@@ -21,6 +21,8 @@ namespace WMS.Application.Features.Stocks.Command.Update
                 .PrecisionScale(18, 2, true)
                 .GreaterThan(0)
                 .GreaterThanOrEqualTo(stock => stock.Quantity);
+            RuleFor(stock => stock.Version)
+                .NotEmpty();
         }
     }
 }

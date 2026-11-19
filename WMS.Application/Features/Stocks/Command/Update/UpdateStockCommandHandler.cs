@@ -18,6 +18,7 @@ namespace WMS.Application.Features.Stocks.Command.Update
             }
 
             var stock = await ConvertToStock(command, cancellationToken);
+            unitOfWorks.Stock.SetExpectedVersion(stock, command.Version);
 
             await UpdateStock(stock, cancellationToken);
 

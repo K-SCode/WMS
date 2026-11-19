@@ -14,7 +14,9 @@ namespace WMS.Application.Features.Stocks.Query.Get
                 Id,
                 LocationId,
                 ProductId,
-                Quantity
+                Quantity,
+                MaxQuantity,
+                RowVersion AS Version
             FROM [Stocks]
             WHERE Id = @Id
             """;
