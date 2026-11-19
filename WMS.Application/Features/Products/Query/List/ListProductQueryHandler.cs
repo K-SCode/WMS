@@ -15,7 +15,8 @@ namespace WMS.Application.Features.Products.Query.List
                 Name,
                 Price,
                 Barcode,
-                UnitQuantity
+                UnitQuantity,
+                RowVersion AS Version
             FROM [Products]
             """;
         public async ValueTask<Result<IReadOnlyCollection<ProductDto>>> Handle(

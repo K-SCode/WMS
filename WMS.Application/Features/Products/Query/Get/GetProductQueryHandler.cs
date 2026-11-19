@@ -4,7 +4,6 @@ using WMS.Application.Features.Products.Dtos;
 using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 using WMS.Core.Entities;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WMS.Application.Features.Products.Query.Get
 {
@@ -17,7 +16,8 @@ namespace WMS.Application.Features.Products.Query.Get
                 Name,
                 Price,
                 Barcode,
-                UnitQuantity
+                UnitQuantity,
+                RowVersion AS Version
             FROM [Products]
             WHERE Id = @Id
             """;

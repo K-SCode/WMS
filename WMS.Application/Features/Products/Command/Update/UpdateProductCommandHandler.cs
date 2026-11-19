@@ -18,26 +18,22 @@ namespace WMS.Application.Features.Products.Command.Update
             CancellationToken cancellationToken)
         {
             var product = await unitOfWorks.Product.GetByIdAsync(command.Id, cancellationToken);
-            if (!await ExistsProductAsync(product,cancellationToken))
+            if (!await ExistsProduct(product!)) 
             {
                 return Errors<Product>.ObjectNotExists(command.Id); ;
             }
 
             command.Adapt(product);
+            unitOfWorks.Product.SetExpectedVersion(product!, command.Version);
             
-            await UpdateProductAsync(product, cancellationToken);
+            await UpdateProductAsync(product!, cancellationToken);
 
             return true;
         }
 
-        private async Task<bool> ExistsProductAsync(Product product, CancellationToken ct)
+        private async Task<bool> ExistsProduct(Product product)
         {
             return product is not null;
-        }
-        private static Product ConvertToProduct(UpdateProductCommand request)
-        {
-            return request.Adapt<Product>();
-
         }
         private async Task UpdateProductAsync(Product product, CancellationToken ct)
         {

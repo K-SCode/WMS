@@ -19,6 +19,9 @@ namespace WMS.Application.Features.Products.Command.Update
             RuleFor(p => p.UnitQuantity)
                 .NotEmpty()
                 .MaximumLength(10);
+
+            RuleFor(p => p.Version)
+                .NotEmpty();
         }
     }
 }

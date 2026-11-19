@@ -5,5 +5,6 @@
         string Name,
         decimal Price,
         string Barcode,
-        string UnitQuantity);
+        string UnitQuantity,
+        byte[] Version);
 }
