@@ -4,7 +4,6 @@ using WMS.Application.common.Helper;
 using WMS.Application.Interfaces.Infrastructure;
 using WMS.Core.Common;
 using WMS.Core.Entities;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace WMS.Application.Features.Stocks.Command.Create
 {
