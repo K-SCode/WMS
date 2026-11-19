@@ -25,6 +25,8 @@ namespace WMS.Infrastructure.Data.Configurations
                 .WithMany()
                 .HasForeignKey(p => p.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Property(p => p.RowVersion).IsRowVersion();
         }
     }
 }

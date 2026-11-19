@@ -12,5 +12,7 @@
         public decimal Quantity {  get; set; }
         public string UnitQuantity { get; set; } = null!;
         public decimal Price { get; set; }
+
+        public byte[] RowVersion { get; set; } = null!;
     }
 }

@@ -11,5 +11,7 @@ namespace WMS.Core.Entities
         public decimal Quantity { get; set; }
         public string UnitQuantity { get; set; } = null!;
         public decimal PurchasePrice { get; set; }
+
+        public byte[] RowVersion { get; set; } = null!;
     }
 }

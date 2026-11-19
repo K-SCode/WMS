@@ -45,6 +45,8 @@ namespace WMS.Infrastructure.Data.Configurations
                 .WithOne(o => o.Order)
                 .HasForeignKey(p => p.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Property(e => e.RowVersion).IsRowVersion();
         }
     }
 }

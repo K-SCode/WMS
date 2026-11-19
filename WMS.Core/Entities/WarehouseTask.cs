@@ -51,5 +51,7 @@ namespace WMS.Core.Entities
         public Location? Location { get; set; }
         public StockManageStatus StockStatus { get; set; }
 
+        public byte[] RowVersion { get; set; } = null!;
+
     }
 }

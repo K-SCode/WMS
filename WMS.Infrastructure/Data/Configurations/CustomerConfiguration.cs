@@ -31,6 +31,8 @@ namespace WMS.Infrastructure.Data.Configurations
 
             builder.HasIndex(p => p.Email)
                 .IsUnique();
+
+            builder.Property(p => p.RowVersion).IsRowVersion();
         }
     }
 }

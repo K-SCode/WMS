@@ -23,6 +23,8 @@ namespace WMS.Infrastructure.Data.Configurations
             builder.Property(entity => entity.Number)
                 .IsRequired();
 
+            builder.Property(e => e.RowVersion).IsRowVersion();
+
         }
     }
 }

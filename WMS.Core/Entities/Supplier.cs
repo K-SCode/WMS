@@ -6,5 +6,7 @@
         public string Address { get; set; } = null!;
         public string Nip { get; set; } = null!;
         public string Phone { get; set; } = null!;
+
+        public byte[] RowVersion { get; set; } = null!;
     }
 }

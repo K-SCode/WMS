@@ -8,6 +8,7 @@
         public List<Stock> Stocks { get; set; } = new();
         public string Barcode { get;set;} = string.Empty;
         public string UnitQuantity { get; set; } = null!;
+        public byte[] RowVersion { get; set; } = null!;
 
     }
 }

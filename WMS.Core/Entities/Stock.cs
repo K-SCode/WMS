@@ -13,5 +13,6 @@ namespace WMS.Core.Entities
         public Product Product { get; set; } = null!;
         public decimal Quantity { get; set; }
         public int MaxQuantity { get; set;  }
+        public byte[] RowVersion { get; set; } = null!;
     }
 }

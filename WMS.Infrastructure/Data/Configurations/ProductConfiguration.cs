@@ -30,10 +30,13 @@ namespace WMS.Infrastructure.Data.Configurations
                 .IsFixedLength()
                 .IsRequired();
 
-            builder.HasIndex(entity => entity.Barcode);
+            builder.HasIndex(entity => entity.Barcode)
+                .IsUnique();
 
             builder.Property(entity => entity.UnitQuantity)
                 .HasMaxLength(10);
+
+            builder.Property(e => e.RowVersion).IsRowVersion();
 
         }
     }

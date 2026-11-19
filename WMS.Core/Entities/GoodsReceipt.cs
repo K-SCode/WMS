@@ -19,5 +19,7 @@ namespace WMS.Core.Entities
         public GrnStatus Status { get; set; }
         public string Comment { get; set; } = null!;
 
+        public byte[] RowVersion { get; set; } = null!;
+
     }
 }

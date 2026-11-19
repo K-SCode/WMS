@@ -44,7 +44,10 @@ namespace WMS.Infrastructure.Data.Configurations
             builder.HasIndex(w => w.OrderId);
             builder.HasIndex(w => w.LocationId);
             builder.HasIndex(w => w.Barcode);
+
             builder.HasIndex(w => new { w.Status, w.Source });
+
+            builder.Property(w => w.RowVersion).IsRowVersion();
         }
     }
 }

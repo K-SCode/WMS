@@ -44,6 +44,11 @@ namespace WMS.Infrastructure.Data.Configurations
 
             builder.Property(entity => entity.MaxQuantity)
                 .HasDefaultValue(200);
+
+            builder.ToTable(table => table.HasCheckConstraint(
+          "CK_Stock_Quantity_NonNegative", "[Quantity] >= 0"));
+
+            builder.Property(e => e.RowVersion).IsRowVersion();
         }
     }
 }

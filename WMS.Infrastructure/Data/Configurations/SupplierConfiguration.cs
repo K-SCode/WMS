@@ -21,6 +21,8 @@ namespace WMS.Infrastructure.Data.Configurations
             builder.Property(entity => entity.Phone)
                 .HasMaxLength(11)
                 .IsFixedLength();
+
+            builder.Property(entity => entity.RowVersion).IsRowVersion();
         }
     }
 }

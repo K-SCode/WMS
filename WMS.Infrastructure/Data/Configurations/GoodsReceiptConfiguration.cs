@@ -39,6 +39,8 @@ namespace WMS.Infrastructure.Data.Configurations
                 .WithOne(entity => entity.GoodsReceipt)
                 .HasForeignKey(entity => entity.GoodsReceiptID)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Property(entity => entity.RowVersion).IsRowVersion();
         }
     }
 }

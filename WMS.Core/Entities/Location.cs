@@ -11,5 +11,6 @@ namespace WMS.Core.Entities
         public int Rack { get; set; }
         public int Number {  get; set; }
         public List<Stock> Stocks { get; set; } = new();
+        public byte[] RowVersion { get; set; } = null!;
     }
 }

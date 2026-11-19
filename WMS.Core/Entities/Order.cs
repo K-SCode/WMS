@@ -18,5 +18,7 @@ namespace WMS.Core.Entities
         public DateTimeOffset? UpdatedAt {  get; set; }
         public ICollection<OrderItem> Items { get; set; } = [];
 
+        public byte[] RowVersion { get; set; } = null!;
+
     }
 }

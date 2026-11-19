@@ -12,5 +12,6 @@
         public string? CompanyName { get; set; }
 
         public ICollection<Order> Orders { get; set; } = [];
+        public byte[] RowVersion { get; set; } = null!;
     }
 }
