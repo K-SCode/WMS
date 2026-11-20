@@ -1,4 +1,4 @@
 ﻿namespace WMS.Application.Features.Stocks.Dtos
 {
-    public sealed record StockDto(int Id, int LocationId, int ProductId, decimal Quantity, decimal MaxQuantity, byte[] Version);
+    public sealed record StockDto(int Id, int LocationId, int ProductId, decimal Quantity, int MaxQuantity, byte[] Version);
 }
