@@ -36,6 +36,42 @@ namespace WMS.Tests.IntegrationTests
             saved.Quantity.ShouldBe(12);
         }
 
+        [Fact]
+        public async Task UpdateWithStaleVersion_FromIfMatch_FailsAndDoesNotOverwriteNewerChange()
+        {
+            var ct = TestContext.Current.CancellationToken;
+            int stockId = await CreateStockAsync(3, ct);
+            byte[] versionA;
+            await using (ApplicationDbContext getRequest = database.CreateContext())
+            {
+                Stock stock = await getRequest.Stocks.FindAsync([stockId], ct);
+                versionA = stock.RowVersion;
+            }
+
+            await using (ApplicationDbContext userBRequest = database.CreateContext())
+            {
+                var userB = new UnitOfWorks(userBRequest);
+                Stock stock = await userB.Stock.GetByIdAsync(stockId, ct);
+                stock.Quantity = 50;
+                await userB.SaveChangesAsync(ct);
+            }
+            await using ApplicationDbContext putRquest = database.CreateContext();
+            var userA = new UnitOfWorks(putRquest);
+            Stock stockToUpdate = await userA.Stock.GetByIdAsync(stockId, ct);
+
+            stockToUpdate.Quantity = 20;
+            userA.Stock.SetExpectedVersion(stockToUpdate, versionA);
+            userA.Stock.Update(stockToUpdate);
+
+            await Should.ThrowAsync<ConcurrencyConflictException>(() =>
+                userA.SaveChangesAsync(ct));
+
+            await using ApplicationDbContext check = database.CreateContext();
+            Stock saved = await check.Stocks.FindAsync([stockId], ct);
+            saved.Quantity.ShouldBe(50);
+
+        }
+
         private async Task<int> CreateStockAsync(int quantity, CancellationToken ct)
         {
             await using ApplicationDbContext context = database.CreateContext();
