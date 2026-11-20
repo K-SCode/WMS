@@ -1,6 +1,7 @@
 ﻿using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WMS.Api.Contracts;
 using WMS.Api.Extensions;
 using WMS.Application.Features.Products.Command.Create;
 using WMS.Application.Features.Products.Command.Delete;
@@ -23,7 +24,10 @@ namespace WMS.Api.Controllers
         public async Task<IActionResult> GetById([FromRoute] GetProductQuery request, CancellationToken cancellationToken)
         {
             var result = await sender.Send(request, cancellationToken);
-
+            if(result.IsSuccess)
+            {
+                Response.Headers.ETag = ETagHelper.ToEtag(result.Value.Version);
+            }
             return result.ToOkOrProblem();
             
         }
@@ -48,14 +52,24 @@ namespace WMS.Api.Controllers
             return result.ToOkOrProblem();
         }
 
-        [HttpPut()]
+        [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(Roles = Roles.Manager)]
-        public async Task<IActionResult> Update([FromBody] UpdateProductCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> Update(
+            [FromRoute] int id,
+            [FromBody] UpdateProductRequest request,
+            [FromHeader(Name = "If-Match")] string? ifMatch,
+            CancellationToken cancellationToken)
         {
-            var result = await sender.Send(command, cancellationToken);
+            var command = new UpdateProductCommand(
+                id,
+                request.Name,
+                request.Price,
+                request.UnityQuantity,
+                ETagHelper.Parse(ifMatch));
 
+            var result = await sender.Send(command, cancellationToken);
 
             return result.ToNoContentOrProblem();
         }

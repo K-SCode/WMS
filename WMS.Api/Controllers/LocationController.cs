@@ -1,6 +1,7 @@
 ﻿using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WMS.Api.Contracts;
 using WMS.Api.Extensions;
 using WMS.Application.Features.Locations.Command.Create;
 using WMS.Application.Features.Locations.Command.Delete;
@@ -40,12 +41,23 @@ namespace WMS.Api.Controllers
             return result.ToNoContentOrProblem();
         }
 
-        [HttpPut()]
+        [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(Policy = Policy.ManagerOrWarehouseman)]
-        public async Task<IActionResult> Update([FromBody] UpdateLocationCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> Update(
+            [FromRoute] int id,
+            [FromBody] UpdateLocationRequest request,
+            [FromHeader(Name = "If-Match")] string? ifMatch,
+            CancellationToken cancellationToken)
         {
+            var command = new UpdateLocationCommand(
+                id,
+                request.Sector,
+                request.Rack,
+                request.Number,
+                ETagHelper.Parse(ifMatch));
+
             var result = await sender.Send(command, cancellationToken);
 
             return result.ToNoContentOrProblem();
@@ -58,6 +70,11 @@ namespace WMS.Api.Controllers
         public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
         {
             var result = await sender.Send(new GetLocationQuery(id), cancellationToken);
+            if(result.IsSuccess)
+            {
+                Response.Headers.ETag =
+                    ETagHelper.ToEtag(result.Value.Version);
+            }
 
             return result.ToOkOrProblem();
         }

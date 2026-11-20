@@ -1,6 +1,7 @@
 ﻿using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WMS.Api.Contracts;
 using WMS.Api.Extensions;
 using WMS.Application.Features.Stocks.Command.Create;
 using WMS.Application.Features.Stocks.Command.Delete;
@@ -26,7 +27,7 @@ namespace WMS.Api.Controllers
         {
             var result = await sender.Send(request, cancellationToken);
 
-            return result.ToCreatedAtActionOrProblem(nameof(GetById),nameof(StocksController));
+            return result.ToCreatedAtActionOrProblem(nameof(GetById), nameof(StocksController));
         }
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -41,14 +42,24 @@ namespace WMS.Api.Controllers
             return result.ToNoContentOrProblem();
         }
 
-        [HttpPut()]
+        [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(Roles = Roles.Manager)]
         public async Task<IActionResult> Update(
-            [FromBody] UpdateStockCommand command,
+            [FromRoute] int id,
+            [FromBody] UpdateStockRequest request,
+            [FromHeader(Name = "If-Match")] string? ifMatch,
             CancellationToken cancellationToken)
         {
+            var command = new UpdateStockCommand(
+                id,
+                request.LocationId,
+                request.ProductId,
+                request.Quantity,
+                request.MaxQuantity,
+                ETagHelper.Parse(ifMatch));
+
             var result = await sender.Send(command, cancellationToken);
             return result.ToNoContentOrProblem();
         }
@@ -60,6 +71,12 @@ namespace WMS.Api.Controllers
         public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
         {
             var result = await sender.Send(new GetStockQuery(id), cancellationToken);
+            
+            if(result.IsSuccess)
+            {
+                Response.Headers.ETag = ETagHelper.ToEtag(result.Value.Version);
+            }
+
             return result.ToOkOrProblem();
         }
 
