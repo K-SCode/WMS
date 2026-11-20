@@ -115,11 +115,17 @@ namespace WMS.Infrastructure.Auth
             {
                 return false;
             }
-            if(!await userManager.CheckPasswordAsync(user, password))
+
+            if(await userManager.IsLockedOutAsync(user))
             {
-                user.AccessFailedCount++;
                 return false;
             }
+            if(!await userManager.CheckPasswordAsync(user, password))
+            {
+                await userManager.AccessFailedAsync(user);
+                return false;
+            }
+            await userManager.ResetAccessFailedCountAsync(user);
             return true;
         }
     }
