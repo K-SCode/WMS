@@ -18,8 +18,6 @@ namespace WMS.Application.Behaviors
             MessageHandlerDelegate<TMessage, TResponse> next,
             CancellationToken cancellationToken)
         {
-            if (message is IVersionedCommand)
-                return TResponse.ValidationFailure(Errors.ConcurrencyConflict);
 
             int i = 1;
             while(true)
@@ -28,14 +26,15 @@ namespace WMS.Application.Behaviors
                 {
                     return await next(message, cancellationToken);
                 }
-                catch(ConcurrencyConflictException) when (i < MaxAttempts)
+                catch(ConcurrencyConflictException) when (i < MaxAttempts && message is not IVersionedCommand)
                 {
                     i++;
-                    unitOfWork.ClearTrackedChagnes();
+                    unitOfWork.ClearTrackedChanges();
                     await Task.Delay(Random.Shared.Next(20, 100) * i, cancellationToken);
                 }
                 catch(ConcurrencyConflictException)
                 {
+                    unitOfWork.ClearTrackedChanges();
                     return TResponse.ValidationFailure(Errors.ConcurrencyConflict);
                 }
             }
