@@ -30,12 +30,12 @@ namespace WMS.Api.Controllers
             var result = await sender.Send(request, cancellationToken);
             return result.ToOkOrProblem();
         }
-        [HttpDelete]
+        [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(Roles = Roles.Manager)]
         public async Task<IActionResult> Delete(
-            [FromBody] DeleteLocationCommand request,
+            [FromRoute] DeleteLocationCommand request,
             CancellationToken cancellationToken)
         {
             var result = await sender.Send(request, cancellationToken);

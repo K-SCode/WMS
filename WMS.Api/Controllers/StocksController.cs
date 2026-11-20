@@ -30,12 +30,12 @@ namespace WMS.Api.Controllers
 
             return result.ToCreatedAtActionOrProblem(nameof(GetById), nameof(StocksController));
         }
-        [HttpDelete]
+        [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(Roles = Roles.Manager)]
         public async Task<IActionResult> Delete(
-            [FromBody] DeleteStockCommand request,
+            [FromRoute] DeleteStockCommand request,
             CancellationToken cancellationToken)
         {
             var result = await sender.Send(request, cancellationToken);
