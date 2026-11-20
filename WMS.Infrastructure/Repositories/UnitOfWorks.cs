@@ -43,7 +43,7 @@ namespace WMS.Infrastructure.Repositories
         public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken) =>
             context.Database.BeginTransactionAsync(cancellationToken);
 
-        public void ClearTrackedChagnes()
+        public void ClearTrackedChanges()
         {
             context.ChangeTracker.Clear();
         }

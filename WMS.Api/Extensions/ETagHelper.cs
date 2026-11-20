@@ -1,6 +1,4 @@
-﻿using Microsoft.Net.Http.Headers;
-
-namespace WMS.Api.Extensions
+﻿namespace WMS.Api.Extensions
 {
     public  static class ETagHelper
     {

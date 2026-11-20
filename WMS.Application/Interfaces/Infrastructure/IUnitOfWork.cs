@@ -18,6 +18,6 @@ namespace WMS.Application.Interfaces.Infrastructure
         Task SaveChangesAsync(CancellationToken cancellationToken);
         Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken);
 
-        void ClearTrackedChagnes();
+        void ClearTrackedChanges();
     }
 }
