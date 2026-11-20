@@ -1,4 +1,5 @@
-﻿using Mediator;
+﻿using Mapster;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WMS.Api.Contracts;
@@ -77,7 +78,7 @@ namespace WMS.Api.Controllers
                 Response.Headers.ETag = ETagHelper.ToEtag(result.Value.Version);
             }
 
-            return result.ToOkOrProblem();
+            return result.ToOkOrProblem(s => s.Adapt<StockResponse>());
         }
 
 
@@ -89,7 +90,7 @@ namespace WMS.Api.Controllers
         {
             var result = await sender.Send(new ListStockQuery(), cancellationToken);
 
-            return result.ToOkOrProblem();
+            return result.ToOkOrProblem(s => s.Adapt<List<StockResponse>>());
         }
     }
 }

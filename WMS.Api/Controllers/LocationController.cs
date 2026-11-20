@@ -1,4 +1,5 @@
-﻿using Mediator;
+﻿using Mapster;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WMS.Api.Contracts;
@@ -76,7 +77,7 @@ namespace WMS.Api.Controllers
                     ETagHelper.ToEtag(result.Value.Version);
             }
 
-            return result.ToOkOrProblem();
+            return result.ToOkOrProblem(l => l.Adapt<LocationResponse>());
         }
 
 
@@ -87,7 +88,7 @@ namespace WMS.Api.Controllers
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await sender.Send(new ListLocationQuery(), cancellationToken);
-            return result.ToOkOrProblem();
+            return result.ToOkOrProblem(l => l.Adapt<List<LocationResponse>>());
         }
     }
 }

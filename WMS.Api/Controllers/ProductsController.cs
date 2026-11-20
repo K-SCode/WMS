@@ -1,4 +1,5 @@
-﻿using Mediator;
+﻿using Mapster;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WMS.Api.Contracts;
@@ -28,7 +29,7 @@ namespace WMS.Api.Controllers
             {
                 Response.Headers.ETag = ETagHelper.ToEtag(result.Value.Version);
             }
-            return result.ToOkOrProblem();
+            return result.ToOkOrProblem(p => p.Adapt<ProductResponse>());
             
         }
 
@@ -49,7 +50,7 @@ namespace WMS.Api.Controllers
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await sender.Send(new ListProductQuery(), cancellationToken);
-            return result.ToOkOrProblem();
+            return result.ToOkOrProblem(p => p.Adapt<List<ProductResponse>>());
         }
 
         [HttpPut("{id:int}")]

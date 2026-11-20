@@ -10,6 +10,11 @@ namespace WMS.Api.Extensions
 
         public static IActionResult ToOkOrProblem<T>(this Result<T> result) =>
             result.IsSuccess ? new OkObjectResult(result.Value) : CreateProblem(result.Error!);
+        public static IActionResult ToOkOrProblem<T,TResponse>(
+            this Result<T> result,
+            Func<T,TResponse> map) =>
+            result.IsSuccess ? new ObjectResult(map(result.Value)) :
+            CreateProblem(result.Error!);
 
         public static IActionResult ToNoContentOrProblem(this Result result) =>
             result.IsSuccess ? new NoContentResult() : CreateProblem(result.Error!);
