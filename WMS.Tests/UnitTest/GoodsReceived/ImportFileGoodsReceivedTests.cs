@@ -10,7 +10,7 @@ using WMS.Application.Interfaces.Import;
 using WMS.Core.Common;
 using Xunit;
 
-namespace WMS.Tests.GoodsReceived
+namespace WMS.Tests.UnitTest.GoodsReceived
 {
     public class ImportFileGoodsReceivedTests
     {

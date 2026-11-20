@@ -6,7 +6,7 @@ using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
 using Xunit;
 
-namespace WMS.Tests.Services
+namespace WMS.Tests.UnitTest.Services
 {
     public class DecreaseQuantityTests
     {

@@ -3,7 +3,7 @@ using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
 using Xunit;
 
-namespace WMS.Tests.Core
+namespace WMS.Tests.UnitTest.Core
 {
     public class EntityWarehouseTests
     {

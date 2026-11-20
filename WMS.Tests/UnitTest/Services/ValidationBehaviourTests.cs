@@ -6,7 +6,7 @@ using WMS.Application.Behaviors;
 using WMS.Core.Common;
 using Xunit;
 
-namespace WMS.Tests.Services
+namespace WMS.Tests.UnitTest.Services
 {
     public class ValidationBehaviourTests
     {

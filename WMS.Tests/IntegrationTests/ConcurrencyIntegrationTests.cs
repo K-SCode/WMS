@@ -55,6 +55,7 @@ namespace WMS.Tests.IntegrationTests
                 stock.Quantity = 50;
                 await userB.SaveChangesAsync(ct);
             }
+
             await using ApplicationDbContext putRquest = database.CreateContext();
             var userA = new UnitOfWorks(putRquest);
             Stock stockToUpdate = await userA.Stock.GetByIdAsync(stockId, ct);

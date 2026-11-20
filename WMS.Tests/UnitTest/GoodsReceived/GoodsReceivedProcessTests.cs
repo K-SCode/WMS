@@ -13,7 +13,7 @@ using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
 using Xunit;
 
-namespace WMS.Tests.GoodsReceived
+namespace WMS.Tests.UnitTest.GoodsReceived
 {
     public class GoodsReceivedProcessTests
     {

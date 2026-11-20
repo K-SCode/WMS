@@ -9,7 +9,7 @@ using WMS.Infrastructure.Auth;
 using WMS.Infrastructure.Data.Identity;
 using Xunit;
 
-namespace WMS.Tests.Services
+namespace WMS.Tests.UnitTest.Services
 {
     public class TokenServiceTests
     {

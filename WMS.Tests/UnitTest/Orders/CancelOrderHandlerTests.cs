@@ -8,7 +8,7 @@ using WMS.Core.Common.Enum;
 using WMS.Core.Entities;
 using Xunit;
 
-namespace WMS.Tests.Orders
+namespace WMS.Tests.UnitTest.Orders
 {
     public class CancelOrderHandlerTests
     {

@@ -7,7 +7,7 @@ using WMS.Core.Common;
 using WMS.Core.Common.Enum;
 using Xunit;
 
-namespace WMS.Tests.Orders
+namespace WMS.Tests.UnitTest.Orders
 {
     public class CreateOrderHandlerTests
     {
