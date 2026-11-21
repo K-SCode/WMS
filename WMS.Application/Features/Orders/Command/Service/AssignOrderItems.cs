@@ -11,39 +11,24 @@ namespace WMS.Application.Features.Orders.Command.Service
             Order order,
             CancellationToken ct)
         {
-            foreach (var p in request)
+            List<OrderItem> items = new(request.Count);
+            foreach (var item in request)
             {
-                var product = await GetProductByIdAsync(p, ct);
+                var product = await unitOfWorks.Product.GetByIdAsync(item.ProductId, ct);
                 if (product is null)
                 {
                     return false;
                 }
+
+                item.Order = order;
+                item.Price = product.Price;
+                item.UnitQuantity = product.UnitQuantity;
+                items.Add(item);
             }
-
-            IReadOnlyCollection<Task<OrderItem>> tasks = [.. request
-                .Select(async p =>
-                {
-                    var product = await GetProductByIdAsync(p, ct);
-                    p.Order = order;
-                    p.Price = product!.Price;
-                    p.UnitQuantity = product.UnitQuantity;
-                    return p;
-                })];
-
-            List<OrderItem> items = [];
-            foreach (var task in tasks)
-            {
-                items.Add(await task);
-            }
-
             await unitOfWorks.OrderItems.AddRangeAsync(items, ct);
             return true;
         }
 
-        private async Task<Product?> GetProductByIdAsync(OrderItem p, CancellationToken ct)
-        {
-            return await unitOfWorks.Product.GetByIdAsync(p.Id, ct);
-        }
     }
 }
 
