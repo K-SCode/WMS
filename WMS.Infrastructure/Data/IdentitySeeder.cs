@@ -56,6 +56,7 @@ namespace WMS.Infrastructure.Data
                 EmailConfirmed = true,
                 FirstName = firstName,
                 LastName = lastName,
+                IsActive = true,
                 PhoneNumber = "123123123"
             };
 
