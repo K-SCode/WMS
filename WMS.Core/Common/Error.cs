@@ -37,5 +37,13 @@
         public static Error ConcurrencyConflict =>
              new("Concurrency conflict", ErrorType.Conflict, "The data was modified by another operation. Please try again.");
 
+        public static Error NotAssignedToYou =>
+             new("Task not assigned to you", ErrorType.AccessForbidden, "Only the assigned warehouseman can work on this task.");
+        public static Error InvalidStatus(string status) =>
+            new("Invalid task status", ErrorType.Conflict, $"The task cannot be {status} in its current status.");
+        public static Error WorkerNotAvailable(int userId) =>
+            new("Worker not available", ErrorType.BadRequest, $"User with ID: {userId} is not an active warehouseman.");
+        public static Error CannotAssign =>
+            new("Cannot assign task", ErrorType.Conflict, "Only a pending or assigned task can be assigned to a warehouseman.");
     }
 }

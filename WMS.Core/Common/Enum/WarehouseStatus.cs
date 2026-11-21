@@ -4,6 +4,8 @@
     {
         Pending,
         InAnalysis,
+        Assigned,
+        InProgress,
         Completed
     }
 }

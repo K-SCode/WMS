@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using WMS.Application.Interfaces.Import;
@@ -39,6 +37,8 @@ namespace WMS.Infrastructure
             services.AddScoped<IProductImportFileAdapterFactory, ProductImportFileFactory>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IWorkerDirectory, WorkerDirectory>();
+
 
             services.Configure<JwtSettings>(configuration.GetSection(nameof(JwtSettings)));
 

@@ -5,7 +5,9 @@ using WMS.Core.Entities;
 
 namespace WMS.Application.common.Service
 {
-    public class CreateWarehouseTask(IUnitOfWork unitOfWorks) : ICreateWarehouseTask
+    public class CreateWarehouseTask(
+        IUnitOfWork unitOfWorks,
+        IAssignWorker assignWorker) : ICreateWarehouseTask
     {
         public async Task CreateTaskAsync(
             IReadOnlyCollection<StockResult> items,
@@ -29,6 +31,8 @@ namespace WMS.Application.common.Service
 
                 }
             }
+
+            await assignWorker.AssignAsync(task, ct);
 
             await unitOfWorks.Warehouse.AddRangeAsync(task, ct);
         }
