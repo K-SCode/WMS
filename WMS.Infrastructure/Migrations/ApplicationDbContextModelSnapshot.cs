@@ -568,6 +568,12 @@ namespace WMS.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTimeOffset>("AssignedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int?>("AssignedUserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Barcode")
                         .IsRequired()
                         .HasMaxLength(13)
@@ -624,6 +630,8 @@ namespace WMS.Infrastructure.Migrations
                     b.HasIndex("LocationId");
 
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("AssignedUserId", "Status");
 
                     b.HasIndex("Status", "Source");
 
@@ -838,6 +846,11 @@ namespace WMS.Infrastructure.Migrations
 
             modelBuilder.Entity("WMS.Core.Entities.WarehouseTask", b =>
                 {
+                    b.HasOne("WMS.Infrastructure.Data.Identity.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("AssignedUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("WMS.Core.Entities.GoodsReceipt", "GoodsReceipt")
                         .WithMany()
                         .HasForeignKey("GoodsReceiptId")

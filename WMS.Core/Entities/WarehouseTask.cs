@@ -53,5 +53,8 @@ namespace WMS.Core.Entities
 
         public byte[] RowVersion { get; set; } = null!;
 
+        public int? AssignedUserId { get; set; }
+        public DateTimeOffset AssignedAt { get; set; }
+
     }
 }

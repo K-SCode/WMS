@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WMS.Core.Entities;
+using WMS.Infrastructure.Data.Identity;
 
 namespace WMS.Infrastructure.Data.Configurations
 {
@@ -48,6 +49,13 @@ namespace WMS.Infrastructure.Data.Configurations
             builder.HasIndex(w => new { w.Status, w.Source });
 
             builder.Property(w => w.RowVersion).IsRowVersion();
+
+            builder.HasOne<ApplicationUser>()
+                .WithMany()
+                .HasForeignKey(w => w.AssignedUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasIndex(w => new { w.AssignedUserId, w.Status });
+
         }
     }
 }
