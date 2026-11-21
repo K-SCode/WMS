@@ -7,6 +7,7 @@ using Xunit;
 
 namespace WMS.Tests.IntegrationTests
 {
+    [Collection("SqlServer")]
     public class ConcurrencyIntegrationTests(SqlServerDatabaseFixture database)
         :IClassFixture<SqlServerDatabaseFixture>
     {
@@ -83,13 +84,13 @@ namespace WMS.Tests.IntegrationTests
                 {
                     Name = "Test product",
                     Price = 20m,
-                    Barcode = "1231231231231",
+                    Barcode = NewBarcode(),
                     UnitQuantity = "szt"
                 },
                 Localization = new Location
                 {
                     Sector = 'T',
-                    Rack = 1,
+                    Rack = Random.Shared.Next(1, 1000),
                     Number = 1
                 },
                 Quantity = quantity,
@@ -99,5 +100,7 @@ namespace WMS.Tests.IntegrationTests
             await context.SaveChangesAsync(ct);
             return stock.Id;
         }
+        private static string NewBarcode() =>
+            string.Concat(Enumerable.Range(0, 13).Select(_ => Random.Shared.Next(0, 10)));
     }
 }
