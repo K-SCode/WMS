@@ -5,6 +5,8 @@ using WMS.Infrastructure.Repositories;
 using Mapster;
 using WMS.Application;
 using WMS.Infrastructure;
+using WMS.Application.Interfaces.Infrastructure;
+using WMS.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,7 @@ builder.Services.AddMapster();
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 
 var app = builder.Build();
 
