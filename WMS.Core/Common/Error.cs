@@ -45,5 +45,7 @@
             new("Worker not available", ErrorType.BadRequest, $"User with ID: {userId} is not an active warehouseman.");
         public static Error CannotAssign =>
             new("Cannot assign task", ErrorType.Conflict, "Only a pending or assigned task can be assigned to a warehouseman.");
+        public static Error InvalidDataFormat =>
+            new("Invalid data", ErrorType.BadRequest, "Input date has invalid format");
     }
 }
