@@ -7,5 +7,6 @@ namespace WMS.Core.Common
     public static class Policy
     {
         public const string ManagerOrWarehouseman = "ManagerOrWarehouseman";
+        public const string ManagerOrAnalysis = "ManagerOrAnalyst";
     }
 }

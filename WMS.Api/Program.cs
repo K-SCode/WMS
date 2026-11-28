@@ -1,7 +1,4 @@
-using Microsoft.EntityFrameworkCore;
-using WMS.Application.Interfaces;
 using WMS.Infrastructure.Data;
-using WMS.Infrastructure.Repositories;
 using Mapster;
 using WMS.Application;
 using WMS.Infrastructure;

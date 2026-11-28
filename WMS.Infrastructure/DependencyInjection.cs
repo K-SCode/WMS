@@ -84,6 +84,8 @@ namespace WMS.Infrastructure
             {
                 options.AddPolicy(Policy.ManagerOrWarehouseman,
                     policy => policy.RequireRole(Roles.Warehouseman, Roles.Manager));
+                options.AddPolicy(Policy.ManagerOrAnalysis,
+                    policy => policy.RequireRole(Roles.Analyst, Roles.Manager));
             });
 
             return services;
