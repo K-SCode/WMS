@@ -5,18 +5,19 @@ using System.Globalization;
 using WMS.Api.Contracts;
 using WMS.Api.Extensions;
 using WMS.Application.Features.Raports.Query.GetMostProfitable;
+using WMS.Application.Features.Reports.Query.ListStockReport;
 using WMS.Core.Common;
 
 namespace WMS.Api.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
-    [Authorize(Roles = Roles.Analyst)]
+    [Authorize(Policy = Policy.ManagerOrAnalysis)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public class ReportController(ISender sender) : ControllerBase
     {
-        [HttpGet("most-profitable")]
+        [HttpGet("mostProfitable")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> MostProfitableItems([FromQuery] MostProfitableItemsRequest request, CancellationToken cancellationToken)
@@ -29,6 +30,16 @@ namespace WMS.Api.Controllers
             var query = new ListMostProfitableQuery(minDate, maxDate);
 
             var result = await sender.Send(query, cancellationToken);
+
+            return result.ToOkOrProblem();
+        }
+
+        [HttpGet("stockDetails")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> StockReport(CancellationToken cancellationToken)
+        {
+            var result = await sender.Send(new ListStockReportQuery(), cancellationToken);
 
             return result.ToOkOrProblem();
         }
